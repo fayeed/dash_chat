@@ -47,48 +47,23 @@ class _MyHomePageState extends State<MyHomePage> {
     var d2 = DateTime.utc(2019, 7, 23);
     var d3 = DateTime.utc(2019, 7, 24);
 
-    List m = List();
-    m.add(ChatMessage(
-        text: "Hello",
-        user: user,
-        createdAt: d1,
-        image: "http://www.sclance.com/images/picture/Picture_753248.jpg"));
-    m.add(ChatMessage(text: "How are you?", user: user, createdAt: d1));
-    m.add(ChatMessage(text: "Hi", user: otherUser, createdAt: d2));
-    m.add(ChatMessage(text: "I am fine", user: otherUser, createdAt: d2));
-    m.add(ChatMessage(
+    messages.add(ChatMessage(text: "How are you?", user: user, createdAt: d1));
+    messages.add(ChatMessage(text: "Hi", user: otherUser, createdAt: d2));
+    messages
+        .add(ChatMessage(text: "I am fine", user: otherUser, createdAt: d2));
+    messages.add(ChatMessage(
         text: "Good some freetime wanna meet?",
         user: otherUser,
         createdAt: d2));
-    m.add(ChatMessage(
+    messages.add(ChatMessage(
         text: "When do you want to meet tommorrow?",
         user: user,
         createdAt: d3));
-    m.add(ChatMessage(
+    messages.add(ChatMessage(
         text: "Ok, great meet you there fayeed@live.com",
         user: otherUser,
         createdAt: d3));
-    setState(() {
-      messages = [...messages];
-    });
 
-    int i = 0;
-
-    var time = Timer(Duration(milliseconds: 500), () {
-      Timer.periodic(Duration(milliseconds: 800), (timer) {
-        messages.add(m[i]);
-
-        setState(() {
-          messages = [...messages];
-        });
-
-        i++;
-      });
-    });
-
-    Timer(Duration(milliseconds: 6200), () {
-      time.cancel();
-    });
     super.initState();
   }
 
