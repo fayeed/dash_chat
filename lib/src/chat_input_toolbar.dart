@@ -22,10 +22,6 @@ class ChatInputToolbar extends StatelessWidget {
   final Color inputCursorColor;
   final ScrollController scrollController;
 
-  // TODO: Implement these paramters
-  final double bottomOffset;
-  final double minToolBarHeight;
-
   ChatInputToolbar({
     this.scrollController,
     this.text,
@@ -45,8 +41,6 @@ class ChatInputToolbar extends StatelessWidget {
     @required this.user,
     this.alwaysShowSend = false,
     this.messageIdGenerator,
-    this.bottomOffset,
-    this.minToolBarHeight,
     this.inputFooterBuilder,
     this.sendButtonBuilder,
   });
@@ -57,6 +51,7 @@ class ChatInputToolbar extends StatelessWidget {
       text: text,
       user: user,
       messageIdGenerator: messageIdGenerator,
+      createdAt: DateTime.now(),
     );
 
     return Container(

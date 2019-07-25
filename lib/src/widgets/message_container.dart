@@ -1,6 +1,42 @@
 part of dash_chat;
 
+/// MessageContainer is just a wrapper around [Text], [Image]
+/// component to present the message
 class MessageContainer extends StatelessWidget {
+  /// Message Object that will be rendered
+  /// Takes a [ChatMessage] object
+  final ChatMessage message;
+
+  /// [DateFormat] object to render the date in desired
+  /// format, if no format is provided it use
+  /// the default `HH:mm:ss`
+  final DateFormat timeFormat;
+
+  /// [messageTextBuilder] function takes a function with this
+  /// structure [Widget Function(String)] to render the text inside
+  /// the container.
+  final Widget Function(String) messageTextBuilder;
+
+  /// [messageImageBuilder] function takes a function with this
+  /// structure [Widget Function(String)] to render the image inside
+  /// the container.
+  final Widget Function(String) messageImageBuilder;
+
+  /// [messageTimeBuilder] function takes a function with this
+  /// structure [Widget Function(String)] to render the time text inside
+  /// the container.
+  final Widget Function(String) messageTimeBuilder;
+
+  /// Provides a custom style to the message container
+  /// takes [BoxDecoration]
+  final BoxDecoration messageContainerDecoration;
+
+  /// Used to parse text to make it linkified text uses
+  /// [flutter_parsed_text](https://pub.dev/packages/flutter_parsed_text)
+  /// takes a list of [MatchText] in order to parse Email, phone, links
+  /// and can also add custom pattersn using regex
+  final List<MatchText> parsePatterns;
+
   const MessageContainer({
     @required this.message,
     @required this.timeFormat,
@@ -8,16 +44,8 @@ class MessageContainer extends StatelessWidget {
     this.messageTextBuilder,
     this.messageTimeBuilder,
     this.messageContainerDecoration,
-    this.parsePatterns = const [],
+    this.parsePatterns = const <MatchText>[],
   });
-
-  final ChatMessage message;
-  final DateFormat timeFormat;
-  final Widget Function(String) messageTextBuilder;
-  final Widget Function(String url) messageImageBuilder;
-  final Widget Function(String) messageTimeBuilder;
-  final BoxDecoration messageContainerDecoration;
-  final List<MatchText> parsePatterns;
 
   @override
   Widget build(BuildContext context) {

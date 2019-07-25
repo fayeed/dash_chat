@@ -1,99 +1,173 @@
 part of dash_chat;
 
+/// A complete chat UI which is inspired by [react-native-gifted-chat]
+/// Highly customizable and helps developing chat UI faster
 class DashChat extends StatefulWidget {
-  final Key key;
-
-  // flex value for the messeage container defaults to 1
+  /// Flex value for the messeage container defaults to 1
+  /// Made so that the message container takes as much as possible
+  /// if no height or width is passed explicity
   final int messageContainerFlex;
 
-  // height of the whole chat view
+  /// Height for the Dash chat Widget
   final double height;
 
-  // width of the chat view
+  // Width for the Dash chat Widget
   final double width;
 
-  // list of messages to display in the chat container
+  /// List of messages to display in the chat container
+  /// Takes a [List] of [ChatMessage]
   final List<ChatMessage> messages;
 
-  // if provided will stop using the controller
+  /// If provided will stop using the default controller
+  /// i.e [TextEditingController] and will use this to update the
+  /// text input field.
   final String text;
 
-  // will need to provide this if text is not provided
+  /// If the text parameter is passed then onTextChange must also
+  /// be passed.
   final Function(String) onTextChange;
 
-  // placeholder for the chat message defaults "Add Message here..."
+  /// Used to provide input decoration to the text as default only
+  /// to the input placeholder for the chat input
+  /// "Add Message here...".
   final InputDecoration inputDecoration;
 
-  // generates id for the message defaults to uuid
+  /// Usually new message added by the user gets [Uuid] String
+  /// Can be override by proving this parameter
   final String Function() messageIdGenerator;
 
-  // user chat object
+  /// The current user object [ChatUser].
   final ChatUser user;
 
-  // to add message to the list and make calls
+  /// To function where you can make api calls and play
+  /// with the [ChatMessage] obeject before make calls.
   final Function(ChatMessage) onSend;
 
-  // either to disabel send button if nothing is provided / false
+  /// Should the send button be always active it defaults to false
+  /// Usually it will only become active if some text is entered.
   final bool alwaysShowSend;
 
-  final Locale locale;
-
+  /// [DateFormat] object for formatting date to show in [MessageListView]
+  /// defaults to `HH:mm:ss`.
   final DateFormat dateFormat;
 
+  /// [DateFormat] object for formatting time to show in [MessageContainer]
+  /// defaults to `yyyy-MM-dd`.
   final DateFormat timeFormat;
 
+  /// Should the user avatar be shown defaults to false and will not
+  /// show the user avatar.
   final bool showUserAvatar;
+
+  /// avatarBuilder will override the the default avatar which uses
+  /// [CircleAvatar].
   final Widget Function(ChatUser) avatarBuilder;
+
+  /// Should the avatar be shown for every message defaulst to false.
   final bool showAvatarForEveryMessage;
+
+  /// [onPressAvatar] function takes a function with this structure
+  /// [Function(ChatUser)] will trigger when the avatar
+  /// is tapped on
   final Function(ChatUser) onPressAvatar;
+
+  /// [onLongPressAvatar] function takea a function with this structure
+  /// [Function(ChatUser)] will trigger when the avatar
+  /// is long pressed
   final Function(ChatUser) onLongPressAvatar;
-  final bool renderAvatarOnTop;
+
+  /// [onLongPressMessage] function takea a function with this structure
+  /// [Function(ChatMessage)] will trigger when the message
+  /// is long pressed.
   final Function(ChatMessage) onLongPressMessage;
+
+  /// Should the messages be shown in reversed order.
   final bool inverted;
+
+  /// messageBuilder will override the the default chat container which uses
+  /// and you will need to build complete message Widget it will not accept
+  /// and include any other builder functions.
   final Widget Function(ChatMessage) messageBuilder;
+
+  /// messageTextBuilder will override the the default message text.
   final Widget Function(String) messageTextBuilder;
+
+  /// messageImageBuilder will override the the default Image.
   final Widget Function(String url) messageImageBuilder;
+
+  /// messageTimeBuilder will override the the default text.
   final Widget Function(String url) messageTimeBuilder;
+
+  /// dateBuilder will override the the default time text.
   final Widget Function(String) dateBuilder;
+
+  /// A Widget that will be shown below the [MessageListView] like you can
+  /// show a "tying..." at the end.
   final Widget Function() chatFooterBuilder;
+
+  /// Main input length of the input text box defaulst to no limit.
   final int maxInputLength;
+
+  /// Used to parse text to make it linkified text uses
+  /// [flutter_parsed_text](https://pub.dev/packages/flutter_parsed_text)
+  /// takes a list of [MatchText] in order to parse Email, phone, links
+  /// and can also add custom pattersn using regex
   final List<MatchText> parsePatterns;
+
+  /// Provides a custom style to the message container
+  /// takes [BoxDecoration]
   final BoxDecoration messageContainerDecoration;
+
+  /// [List] of [Widget] to show before the [TextField].
   final List<Widget> leading;
+
+  /// [List] of [Widget] to show after the [TextField].will remove the
+  /// send button and will have to implement that yourself.
   final List<Widget> trailing;
+
+  /// sendButtonBuilder will override the the default [IconButton].
   final Widget Function(Function) sendButtonBuilder;
+
+  /// Style for the [TextField].
   final TextStyle inputTextStyle;
+
+  /// [TextField] container style.
   final BoxDecoration inputContainerStyle;
+
+  /// Max length of the input lines default to 1.
   final int inputMaxLines;
+
+  /// Should the input cursor be shown defaults to true.
   final bool showInputCursor;
+
+  /// Width of the text input defaults to 2.0.
   final double inputCursorWidth;
+
+  /// Color of the input cursor defaults to theme.
   final Color inputCursorColor;
+
+  /// ScrollController for the [MessageListView] will use the default
+  /// scrollcontroller in the Widget.
   final ScrollController scrollController;
+
+  /// A Widget that will be shown below the [ChatInputToolbar] like you can
+  /// show a list of buttons like file image just like in Slack app.
   final Widget Function() inputFooterBuilder;
+
+  /// Padding for the [MessageListView].
   final EdgeInsetsGeometry messageContainerPadding;
 
-  // TODO: Implement features
-  final double bottomOffset;
-  final double minToolBarHeight;
-  final bool scrollToBottom;
-  final Widget Function() scrollToBottomWidget;
-  final double scrollToBottomOffset;
-  final Function(String) onQuickReply;
-  final Widget Function(QuickReplies) renderQuickReplies;
-  final BoxDecoration quickReplyStyle;
-  final TextStyle quickReplyTextStyle;
-
   DashChat({
+    Key key,
     this.messageContainerPadding =
         const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
     this.scrollController,
     this.inputCursorColor,
     this.inputCursorWidth = 2.0,
-    this.showInputCursor,
+    this.showInputCursor = true,
     this.inputMaxLines = 1,
     this.inputContainerStyle,
     this.inputTextStyle,
-    this.key,
     this.leading = const <Widget>[],
     this.trailing = const <Widget>[],
     this.messageContainerDecoration,
@@ -109,36 +183,25 @@ class DashChat extends StatefulWidget {
     this.dateFormat,
     this.timeFormat,
     @required this.user,
-    this.onSend,
-    this.locale,
+    @required this.onSend,
     this.onLongPressAvatar,
     this.onLongPressMessage,
     this.onPressAvatar,
-    this.renderAvatarOnTop = false,
     this.avatarBuilder,
     this.showAvatarForEveryMessage = false,
     this.showUserAvatar = false,
-    this.bottomOffset = 0.0,
     this.inverted = false,
     this.maxInputLength,
-    this.minToolBarHeight = 44.0,
-    this.onQuickReply,
     this.parsePatterns = const <MatchText>[],
-    this.quickReplyStyle,
-    this.quickReplyTextStyle,
     this.chatFooterBuilder,
     this.messageBuilder,
     this.inputFooterBuilder,
-    this.renderQuickReplies,
     this.sendButtonBuilder,
-    this.scrollToBottom = false,
-    this.scrollToBottomOffset,
-    this.scrollToBottomWidget,
     this.dateBuilder,
     this.messageImageBuilder,
     this.messageTextBuilder,
     this.messageTimeBuilder,
-  });
+  }) : super(key: key);
 
   String getVal() {
     return text;
@@ -207,8 +270,6 @@ class DashChatState extends State<DashChat> {
             messageIdGenerator: widget.messageIdGenerator,
             maxInputLength: widget.maxInputLength,
             sendButtonBuilder: widget.sendButtonBuilder,
-            minToolBarHeight: widget.minToolBarHeight,
-            bottomOffset: widget.bottomOffset,
             text: widget.text != null ? widget.text : _text,
             onTextChange: widget.onTextChange != null
                 ? widget.onTextChange

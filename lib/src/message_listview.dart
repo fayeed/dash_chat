@@ -91,9 +91,15 @@ class MessageListView extends StatelessWidget {
                   children: <Widget>[
                     if (showDate)
                       if (dateBuilder != null)
-                        dateBuilder(dateFormat.format(messages[i].createdAt))
+                        dateBuilder(dateBuilder != null
+                            ? dateFormat.format(messages[i].createdAt)
+                            : DateFormat('yyyy-MM-dd')
+                                .format(messages[i].createdAt))
                       else
-                        Text(dateFormat.format(messages[i].createdAt)),
+                        Text(dateBuilder != null
+                            ? dateFormat.format(messages[i].createdAt)
+                            : DateFormat('yyyy-MM-dd')
+                                .format(messages[i].createdAt)),
                     Row(
                       mainAxisAlignment: messages[i].user.uid == user.uid
                           ? MainAxisAlignment.end
@@ -105,7 +111,7 @@ class MessageListView extends StatelessWidget {
                           child: ((showAvatarForEverMessage || showAvatar) &&
                                   messages[i].user.uid != user.uid)
                               ? AvatarContainer(
-                                  message: messages[i],
+                                  user: messages[i].user,
                                   onPress: onPressAvatar,
                                   onLongPress: onLongPressAvatar,
                                   avatarBuilder: avatarBuilder,
@@ -158,7 +164,7 @@ class MessageListView extends StatelessWidget {
                             child: ((showAvatarForEverMessage || showAvatar) &&
                                     messages[i].user.uid == user.uid)
                                 ? AvatarContainer(
-                                    message: messages[i],
+                                    user: messages[i].user,
                                     onPress: onPressAvatar,
                                     onLongPress: onLongPressAvatar,
                                     avatarBuilder: avatarBuilder,
