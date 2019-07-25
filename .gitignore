@@ -28,6 +28,7 @@
 .pub-cache/
 .pub/
 build/
+FUTURE_RELEASE.md
 
 # Android related
 **/android/**/gradle-wrapper.jar
