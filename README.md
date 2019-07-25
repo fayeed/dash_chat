@@ -1,11 +1,11 @@
-<div style="text-align:center">
+<p align="center">
   <img src="https://media.giphy.com/media/LROJNHp7VquVer90gm/giphy.gif" />
-  <h1>💬 Dash Chat</h1>
-  <h5>The most complete Chat UI for flutter</h5>
-  <p>Inspired by <a href="https://github.com/FaridSafi/react-native-gifted-chat">react-native-gifted-chat.</a>
+  <h1 align="center">💬 Dash Chat</h1>
+  <h5 align="center">The most complete Chat UI for flutter</h5>
+  <p align="center">Inspired by <a href="https://github.com/FaridSafi/react-native-gifted-chat">react-native-gifted-chat.</a>
       Highly customizable and helps developing chat UI faster.
   </p>
-</div>
+</p>
 
 ### Usage
 
