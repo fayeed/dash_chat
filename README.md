@@ -7,11 +7,11 @@
   </p>
 </p>
 
-### Usage
+### Usage 💻
 
 To use this package, add `dash_chat` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
 
-### Features
+### Features  🔮
 
 - Fully customizable components
 - Copy messages to clipboard
@@ -24,8 +24,8 @@ To use this package, add `dash_chat` as a [dependency in your pubspec.yaml file]
 - System message - WIP
 - Composer actions (to attach photos, etc.) -WIP
 
-### Message object
-
+### Message object 📦
+> example, Chat Message
 ```dart
 ChatMessage(
         text: "Hello",
@@ -34,12 +34,32 @@ ChatMessage(
           uid: "123456789",
           avatar: "https://www.wrappixel.com/ampleadmin/assets/images/users/4.jpg",
         ),
-        createdAt: d1,
+        createdAt: DateTime.now(),
         image: "http://www.sclance.com/images/picture/Picture_753248.jpg",
     );
 ```
+> example, Chat Message with Quick Replies
+```dart
+ChatMessage(
+        text: "This is a quick reply example.",
+        user: ChatUser(),
+        createdAt: DateTime.now(),
+        quickReplies: QuickReplies(
+          values: <Reply>[
+            Reply(
+              title: "😋 Yes",
+              value: "Yes",
+            ),
+            Reply(
+              title: "😞 Nope. What?",
+              value: "no",
+            ),
+          ],
+        ),
+      ),
+```
 
-### Parameters
+### Parameters ⚙️
 
 - `messageContainerFlex` (int) - Flex value for the messeage container defaults to 1
 - `height` (double) - Height for the Dash chat Widget
@@ -100,15 +120,19 @@ ChatMessage(
 - `inputCursorColor` (Color) - Color of the input cursor defaults to theme
 - `scrollController` (ScrollController) - ScrollController for the MessageListView
 - `messageContainerPadding` (EdgeInsetsGeometry) - Padding for the MessageListView
+- `onQuickReply` (Funtion(Reply)) - Callback method when the quickReply was tapped on
+- `quickReplyStyle` (BoxDecoration) - Container style for the QuickReply Container
+- `quickReplyTextStyle` (TextStyle) - QuickReply text style
+- `quickReplyBuilder` (Widget Function(Reply)) - Will override the the default QuickReply Widget.
 
-### License
+### License ⚖️
 - [MIT](https://github.com/fayeed/dash_chat/blob/master/LICENSE)
 
-### API details
+### API details 📝
 
 See the [dash_chat.dart](https://github.com/fayeed/dash_chat/blob/master/lib/dash_chat.dart) for more API details
 
-### Issues and feedback
+### Issues and feedback 💭
 
 Please file [issues](https://github.com/fayeed/dash_chat/issues)
 to send feedback or report a bug. Thank you!
