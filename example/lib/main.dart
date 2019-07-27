@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
       ),
       home: MyHomePage(),
     );
@@ -31,12 +31,16 @@ class _MyHomePageState extends State<MyHomePage> {
     name: "Fayeed",
     uid: "123456789",
     avatar: "https://www.wrappixel.com/ampleadmin/assets/images/users/4.jpg",
+    color: Colors.white,
+    containerColor: Colors.pinkAccent,
   );
 
   final ChatUser otherUser = ChatUser(
     name: "Mrfatty",
     uid: "25649654",
-    avatar: "https://www.wrappixel.com/ampleadmin/assets/images/users/1.jpg",
+    avatar: "",
+    color: Colors.white,
+    containerColor: Colors.green,
   );
 
   List<ChatMessage> messages = List<ChatMessage>();
@@ -59,10 +63,33 @@ class _MyHomePageState extends State<MyHomePage> {
         text: "When do you want to meet tommorrow?",
         user: user,
         createdAt: d3));
-    messages.add(ChatMessage(
+    messages.add(
+      ChatMessage(
         text: "Ok, great meet you there fayeed@live.com",
         user: otherUser,
-        createdAt: d3));
+        createdAt: d3,
+        quickReplies: QuickReplies(
+          values: <Reply>[
+            Reply(
+              title: "I will Message you later",
+              value: "I will Message you later",
+            ),
+            Reply(
+              title: "Maybe not.",
+              value: "Maybe not.",
+            ),
+            Reply(
+              title: "Meet me at my place",
+              value: "Meet me at my place",
+            ),
+            Reply(
+              title: "What!!",
+              value: "What!!",
+            ),
+          ],
+        ),
+      ),
+    );
 
     super.initState();
   }
@@ -101,14 +128,27 @@ class _MyHomePageState extends State<MyHomePage> {
         onLongPressAvatar: (ChatUser user) {
           print("OnLongPressAvatar: ${user.name}");
         },
-        messageContainerDecoration: BoxDecoration(
-          color: Colors.green,
-        ),
+        /*  messageContainerDecoration: BoxDecoration(
+           color: Colors.green,
+         ), */
         inputMaxLines: 2,
-        messageContainerPadding: EdgeInsets.all(20.0),
+        messageContainerPadding: EdgeInsets.all(5.0),
         alwaysShowSend: true,
-        inputTextStyle: TextStyle(fontSize: 24.0),
+        inputTextStyle: TextStyle(fontSize: 16.0),
         inputContainerStyle: BoxDecoration(border: Border.all(width: 0.0)),
+        onQuickReply: (Reply reply) {
+          setState(() {
+            messages.add(ChatMessage(
+                text: reply.value, createdAt: DateTime.now(), user: user));
+
+            messages = [...messages];
+          });
+        },
+        quickReplyStyle: BoxDecoration(),
+        quickReplyTextStyle: TextStyle(),
+        quickReplyBuilder: (Reply reply) {
+          return Text(reply.value);
+        },
       ),
     );
   }

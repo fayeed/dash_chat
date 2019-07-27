@@ -52,9 +52,6 @@ class MessageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /* var containerDecoration = messageContainerDecoration;
-    containerDecoration.color = message.user.containerColor != null
-                    ? message.user.containerColor : messageContainerDecoration.c */
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: 220.0,

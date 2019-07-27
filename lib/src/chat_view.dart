@@ -157,8 +157,25 @@ class DashChat extends StatefulWidget {
   /// Padding for the [MessageListView].
   final EdgeInsetsGeometry messageContainerPadding;
 
+  /// Callback method when the quickReply was tapped on
+  /// will pass [Reply] as a paramter to function.
+  final Function(Reply) onQuickReply;
+
+  /// Container style for the QuickReply Container [BoxDecoration].
+  final BoxDecoration quickReplyStyle;
+
+  /// [TextStyle] for QuickReply textstyle.
+  final TextStyle quickReplyTextStyle;
+
+  /// quickReplyBuilder will override the the default QuickReply Widget.
+  final Widget Function(Reply) quickReplyBuilder;
+
   DashChat({
     Key key,
+    this.onQuickReply,
+    this.quickReplyStyle,
+    this.quickReplyTextStyle,
+    this.quickReplyBuilder,
     this.messageContainerPadding =
         const EdgeInsets.only(top: 10.0, left: 2.0, right: 2.0),
     this.scrollController,
@@ -261,6 +278,31 @@ class DashChatState extends State<DashChat> {
               messageContainerDecoration: widget.messageContainerDecoration,
               parsePatterns: widget.parsePatterns,
             ),
+            if (widget.messages[widget.messages.length - 1].user.uid !=
+                widget.user.uid)
+              Container(
+                  constraints: BoxConstraints(maxHeight: 100.0),
+                  width: MediaQuery.of(context).size.width,
+                  child: Wrap(
+                    children: <Widget>[
+                      if (widget.messages[widget.messages.length - 1]
+                              .quickReplies !=
+                          null)
+                        ...widget.messages[widget.messages.length - 1]
+                            .quickReplies.values
+                            .sublist(0, 3)
+                            .map(
+                              (reply) => QuickReply(
+                                reply: reply,
+                                onReply: widget.onQuickReply,
+                                quickReplyBuilder: widget.quickReplyBuilder,
+                                quickReplyStyle: widget.quickReplyStyle,
+                                quickReplyTextStyle: widget.quickReplyTextStyle,
+                              ),
+                            )
+                            .toList(),
+                    ],
+                  )),
             if (widget.chatFooterBuilder != null) widget.chatFooterBuilder(),
             ChatInputToolbar(
               inputMaxLines: widget.inputMaxLines,

@@ -1,3 +1,7 @@
+## [0.1.3]
+
+- Quick Reply functionality added.
+
 ## [0.1.2]
 
 - Chat Bubble are more customizable now.
