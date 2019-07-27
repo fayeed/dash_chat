@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_parsed_text/flutter_parsed_text.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 export 'package:intl/intl.dart';
 export 'package:flutter_parsed_text/flutter_parsed_text.dart';
