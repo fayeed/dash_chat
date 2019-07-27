@@ -36,10 +36,42 @@ class AvatarContainer extends StatelessWidget {
       onLongPress: () => onLongPress(user),
       child: avatarBuilder != null
           ? avatarBuilder(user)
-          : CircleAvatar(
-              backgroundImage: NetworkImage(user.avatar),
-              radius: 20.0,
+          : Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                ClipOval(
+                  child: Container(
+                    height: 40.0,
+                    width: 40.0,
+                    color: Colors.grey,
+                    child: Center(child: Text(user.name[0])),
+                  ),
+                ),
+                user.avatar != null && user.avatar.length != 0
+                    ? Center(
+                        child: ClipOval(
+                          child: FadeInImage.memoryNetwork(
+                            image: user.avatar,
+                            placeholder: kTransparentImage,
+                            fit: BoxFit.contain,
+                            height: 40.0,
+                            width: 40.0,
+                          ),
+                        ),
+                      )
+                    : Container()
+              ],
             ),
     );
   }
 }
+
+// CircleAvatar(
+//               backgroundImage: user.avatar == "" || user.avatar == null
+//                   ? null
+//                   : NetworkImage(user.avatar),
+//               child: user.avatar == "" || user.avatar == null
+//                   ? Text(user.name[0].toUpperCase())
+//                   : null,
+//               radius: 20.0,
+//             )

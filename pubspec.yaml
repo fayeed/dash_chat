@@ -1,6 +1,6 @@
 name: dash_chat
 description: A new Flutter package project.
-version: 0.1.0
+version: 0.1.1
 author:
 homepage:
 
@@ -13,6 +13,7 @@ dependencies:
   flutter_parsed_text: ^1.1.0
   uuid: ^2.0.1
   intl: ^0.15.8
+  transparent_image: ^1.0.0
 
 dev_dependencies:
   flutter_test:
