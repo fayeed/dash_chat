@@ -37,27 +37,40 @@ class MessageContainer extends StatelessWidget {
   /// and can also add custom pattersn using regex
   final List<MatchText> parsePatterns;
 
-  const MessageContainer({
-    @required this.message,
-    @required this.timeFormat,
-    this.messageImageBuilder,
-    this.messageTextBuilder,
-    this.messageTimeBuilder,
-    this.messageContainerDecoration,
-    this.parsePatterns = const <MatchText>[],
-  });
+  /// A flag which is used for assiging styles
+  final bool isUser;
+
+  const MessageContainer(
+      {@required this.message,
+      @required this.timeFormat,
+      this.messageImageBuilder,
+      this.messageTextBuilder,
+      this.messageTimeBuilder,
+      this.messageContainerDecoration,
+      this.parsePatterns = const <MatchText>[],
+      this.isUser});
 
   @override
   Widget build(BuildContext context) {
+    /* var containerDecoration = messageContainerDecoration;
+    containerDecoration.color = message.user.containerColor != null
+                    ? message.user.containerColor : messageContainerDecoration.c */
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: 220.0,
       ),
       child: Container(
         decoration: messageContainerDecoration != null
-            ? messageContainerDecoration
+            ? messageContainerDecoration.copyWith(
+                color: message.user.containerColor != null
+                    ? message.user.containerColor
+                    : messageContainerDecoration.color,
+              )
             : BoxDecoration(
-                color: Colors.blue,
+                color: message.user.containerColor != null
+                    ? message.user.containerColor
+                    : isUser ? Theme.of(context).accentColor : Colors.white70,
+                borderRadius: BorderRadius.circular(5.0),
               ),
         margin: EdgeInsets.only(
           top: 8.0,
@@ -73,7 +86,10 @@ class MessageContainer extends StatelessWidget {
               ParsedText(
                 parse: parsePatterns,
                 text: message.text,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(
+                    color: message.user.color != null
+                        ? message.user.color
+                        : isUser ? Colors.white70 : Colors.black87),
               ),
             if (message.image != null)
               if (messageImageBuilder != null)

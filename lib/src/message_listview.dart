@@ -148,6 +148,7 @@ class MessageListView extends StatelessWidget {
                           child: messageBuilder != null
                               ? messageBuilder(messages[i])
                               : MessageContainer(
+                                  isUser: messages[i].user.uid == user.uid,
                                   message: messages[i],
                                   timeFormat: timeFormat,
                                   messageImageBuilder: messageImageBuilder,

@@ -7,16 +7,24 @@ class ChatUser {
   /// is automatically assigned to the chat user.
   String uid;
 
-  /// A [optional] parameter to set the user name.
+  /// An [optional] parameter to set the user name.
   String name;
 
-  /// A [optional] parameter to set the user avatar.
+  /// An [optional] parameter to set the user avatar.
   String avatar;
+
+  /// An [optional] parameter to set Text Color
+  Color color;
+
+  /// An [optional] parameter to set The Message bubble Color
+  Color containerColor;
 
   ChatUser({
     String uid,
     this.name,
     this.avatar,
+    this.containerColor,
+    this.color,
   }) {
     this.uid = uid != null ? uid : Uuid().v4().toString();
   }
