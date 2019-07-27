@@ -160,7 +160,7 @@ class DashChat extends StatefulWidget {
   DashChat({
     Key key,
     this.messageContainerPadding =
-        const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+        const EdgeInsets.only(top: 10.0, left: 2.0, right: 2.0),
     this.scrollController,
     this.inputCursorColor,
     this.inputCursorWidth = 2.0,
@@ -226,68 +226,70 @@ class DashChatState extends State<DashChat> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: widget.height != null
-          ? widget.height
-          : MediaQuery.of(context).size.height,
-      width: widget.width != null
-          ? widget.width
-          : MediaQuery.of(context).size.width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          MessageListView(
-            messageContainerPadding: widget.messageContainerPadding,
-            scrollController: widget.scrollController != null
-                ? widget.scrollController
-                : scrollController,
-            user: widget.user,
-            messages: widget.messages,
-            showuserAvatar: widget.showUserAvatar,
-            dateFormat: widget.dateFormat,
-            timeFormat: widget.timeFormat,
-            inverted: widget.inverted,
-            showAvatarForEverMessage: widget.showAvatarForEveryMessage,
-            onLongPressAvatar: widget.onLongPressAvatar,
-            onPressAvatar: widget.onPressAvatar,
-            onLongPressMessage: widget.onLongPressMessage,
-            avatarBuilder: widget.avatarBuilder,
-            messageBuilder: widget.messageBuilder,
-            messageTextBuilder: widget.messageTextBuilder,
-            messageImageBuilder: widget.messageImageBuilder,
-            messageTimeBuilder: widget.messageTimeBuilder,
-            dateBuilder: widget.dateBuilder,
-            messageContainerDecoration: widget.messageContainerDecoration,
-            parsePatterns: widget.parsePatterns,
-          ),
-          if (widget.chatFooterBuilder != null) widget.chatFooterBuilder(),
-          ChatInputToolbar(
-            inputMaxLines: widget.inputMaxLines,
-            controller: _controller,
-            inputDecoration: widget.inputDecoration,
-            onSend: widget.onSend,
-            user: widget.user,
-            messageIdGenerator: widget.messageIdGenerator,
-            maxInputLength: widget.maxInputLength,
-            sendButtonBuilder: widget.sendButtonBuilder,
-            text: widget.text != null ? widget.text : _text,
-            onTextChange: widget.onTextChange != null
-                ? widget.onTextChange
-                : onTextChange,
-            leading: widget.leading,
-            trailling: widget.trailing,
-            inputContainerStyle: widget.inputContainerStyle,
-            inputTextStyle: widget.inputTextStyle,
-            inputFooterBuilder: widget.inputFooterBuilder,
-            inputCursorColor: widget.inputCursorColor,
-            inputCursorWidth: widget.inputCursorWidth,
-            showInputCursor: widget.showInputCursor,
-            alwaysShowSend: widget.alwaysShowSend,
-            scrollController: widget.scrollController != null
-                ? widget.scrollController
-                : scrollController,
-          )
-        ],
+    return SafeArea(
+      child: Container(
+        height: widget.height != null
+            ? widget.height
+            : MediaQuery.of(context).size.height,
+        width: widget.width != null
+            ? widget.width
+            : MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            MessageListView(
+              messageContainerPadding: widget.messageContainerPadding,
+              scrollController: widget.scrollController != null
+                  ? widget.scrollController
+                  : scrollController,
+              user: widget.user,
+              messages: widget.messages,
+              showuserAvatar: widget.showUserAvatar,
+              dateFormat: widget.dateFormat,
+              timeFormat: widget.timeFormat,
+              inverted: widget.inverted,
+              showAvatarForEverMessage: widget.showAvatarForEveryMessage,
+              onLongPressAvatar: widget.onLongPressAvatar,
+              onPressAvatar: widget.onPressAvatar,
+              onLongPressMessage: widget.onLongPressMessage,
+              avatarBuilder: widget.avatarBuilder,
+              messageBuilder: widget.messageBuilder,
+              messageTextBuilder: widget.messageTextBuilder,
+              messageImageBuilder: widget.messageImageBuilder,
+              messageTimeBuilder: widget.messageTimeBuilder,
+              dateBuilder: widget.dateBuilder,
+              messageContainerDecoration: widget.messageContainerDecoration,
+              parsePatterns: widget.parsePatterns,
+            ),
+            if (widget.chatFooterBuilder != null) widget.chatFooterBuilder(),
+            ChatInputToolbar(
+              inputMaxLines: widget.inputMaxLines,
+              controller: _controller,
+              inputDecoration: widget.inputDecoration,
+              onSend: widget.onSend,
+              user: widget.user,
+              messageIdGenerator: widget.messageIdGenerator,
+              maxInputLength: widget.maxInputLength,
+              sendButtonBuilder: widget.sendButtonBuilder,
+              text: widget.text != null ? widget.text : _text,
+              onTextChange: widget.onTextChange != null
+                  ? widget.onTextChange
+                  : onTextChange,
+              leading: widget.leading,
+              trailling: widget.trailing,
+              inputContainerStyle: widget.inputContainerStyle,
+              inputTextStyle: widget.inputTextStyle,
+              inputFooterBuilder: widget.inputFooterBuilder,
+              inputCursorColor: widget.inputCursorColor,
+              inputCursorWidth: widget.inputCursorWidth,
+              showInputCursor: widget.showInputCursor,
+              alwaysShowSend: widget.alwaysShowSend,
+              scrollController: widget.scrollController != null
+                  ? widget.scrollController
+                  : scrollController,
+            )
+          ],
+        ),
       ),
     );
   }
