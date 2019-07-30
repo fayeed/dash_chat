@@ -170,6 +170,10 @@ class DashChat extends StatefulWidget {
   /// quickReplyBuilder will override the the default QuickReply Widget.
   final Widget Function(Reply) quickReplyBuilder;
 
+  /// Should the [trailling] Widgets be shown before the send button
+  /// As default it will be shown before the send button.
+  final bool showTraillingBeforeSend;
+
   DashChat({
     Key key,
     this.onQuickReply,
@@ -218,6 +222,7 @@ class DashChat extends StatefulWidget {
     this.messageImageBuilder,
     this.messageTextBuilder,
     this.messageTimeBuilder,
+    this.showTraillingBeforeSend = true,
   }) : super(key: key);
 
   String getVal() {
@@ -315,6 +320,7 @@ class DashChatState extends State<DashChat> {
                     )),
               if (widget.chatFooterBuilder != null) widget.chatFooterBuilder(),
               ChatInputToolbar(
+                showTraillingBeforeSend: widget.showTraillingBeforeSend,
                 inputMaxLines: widget.inputMaxLines,
                 controller: _controller,
                 inputDecoration: widget.inputDecoration,

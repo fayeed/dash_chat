@@ -1,3 +1,7 @@
+## [0.1.4]
+
+- `showTraillingBeforeSend` property added
+
 ## [0.1.3]
 
 - Quick Reply functionality added.

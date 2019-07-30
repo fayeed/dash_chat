@@ -21,6 +21,7 @@ class ChatInputToolbar extends StatelessWidget {
   final double inputCursorWidth;
   final Color inputCursorColor;
   final ScrollController scrollController;
+  final bool showTraillingBeforeSend;
 
   ChatInputToolbar({
     this.scrollController,
@@ -43,6 +44,7 @@ class ChatInputToolbar extends StatelessWidget {
     this.messageIdGenerator,
     this.inputFooterBuilder,
     this.sendButtonBuilder,
+    this.showTraillingBeforeSend = true,
   });
 
   @override
@@ -91,34 +93,33 @@ class ChatInputToolbar extends StatelessWidget {
                   ),
                 ),
               ),
-              if (trailling.length == 0)
-                if (sendButtonBuilder != null)
-                  sendButtonBuilder(() {
-                    onSend(message);
+              if (showTraillingBeforeSend) ...trailling,
+              if (sendButtonBuilder != null)
+                sendButtonBuilder(() {
+                  onSend(message);
 
-                    controller.text = "";
-                  })
-                else
-                  IconButton(
-                    icon: Icon(Icons.send),
-                    onPressed: alwaysShowSend || text.length != 0
-                        ? () {
-                            onSend(message);
-
-                            controller.text = "";
-
-                            Timer(Duration(milliseconds: 300), () {
-                              scrollController.animateTo(
-                                scrollController.position.maxScrollExtent,
-                                curve: Curves.easeOut,
-                                duration: const Duration(milliseconds: 300),
-                              );
-                            });
-                          }
-                        : null,
-                  )
+                  controller.text = "";
+                })
               else
-                ...trailling,
+                IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: alwaysShowSend || text.length != 0
+                      ? () {
+                          onSend(message);
+
+                          controller.text = "";
+
+                          Timer(Duration(milliseconds: 300), () {
+                            scrollController.animateTo(
+                              scrollController.position.maxScrollExtent,
+                              curve: Curves.easeOut,
+                              duration: const Duration(milliseconds: 300),
+                            );
+                          });
+                        }
+                      : null,
+                ),
+              if (!showTraillingBeforeSend) ...trailling,
             ],
           ),
           if (inputFooterBuilder != null) inputFooterBuilder()
