@@ -96,10 +96,28 @@ class MessageListView extends StatelessWidget {
                             : DateFormat('yyyy-MM-dd')
                                 .format(messages[i].createdAt))
                       else
-                        Text(dateBuilder != null
-                            ? dateFormat.format(messages[i].createdAt)
-                            : DateFormat('yyyy-MM-dd')
-                                .format(messages[i].createdAt)),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(10.0)),
+                          padding: EdgeInsets.only(
+                            bottom: 5.0,
+                            top: 5.0,
+                            left: 10.0,
+                            right: 10.0,
+                          ),
+                          margin: EdgeInsets.symmetric(vertical: 10.0),
+                          child: Text(
+                            dateBuilder != null
+                                ? dateFormat.format(messages[i].createdAt)
+                                : DateFormat('MMM dd')
+                                    .format(messages[i].createdAt),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ),
                     Row(
                       mainAxisAlignment: messages[i].user.uid == user.uid
                           ? MainAxisAlignment.end

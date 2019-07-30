@@ -107,11 +107,13 @@ class ChatInputToolbar extends StatelessWidget {
 
                             controller.text = "";
 
-                            scrollController.animateTo(
-                              scrollController.position.maxScrollExtent,
-                              curve: Curves.easeOut,
-                              duration: const Duration(milliseconds: 300),
-                            );
+                            Timer(Duration(milliseconds: 300), () {
+                              scrollController.animateTo(
+                                scrollController.position.maxScrollExtent,
+                                curve: Curves.easeOut,
+                                duration: const Duration(milliseconds: 300),
+                              );
+                            });
                           }
                         : null,
                   )

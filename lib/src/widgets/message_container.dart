@@ -40,21 +40,22 @@ class MessageContainer extends StatelessWidget {
   /// A flag which is used for assiging styles
   final bool isUser;
 
-  const MessageContainer(
-      {@required this.message,
-      @required this.timeFormat,
-      this.messageImageBuilder,
-      this.messageTextBuilder,
-      this.messageTimeBuilder,
-      this.messageContainerDecoration,
-      this.parsePatterns = const <MatchText>[],
-      this.isUser});
+  const MessageContainer({
+    @required this.message,
+    @required this.timeFormat,
+    this.messageImageBuilder,
+    this.messageTextBuilder,
+    this.messageTimeBuilder,
+    this.messageContainerDecoration,
+    this.parsePatterns = const <MatchText>[],
+    this.isUser,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: 220.0,
+        maxWidth: MediaQuery.of(context).size.width * 0.8,
       ),
       child: Container(
         decoration: messageContainerDecoration != null
@@ -70,8 +71,7 @@ class MessageContainer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5.0),
               ),
         margin: EdgeInsets.only(
-          top: 8.0,
-          bottom: 8.0,
+          bottom: 5.0,
         ),
         padding: EdgeInsets.all(8.0),
         child: Column(
