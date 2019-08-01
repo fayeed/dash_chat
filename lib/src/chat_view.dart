@@ -174,8 +174,21 @@ class DashChat extends StatefulWidget {
   /// As default it will be shown before the send button.
   final bool showTraillingBeforeSend;
 
+  /// Should the scroll to bottom widget be shown
+  /// default to true.
+  final bool scrollToBottom;
+
+  /// Overrides the default [scrollToBottomWidget] with a custom widget
+  final Widget Function() scrollToBottomWidget;
+
+  /// override the default behaviour of the onScrollToBottom Widget
+  final Function onScrollToBottomPress;
+
   DashChat({
     Key key,
+    this.scrollToBottom = true,
+    this.scrollToBottomWidget,
+    this.onScrollToBottomPress,
     this.onQuickReply,
     this.quickReplyStyle,
     this.quickReplyTextStyle,
@@ -237,13 +250,44 @@ class DashChatState extends State<DashChat> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController scrollController = ScrollController();
   String _text = "";
+  bool visible = false;
+  OverlayEntry _overlayEntry;
+  GlobalKey inputKey = GlobalKey();
+  double height = 48.0;
 
   String get messageInput => _text;
 
   void onTextChange(String text) {
+    if (visible) {
+      changeVisible(false);
+    }
     setState(() {
       this._text = text;
     });
+  }
+
+  void changeVisible(bool value) {
+    setState(() {
+      visible = value;
+    });
+
+    if (this._overlayEntry == null) {
+      height = inputKey.currentContext.size.height;
+      this._overlayEntry = this._createOverlayEntry(height);
+    }
+
+    if (value) {
+      Timer(Duration(milliseconds: 120), () {
+        try {
+          Overlay.of(context).insert(this._overlayEntry);
+        } catch (e) {}
+      });
+    } else {
+      try {
+        this._overlayEntry.remove();
+        this._overlayEntry = null;
+      } catch (e) {}
+    }
   }
 
   @override
@@ -252,6 +296,21 @@ class DashChatState extends State<DashChat> {
       scrollController.jumpTo(scrollController.position.maxScrollExtent);
     });
     super.initState();
+  }
+
+  OverlayEntry _createOverlayEntry(double height) {
+    return OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: height + 12.0,
+        right: 10.0,
+        child: widget.scrollToBottomWidget != null
+            ? widget.scrollToBottomWidget()
+            : ScrollToBottom(
+                onScrollToBottomPress: widget.onScrollToBottomPress,
+                scrollController: scrollController,
+              ),
+      ),
+    );
   }
 
   @override
@@ -291,60 +350,82 @@ class DashChatState extends State<DashChat> {
                 dateBuilder: widget.dateBuilder,
                 messageContainerDecoration: widget.messageContainerDecoration,
                 parsePatterns: widget.parsePatterns,
+                changeVisible: changeVisible,
+                visible: visible,
               ),
               if (widget.messages[widget.messages.length - 1].user.uid !=
                   widget.user.uid)
                 Container(
-                    constraints: BoxConstraints(maxHeight: 100.0),
-                    width: MediaQuery.of(context).size.width,
-                    child: Wrap(
-                      children: <Widget>[
-                        if (widget.messages[widget.messages.length - 1]
-                                .quickReplies !=
-                            null)
-                          ...widget.messages[widget.messages.length - 1]
-                              .quickReplies.values
-                              .sublist(0, 3)
-                              .map(
-                                (reply) => QuickReply(
-                                  reply: reply,
-                                  onReply: widget.onQuickReply,
-                                  quickReplyBuilder: widget.quickReplyBuilder,
-                                  quickReplyStyle: widget.quickReplyStyle,
-                                  quickReplyTextStyle:
-                                      widget.quickReplyTextStyle,
-                                ),
-                              )
-                              .toList(),
-                      ],
-                    )),
+                  constraints: BoxConstraints(maxHeight: 100.0),
+                  width: MediaQuery.of(context).size.width,
+                  child: Wrap(
+                    children: <Widget>[
+                      if (widget.messages[widget.messages.length - 1]
+                              .quickReplies !=
+                          null)
+                        ...widget.messages[widget.messages.length - 1]
+                            .quickReplies.values
+                            .sublist(0, 3)
+                            .map(
+                              (reply) => QuickReply(
+                                reply: reply,
+                                onReply: widget.onQuickReply,
+                                quickReplyBuilder: widget.quickReplyBuilder,
+                                quickReplyStyle: widget.quickReplyStyle,
+                                quickReplyTextStyle: widget.quickReplyTextStyle,
+                              ),
+                            )
+                            .toList(),
+                    ],
+                  ),
+                ),
               if (widget.chatFooterBuilder != null) widget.chatFooterBuilder(),
-              ChatInputToolbar(
-                showTraillingBeforeSend: widget.showTraillingBeforeSend,
-                inputMaxLines: widget.inputMaxLines,
-                controller: _controller,
-                inputDecoration: widget.inputDecoration,
-                onSend: widget.onSend,
-                user: widget.user,
-                messageIdGenerator: widget.messageIdGenerator,
-                maxInputLength: widget.maxInputLength,
-                sendButtonBuilder: widget.sendButtonBuilder,
-                text: widget.text != null ? widget.text : _text,
-                onTextChange: widget.onTextChange != null
-                    ? widget.onTextChange
-                    : onTextChange,
-                leading: widget.leading,
-                trailling: widget.trailing,
-                inputContainerStyle: widget.inputContainerStyle,
-                inputTextStyle: widget.inputTextStyle,
-                inputFooterBuilder: widget.inputFooterBuilder,
-                inputCursorColor: widget.inputCursorColor,
-                inputCursorWidth: widget.inputCursorWidth,
-                showInputCursor: widget.showInputCursor,
-                alwaysShowSend: widget.alwaysShowSend,
-                scrollController: widget.scrollController != null
-                    ? widget.scrollController
-                    : scrollController,
+              Stack(
+                overflow: Overflow.visible,
+                alignment: AlignmentDirectional.bottomCenter,
+                children: <Widget>[
+                  if (widget.scrollToBottom)
+                    AnimatedPositioned(
+                      bottom: visible ? height + 12.0 : 0.0,
+                      right: 10.0,
+                      duration: Duration(milliseconds: 100),
+                      child: widget.scrollToBottomWidget != null
+                          ? widget.scrollToBottomWidget()
+                          : ScrollToBottom(
+                              onScrollToBottomPress:
+                                  widget.onScrollToBottomPress,
+                              scrollController: scrollController,
+                            ),
+                    ),
+                  ChatInputToolbar(
+                    key: inputKey,
+                    showTraillingBeforeSend: widget.showTraillingBeforeSend,
+                    inputMaxLines: widget.inputMaxLines,
+                    controller: _controller,
+                    inputDecoration: widget.inputDecoration,
+                    onSend: widget.onSend,
+                    user: widget.user,
+                    messageIdGenerator: widget.messageIdGenerator,
+                    maxInputLength: widget.maxInputLength,
+                    sendButtonBuilder: widget.sendButtonBuilder,
+                    text: widget.text != null ? widget.text : _text,
+                    onTextChange: widget.onTextChange != null
+                        ? widget.onTextChange
+                        : onTextChange,
+                    leading: widget.leading,
+                    trailling: widget.trailing,
+                    inputContainerStyle: widget.inputContainerStyle,
+                    inputTextStyle: widget.inputTextStyle,
+                    inputFooterBuilder: widget.inputFooterBuilder,
+                    inputCursorColor: widget.inputCursorColor,
+                    inputCursorWidth: widget.inputCursorWidth,
+                    showInputCursor: widget.showInputCursor,
+                    alwaysShowSend: widget.alwaysShowSend,
+                    scrollController: widget.scrollController != null
+                        ? widget.scrollController
+                        : scrollController,
+                  ),
+                ],
               )
             ],
           ),

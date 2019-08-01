@@ -23,3 +23,4 @@ part 'src/message_listview.dart';
 part 'src/widgets/avatar_container.dart';
 part 'src/widgets/message_container.dart';
 part 'src/widgets/quick_reply.dart';
+part 'src/widgets/scroll_to_bottom.dart';

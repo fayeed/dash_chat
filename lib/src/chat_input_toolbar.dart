@@ -24,6 +24,7 @@ class ChatInputToolbar extends StatelessWidget {
   final bool showTraillingBeforeSend;
 
   ChatInputToolbar({
+    Key key,
     this.scrollController,
     this.text,
     this.onTextChange,
@@ -45,7 +46,7 @@ class ChatInputToolbar extends StatelessWidget {
     this.inputFooterBuilder,
     this.sendButtonBuilder,
     this.showTraillingBeforeSend = true,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,7 @@ class ChatInputToolbar extends StatelessWidget {
     return Container(
       decoration: inputContainerStyle != null
           ? inputContainerStyle
-          : BoxDecoration(color: Colors.purple),
+          : BoxDecoration(color: Colors.white),
       child: Column(
         children: <Widget>[
           Row(
@@ -81,7 +82,10 @@ class ChatInputToolbar extends StatelessWidget {
                         null,
                     decoration: inputDecoration != null
                         ? inputDecoration
-                        : InputDecoration.collapsed(hintText: ""),
+                        : InputDecoration.collapsed(
+                            hintText: "",
+                            fillColor: Colors.white,
+                          ),
                     controller: controller,
                     style: inputTextStyle,
                     maxLength: maxInputLength,

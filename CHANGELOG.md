@@ -1,3 +1,7 @@
+## [0.1.5]
+
+- ScrollToBottom Widget functionality added
+
 ## [0.1.4]
 
 - `showTraillingBeforeSend` property added

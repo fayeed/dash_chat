@@ -124,6 +124,9 @@ ChatMessage(
 - `quickReplyStyle` (BoxDecoration) - Container style for the QuickReply Container
 - `quickReplyTextStyle` (TextStyle) - QuickReply text style
 - `quickReplyBuilder` (Widget Function(Reply)) - Will override the the default QuickReply Widget.
+- `scrollToBottom` (bool) - Should the scroll to bottom widget be shown defaults to `true`.
+- `scrollToBottomWidget` (Widget Function()) - Overrides the default scrollToBottomWidget with a custom widget.
+- `onScrollToBottomPress` (Function) - override the default behaviour of the onScrollToBottom Widget.
 
 ### License ⚖️
 - [MIT](https://github.com/fayeed/dash_chat/blob/master/LICENSE)
