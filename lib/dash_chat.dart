@@ -24,3 +24,4 @@ part 'src/widgets/avatar_container.dart';
 part 'src/widgets/message_container.dart';
 part 'src/widgets/quick_reply.dart';
 part 'src/widgets/scroll_to_bottom.dart';
+part 'src/widgets/load_earlier.dart';

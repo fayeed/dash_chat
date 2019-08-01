@@ -127,6 +127,9 @@ ChatMessage(
 - `scrollToBottom` (bool) - Should the scroll to bottom widget be shown defaults to `true`.
 - `scrollToBottomWidget` (Widget Function()) - Overrides the default scrollToBottomWidget with a custom widget.
 - `onScrollToBottomPress` (Function) - override the default behaviour of the onScrollToBottom Widget.
+- `shouldShowLoadEarlier` (bool) - Should the LoadEarlier Floating widget be shown or use load as you scroll scheme whcih will call the onLoadEarlier defaults to false which is this scheme.
+- `showLoadEarlierWidget` (Widget Function()) - Override the default behaviour of the onScrollToBottom Widget.
+- `onLoadEarlier` (Function) - Override the default behaviour of the onLoadEarleir Widget or used as a callback when the listView reaches the top.
 
 ### License ⚖️
 - [MIT](https://github.com/fayeed/dash_chat/blob/master/LICENSE)
