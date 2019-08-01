@@ -265,6 +265,7 @@ class DashChat extends StatefulWidget {
 
 class DashChatState extends State<DashChat> {
   final TextEditingController _controller = TextEditingController();
+  final FocusNode inputFocusNode = FocusNode();
   final ScrollController scrollController = ScrollController();
   String _text = "";
   bool visible = false;
@@ -472,6 +473,7 @@ class DashChatState extends State<DashChat> {
                   scrollController: widget.scrollController != null
                       ? widget.scrollController
                       : scrollController,
+                  focusNode: inputFocusNode,
                 ),
               ],
             )
