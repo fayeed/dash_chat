@@ -1,3 +1,7 @@
+## [1.0.1]
+
+- Description updated and small fix
+
 ## [1.0.0]
 
 - Minor fixes and first release

@@ -1,6 +1,6 @@
 part of dash_chat;
 
-class MessageListView extends StatelessWidget {
+class MessageListView extends StatefulWidget {
   final List<ChatMessage> messages;
   final ChatUser user;
   final bool showuserAvatar;
@@ -30,8 +30,6 @@ class MessageListView extends StatelessWidget {
   final Widget Function() showLoadEarlierWidget;
   final Function onLoadEarlier;
   final Function(bool) defaultLoadCallback;
-
-  double previousPixelPostion = 0.0;
 
   MessageListView({
     this.showLoadEarlierWidget,
@@ -66,6 +64,13 @@ class MessageListView extends StatelessWidget {
     this.showLoadMore,
   });
 
+  @override
+  _MessageListViewState createState() => _MessageListViewState();
+}
+
+class _MessageListViewState extends State<MessageListView> {
+  double previousPixelPostion = 0.0;
+
   bool scrollNotificationFunc(ScrollNotification scrollNotification) {
     if (previousPixelPostion == 0.0) {
       previousPixelPostion = scrollNotification.metrics.maxScrollExtent;
@@ -73,10 +78,10 @@ class MessageListView extends StatelessWidget {
 
     if (scrollNotification.metrics.pixels ==
         scrollNotification.metrics.maxScrollExtent) {
-      changeVisible(false);
+      widget.changeVisible(false);
     } else {
       if (previousPixelPostion < scrollNotification.metrics.pixels) {
-        changeVisible(true);
+        widget.changeVisible(true);
       }
 
       previousPixelPostion = scrollNotification.metrics.pixels;
@@ -93,36 +98,37 @@ class MessageListView extends StatelessWidget {
       behavior: CustomScrollBehaviour(),
       child: Flexible(
         child: Padding(
-          padding: messageContainerPadding,
+          padding: widget.messageContainerPadding,
           child: NotificationListener<ScrollNotification>(
             onNotification: scrollNotificationFunc,
             child: Stack(
               alignment: AlignmentDirectional.topCenter,
               children: [
                 ListView.builder(
-                  controller: scrollController,
+                  controller: widget.scrollController,
                   shrinkWrap: true,
-                  reverse: inverted,
-                  itemCount: messages.length,
+                  reverse: widget.inverted,
+                  itemCount: widget.messages.length,
                   itemBuilder: (context, i) {
                     final j = i + 1;
                     bool showAvatar = false;
                     bool showDate;
-                    if (j < messages.length) {
-                      showAvatar = messages[j].user.uid != messages[i].user.uid;
+                    if (j < widget.messages.length) {
+                      showAvatar = widget.messages[j].user.uid !=
+                          widget.messages[i].user.uid;
                     } else {
                       showAvatar = true;
                     }
 
                     if (currentDate == null) {
-                      currentDate = messages[i].createdAt;
+                      currentDate = widget.messages[i].createdAt;
                       showDate = true;
                     } else if (currentDate
-                            .difference(messages[i].createdAt)
+                            .difference(widget.messages[i].createdAt)
                             .inDays !=
                         0) {
                       showDate = true;
-                      currentDate = messages[i].createdAt;
+                      currentDate = widget.messages[i].createdAt;
                     } else {
                       showDate = false;
                     }
@@ -131,11 +137,12 @@ class MessageListView extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           if (showDate)
-                            if (dateBuilder != null)
-                              dateBuilder(dateBuilder != null
-                                  ? dateFormat.format(messages[i].createdAt)
+                            if (widget.dateBuilder != null)
+                              widget.dateBuilder(widget.dateBuilder != null
+                                  ? widget.dateFormat
+                                      .format(widget.messages[i].createdAt)
                                   : DateFormat('yyyy-MM-dd')
-                                      .format(messages[i].createdAt))
+                                      .format(widget.messages[i].createdAt))
                             else
                               Container(
                                 decoration: BoxDecoration(
@@ -149,10 +156,11 @@ class MessageListView extends StatelessWidget {
                                 ),
                                 margin: EdgeInsets.symmetric(vertical: 10.0),
                                 child: Text(
-                                  dateBuilder != null
-                                      ? dateFormat.format(messages[i].createdAt)
+                                  widget.dateBuilder != null
+                                      ? widget.dateFormat
+                                          .format(widget.messages[i].createdAt)
                                       : DateFormat('MMM dd')
-                                          .format(messages[i].createdAt),
+                                          .format(widget.messages[i].createdAt),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 12.0,
@@ -160,30 +168,33 @@ class MessageListView extends StatelessWidget {
                                 ),
                               ),
                           Row(
-                            mainAxisAlignment: messages[i].user.uid == user.uid
-                                ? MainAxisAlignment.end
-                                : MainAxisAlignment.start,
+                            mainAxisAlignment:
+                                widget.messages[i].user.uid == widget.user.uid
+                                    ? MainAxisAlignment.end
+                                    : MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10.0),
-                                child:
-                                    ((showAvatarForEverMessage || showAvatar) &&
-                                            messages[i].user.uid != user.uid)
-                                        ? AvatarContainer(
-                                            user: messages[i].user,
-                                            onPress: onPressAvatar,
-                                            onLongPress: onLongPressAvatar,
-                                            avatarBuilder: avatarBuilder,
-                                          )
-                                        : SizedBox(
-                                            width: 40.0,
-                                          ),
+                                child: ((widget.showAvatarForEverMessage ||
+                                            showAvatar) &&
+                                        widget.messages[i].user.uid !=
+                                            widget.user.uid)
+                                    ? AvatarContainer(
+                                        user: widget.messages[i].user,
+                                        onPress: widget.onPressAvatar,
+                                        onLongPress: widget.onLongPressAvatar,
+                                        avatarBuilder: widget.avatarBuilder,
+                                      )
+                                    : SizedBox(
+                                        width: 40.0,
+                                      ),
                               ),
                               GestureDetector(
                                 onLongPress: () {
-                                  if (onLongPressMessage != null) {
-                                    onLongPressMessage(messages[i]);
+                                  if (widget.onLongPressMessage != null) {
+                                    widget
+                                        .onLongPressMessage(widget.messages[i]);
                                   } else {
                                     showBottomSheet(
                                         context: context,
@@ -199,7 +210,8 @@ class MessageListView extends StatelessWidget {
                                                     onTap: () {
                                                       Clipboard.setData(
                                                           ClipboardData(
-                                                              text: messages[i]
+                                                              text: widget
+                                                                  .messages[i]
                                                                   .text));
                                                       Navigator.pop(context);
                                                     },
@@ -209,34 +221,37 @@ class MessageListView extends StatelessWidget {
                                             ));
                                   }
                                 },
-                                child: messageBuilder != null
-                                    ? messageBuilder(messages[i])
+                                child: widget.messageBuilder != null
+                                    ? widget.messageBuilder(widget.messages[i])
                                     : MessageContainer(
-                                        isUser:
-                                            messages[i].user.uid == user.uid,
-                                        message: messages[i],
-                                        timeFormat: timeFormat,
+                                        isUser: widget.messages[i].user.uid ==
+                                            widget.user.uid,
+                                        message: widget.messages[i],
+                                        timeFormat: widget.timeFormat,
                                         messageImageBuilder:
-                                            messageImageBuilder,
-                                        messageTextBuilder: messageTextBuilder,
-                                        messageTimeBuilder: messageTimeBuilder,
+                                            widget.messageImageBuilder,
+                                        messageTextBuilder:
+                                            widget.messageTextBuilder,
+                                        messageTimeBuilder:
+                                            widget.messageTimeBuilder,
                                         messageContainerDecoration:
-                                            messageContainerDecoration,
-                                        parsePatterns: parsePatterns,
+                                            widget.messageContainerDecoration,
+                                        parsePatterns: widget.parsePatterns,
                                       ),
                               ),
-                              if (showuserAvatar)
+                              if (widget.showuserAvatar)
                                 Padding(
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 10.0),
-                                  child: ((showAvatarForEverMessage ||
+                                  child: ((widget.showAvatarForEverMessage ||
                                               showAvatar) &&
-                                          messages[i].user.uid == user.uid)
+                                          widget.messages[i].user.uid ==
+                                              widget.user.uid)
                                       ? AvatarContainer(
-                                          user: messages[i].user,
-                                          onPress: onPressAvatar,
-                                          onLongPress: onLongPressAvatar,
-                                          avatarBuilder: avatarBuilder,
+                                          user: widget.messages[i].user,
+                                          onPress: widget.onPressAvatar,
+                                          onLongPress: widget.onLongPressAvatar,
+                                          avatarBuilder: widget.avatarBuilder,
                                         )
                                       : SizedBox(
                                           width: 40.0,
@@ -254,13 +269,13 @@ class MessageListView extends StatelessWidget {
                   },
                 ),
                 AnimatedPositioned(
-                  top: showLoadMore ? 8.0 : -50.0,
+                  top: widget.showLoadMore ? 8.0 : -50.0,
                   duration: Duration(milliseconds: 200),
-                  child: showLoadEarlierWidget != null
-                      ? showLoadEarlierWidget()
+                  child: widget.showLoadEarlierWidget != null
+                      ? widget.showLoadEarlierWidget()
                       : LoadEarlierWidget(
-                          onLoadEarlier: onLoadEarlier,
-                          defaultLoadCallback: defaultLoadCallback,
+                          onLoadEarlier: widget.onLoadEarlier,
+                          defaultLoadCallback: widget.defaultLoadCallback,
                         ),
                 ),
               ],
