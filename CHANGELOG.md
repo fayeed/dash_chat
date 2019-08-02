@@ -1,3 +1,7 @@
+## [1.0.0]
+
+- Minor fixes and first release
+
 ## [0.1.6]
 
 - LoadEarlier Widget functionality added

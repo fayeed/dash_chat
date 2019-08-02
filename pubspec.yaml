@@ -1,8 +1,8 @@
 name: dash_chat
-description: A new Flutter package project.
-version: 0.1.6
-author:
-homepage:
+description: The most complete Chat UI for flutter.
+version: 1.0.0
+author: "fayeed <fayeed@live.com>"
+homepage: https://github.com/fayeed/dash_chat
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
