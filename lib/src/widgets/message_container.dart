@@ -67,7 +67,9 @@ class MessageContainer extends StatelessWidget {
             : BoxDecoration(
                 color: message.user.containerColor != null
                     ? message.user.containerColor
-                    : isUser ? Theme.of(context).accentColor : Colors.white70,
+                    : isUser
+                        ? Theme.of(context).accentColor
+                        : Color.fromRGBO(225, 225, 225, 1),
                 borderRadius: BorderRadius.circular(5.0),
               ),
         margin: EdgeInsets.only(
@@ -75,6 +77,7 @@ class MessageContainer extends StatelessWidget {
         ),
         padding: EdgeInsets.all(8.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             if (messageTextBuilder != null)
@@ -84,9 +87,10 @@ class MessageContainer extends StatelessWidget {
                 parse: parsePatterns,
                 text: message.text,
                 style: TextStyle(
-                    color: message.user.color != null
-                        ? message.user.color
-                        : isUser ? Colors.white70 : Colors.black87),
+                  color: message.user.color != null
+                      ? message.user.color
+                      : isUser ? Colors.white70 : Colors.black87,
+                ),
               ),
             if (message.image != null)
               if (messageImageBuilder != null)
@@ -94,8 +98,10 @@ class MessageContainer extends StatelessWidget {
               else
                 Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Image.network(
-                    message.image,
+                  child: FadeInImage.memoryNetwork(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    placeholder: kTransparentImage,
+                    image: message.image,
                   ),
                 ),
             if (messageTimeBuilder != null)
@@ -105,12 +111,19 @@ class MessageContainer extends StatelessWidget {
                     : DateFormat('HH:mm:ss').format(message.createdAt),
               )
             else
-              Text(
-                timeFormat != null
-                    ? timeFormat.format(message.createdAt)
-                    : DateFormat('HH:mm:ss').format(message.createdAt),
-                style: TextStyle(fontSize: 8.0, color: Colors.white),
-              )
+              Padding(
+                  padding: EdgeInsets.only(top: 5.0),
+                  child: Text(
+                    timeFormat != null
+                        ? timeFormat.format(message.createdAt)
+                        : DateFormat('HH:mm:ss').format(message.createdAt),
+                    style: TextStyle(
+                      fontSize: 10.0,
+                      color: message.user.color != null
+                          ? message.user.color
+                          : isUser ? Colors.white70 : Colors.black87,
+                    ),
+                  ))
           ],
         ),
       ),

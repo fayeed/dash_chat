@@ -11,7 +11,7 @@
 
 To use this package, add `dash_chat` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
 
-### Features  🔮
+### Features 🔮
 
 - Fully customizable components
 - Copy messages to clipboard

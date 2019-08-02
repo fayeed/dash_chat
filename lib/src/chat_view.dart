@@ -403,8 +403,9 @@ class DashChatState extends State<DashChat> {
               visible: visible,
               showLoadMore: showLoadMore,
             ),
-            if (widget.messages[widget.messages.length - 1].user.uid !=
-                widget.user.uid)
+            if (widget.messages.length != 0 &&
+                widget.messages[widget.messages.length - 1].user.uid !=
+                    widget.user.uid)
               Container(
                 constraints: BoxConstraints(maxHeight: 100.0),
                 width: MediaQuery.of(context).size.width,
