@@ -31,43 +31,101 @@ class _MyHomePageState extends State<MyHomePage> {
     name: "Fayeed",
     uid: "123456789",
     avatar: "https://www.wrappixel.com/ampleadmin/assets/images/users/4.jpg",
-    color: Colors.white,
-    containerColor: Colors.pinkAccent,
   );
 
   final ChatUser otherUser = ChatUser(
     name: "Mrfatty",
     uid: "25649654",
     avatar: "",
-    color: Colors.white,
-    containerColor: Colors.green,
   );
 
   List<ChatMessage> messages = List<ChatMessage>();
+  var m = List<ChatMessage>();
+
+  var i = 0;
 
   @override
   void initState() {
-    var d1 = DateTime.utc(2019, 7, 22);
-    var d2 = DateTime.utc(2019, 7, 23);
-    var d3 = DateTime.utc(2019, 7, 24);
-
-    messages.add(ChatMessage(text: "How are you?", user: user, createdAt: d1));
-    messages.add(ChatMessage(text: "Hi", user: otherUser, createdAt: d2));
-    messages
-        .add(ChatMessage(text: "I am fine", user: otherUser, createdAt: d2));
-    messages.add(ChatMessage(
-        text: "Good some freetime wanna meet?",
-        user: otherUser,
-        createdAt: d2));
-    messages.add(ChatMessage(
-        text: "When do you want to meet tommorrow?",
-        user: user,
-        createdAt: d3));
-    messages.add(
+    m.addAll([
+      ChatMessage(text: "Hi", user: otherUser, createdAt: DateTime.now()),
       ChatMessage(
-        text: "Ok, great meet you there fayeed@live.com",
+        text: "How are you?",
         user: otherUser,
-        createdAt: d3,
+        createdAt: DateTime.now(),
+        quickReplies: QuickReplies(
+          values: <Reply>[
+            Reply(
+              title: "Great, What about you",
+              value: "Great, What about you",
+            ),
+            Reply(
+              title: "I am good, How are you",
+              value: "I am good, How are you",
+            ),
+          ],
+        ),
+      ),
+      ChatMessage(
+        text: "I am fine",
+        user: otherUser,
+        createdAt: DateTime.now(),
+        quickReplies: QuickReplies(
+          values: <Reply>[
+            Reply(
+              title: "Where are you travelling too",
+              value: "Where are you travelling too",
+            ),
+            Reply(
+              title: "When do you want to meet",
+              value: "When do you want to meet",
+            ),
+          ],
+        ),
+      ),
+      ChatMessage(
+        text: "Paris",
+        user: otherUser,
+        createdAt: DateTime.now(),
+        quickReplies: QuickReplies(
+          values: <Reply>[
+            Reply(
+              title: "Can you send a pic later",
+              value: "Can you send a pic later",
+            ),
+            Reply(
+              title: "Send me pic of Eiffel tower",
+              value: "Send me pic of Eiffel tower",
+            ),
+          ],
+        ),
+      ),
+      ChatMessage(
+        text: "",
+        image:
+            "https://amp.insider.com/images/58d919eaf2d0331b008b4bbd-750-562.jpg",
+        user: otherUser,
+        createdAt: DateTime.now(),
+        quickReplies: QuickReplies(
+          values: <Reply>[
+            Reply(
+              title: "Looks awesome",
+              value: "Looks awesome",
+            ),
+            Reply(
+              title: "Cool",
+              value: "Cool",
+            ),
+            Reply(
+              title: "Wow 😲",
+              value: "Wow 😲",
+            ),
+          ],
+        ),
+      ),
+      ChatMessage(
+        text: "Message you in a bit",
+        user: otherUser,
+        createdAt: DateTime.now(),
         quickReplies: QuickReplies(
           values: <Reply>[
             Reply(
@@ -88,19 +146,45 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-      ),
-    );
+      )
+    ]);
 
     super.initState();
   }
 
+  void systemMessage() {
+    Timer(Duration(milliseconds: 300), () {
+      if (i < 6) {
+        setState(() {
+          messages = [...messages, m[i]];
+        });
+        i++;
+      }
+      Timer(Duration(milliseconds: 300), () {
+        _chatViewKey.currentState.scrollController
+          ..animateTo(
+            _chatViewKey.currentState.scrollController.position.maxScrollExtent,
+            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 300),
+          );
+      });
+    });
+  }
+
   void onSend(ChatMessage message) {
-    print(message.user.uid);
     setState(() {
-      // messages.add(message);
       messages = [...messages, message];
       print(messages.length);
     });
+
+    if (i == 0) {
+      systemMessage();
+      Timer(Duration(milliseconds: 600), () {
+        systemMessage();
+      });
+    } else {
+      systemMessage();
+    }
   }
 
   @override
@@ -114,10 +198,9 @@ class _MyHomePageState extends State<MyHomePage> {
         inverted: false,
         onSend: onSend,
         user: user,
-        maxInputLength: 80,
         inputDecoration:
             InputDecoration.collapsed(hintText: "Add message here..."),
-        dateFormat: DateFormat('yyyy-MM-dd'),
+        dateFormat: DateFormat('yyyy-MMM-dd'),
         timeFormat: DateFormat('HH:mm'),
         messages: messages,
         showUserAvatar: false,
@@ -128,14 +211,14 @@ class _MyHomePageState extends State<MyHomePage> {
         onLongPressAvatar: (ChatUser user) {
           print("OnLongPressAvatar: ${user.name}");
         },
-        /*  messageContainerDecoration: BoxDecoration(
-           color: Colors.green,
-         ), */
-        inputMaxLines: 2,
-        messageContainerPadding: EdgeInsets.all(5.0),
+        inputMaxLines: 5,
+        messageContainerPadding: EdgeInsets.only(left: 5.0, right: 5.0),
         alwaysShowSend: true,
         inputTextStyle: TextStyle(fontSize: 16.0),
-        inputContainerStyle: BoxDecoration(border: Border.all(width: 0.0)),
+        inputContainerStyle: BoxDecoration(
+          border: Border.all(width: 0.0),
+          color: Colors.white,
+        ),
         onQuickReply: (Reply reply) {
           setState(() {
             messages.add(ChatMessage(
@@ -143,12 +226,39 @@ class _MyHomePageState extends State<MyHomePage> {
 
             messages = [...messages];
           });
+
+          Timer(Duration(milliseconds: 300), () {
+            _chatViewKey.currentState.scrollController
+              ..animateTo(
+                _chatViewKey
+                    .currentState.scrollController.position.maxScrollExtent,
+                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 300),
+              );
+
+            if (i == 0) {
+              systemMessage();
+              Timer(Duration(milliseconds: 600), () {
+                systemMessage();
+              });
+            } else {
+              systemMessage();
+            }
+          });
         },
-        quickReplyStyle: BoxDecoration(),
-        quickReplyTextStyle: TextStyle(),
-        quickReplyBuilder: (Reply reply) {
-          return Text(reply.value);
+        onLoadEarlier: () {
+          print("laoding...");
         },
+        shouldShowLoadEarlier: true,
+        showTraillingBeforeSend: true,
+        trailing: <Widget>[
+          IconButton(
+            icon: Icon(Icons.photo),
+            onPressed: () {
+              print("object");
+            },
+          )
+        ],
       ),
     );
   }
