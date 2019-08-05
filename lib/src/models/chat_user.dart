@@ -29,7 +29,7 @@ class ChatUser {
     this.uid = uid != null ? uid : Uuid().v4().toString();
   }
 
-  ChatUser.fromJson(Map<String, dynamic> json) {
+  ChatUser.fromJson(Map<dynamic, dynamic> json) {
     uid = json['uid'];
     name = json['name'];
     avatar = json['avatar'];

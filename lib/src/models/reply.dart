@@ -21,7 +21,7 @@ class Reply {
     this.messageId = messageId != null ? messageId : Uuid().v4().toString();
   }
 
-  Reply.fromJson(Map<String, dynamic> json) {
+  Reply.fromJson(Map<dynamic, dynamic> json) {
     title = json['title'];
     value = json['value'];
     messageId = json['messageId'];

@@ -1,3 +1,7 @@
+## [1.0.4]
+
+- Models updated
+
 ## [1.0.3]
 
 - Small fixes to the InputToolbar and ChatMessage class

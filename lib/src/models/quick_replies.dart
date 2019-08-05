@@ -14,7 +14,7 @@ class QuickReplies {
     this.values = const <Reply>[],
   });
 
-  QuickReplies.fromJson(Map<String, dynamic> json) {
+  QuickReplies.fromJson(Map<dynamic, dynamic> json) {
     keepIt = json['keepIt'] != null ? json['keepIt'] : null;
 
     if (json['values'] != null) {

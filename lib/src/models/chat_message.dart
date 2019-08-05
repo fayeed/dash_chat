@@ -51,14 +51,16 @@ class ChatMessage {
             : Uuid().v4().toString();
   }
 
-  ChatMessage.fromJson(Map<String, dynamic> json) {
+  ChatMessage.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     text = json['text'];
     image = json['image'];
     vedio = json['vedio'];
     createdAt = DateTime.fromMillisecondsSinceEpoch(json['createdAt']);
     user = ChatUser.fromJson(json['user']);
-    quickReplies = QuickReplies.fromJson(json['quickReplies']);
+    quickReplies = json['quickReplies'] != null
+        ? QuickReplies.fromJson(json['quickReplies'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
