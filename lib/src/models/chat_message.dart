@@ -50,4 +50,31 @@ class ChatMessage {
             ? messageIdGenerator()
             : Uuid().v4().toString();
   }
+
+  ChatMessage.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    text = json['text'];
+    image = json['image'];
+    vedio = json['vedio'];
+    createdAt = json['createdAt'];
+    user = ChatUser.fromJson(json['user']);
+    quickReplies = QuickReplies.fromJson(json['quickReplies']);
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+
+    try {
+      data['id'] = this.id;
+      data['text'] = this.text;
+      data['image'] = this.image;
+      data['vedio'] = this.vedio;
+      data['createdAt'] = this.createdAt;
+      data['user'] = user.toJson();
+      data['quickReplies'] = quickReplies.toJson();
+    } catch (e) {
+      print(e);
+    }
+    return data;
+  }
 }

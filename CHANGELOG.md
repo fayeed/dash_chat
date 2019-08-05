@@ -1,3 +1,7 @@
+## [1.0.2]
+
+- ChatMessage serialization added
+
 ## [1.0.1]
 
 - Description updated and small fix
