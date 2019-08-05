@@ -102,8 +102,8 @@ class ChatInputToolbar extends StatelessWidget {
               ),
               if (showTraillingBeforeSend) ...trailling,
               if (sendButtonBuilder != null)
-                sendButtonBuilder(() {
-                  onSend(message);
+                sendButtonBuilder(() async {
+                  await onSend(message);
 
                   controller.text = "";
                 })
@@ -111,8 +111,8 @@ class ChatInputToolbar extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.send),
                   onPressed: alwaysShowSend || text.length != 0
-                      ? () {
-                          onSend(message);
+                      ? () async {
+                          await onSend(message);
 
                           controller.text = "";
 

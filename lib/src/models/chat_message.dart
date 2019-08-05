@@ -56,7 +56,7 @@ class ChatMessage {
     text = json['text'];
     image = json['image'];
     vedio = json['vedio'];
-    createdAt = json['createdAt'];
+    createdAt = DateTime.fromMillisecondsSinceEpoch(json['createdAt']);
     user = ChatUser.fromJson(json['user']);
     quickReplies = QuickReplies.fromJson(json['quickReplies']);
   }
@@ -69,7 +69,7 @@ class ChatMessage {
       data['text'] = this.text;
       data['image'] = this.image;
       data['vedio'] = this.vedio;
-      data['createdAt'] = this.createdAt;
+      data['createdAt'] = this.createdAt.millisecondsSinceEpoch;
       data['user'] = user.toJson();
       data['quickReplies'] = quickReplies.toJson();
     } catch (e) {

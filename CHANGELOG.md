@@ -1,3 +1,8 @@
+## [1.0.3]
+
+- Small fixes to the InputToolbar and ChatMessage class
+
+
 ## [1.0.2]
 
 - ChatMessage serialization added
