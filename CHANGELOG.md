@@ -1,3 +1,10 @@
+## [1.0.5]
+
+- Fixed an issue where `scrollToBottom` widget was not disabled.
+- Fixed an issue where message container was not resized properly based on screen width.
+- Fixed a performance issue when scroll down.
+- Fixed an issue where `onLoadEarlier` was being called every time the listview moved.
+
 ## [1.0.4]
 
 - Models updated

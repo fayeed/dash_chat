@@ -78,10 +78,12 @@ class ChatInputToolbar extends StatelessWidget {
                     onChanged: (value) {
                       onTextChange(value);
                     },
-                    buildCounter: (BuildContext context,
-                            {int currentLength,
-                            int maxLength,
-                            bool isFocused}) =>
+                    buildCounter: (
+                      BuildContext context, {
+                      int currentLength,
+                      int maxLength,
+                      bool isFocused,
+                    }) =>
                         null,
                     decoration: inputDecoration != null
                         ? inputDecoration
@@ -116,7 +118,7 @@ class ChatInputToolbar extends StatelessWidget {
 
                           controller.text = "";
 
-                          Timer(Duration(milliseconds: 300), () {
+                          Timer(Duration(milliseconds: 700), () {
                             scrollController.animateTo(
                               scrollController.position.maxScrollExtent,
                               curve: Curves.easeOut,

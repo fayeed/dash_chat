@@ -290,22 +290,22 @@ class DashChatState extends State<DashChat> {
       visible = value;
     });
 
-    if (this._overlayEntry == null) {
+    if (this._overlayEntry == null && widget.scrollToBottom) {
       height = inputKey.currentContext.size.height;
       this._overlayEntry = this._createOverlayEntry(height);
-    }
 
-    if (value) {
-      Timer(Duration(milliseconds: 120), () {
+      if (value) {
+        Timer(Duration(milliseconds: 120), () {
+          try {
+            Overlay.of(context).insert(this._overlayEntry);
+          } catch (e) {}
+        });
+      } else {
         try {
-          Overlay.of(context).insert(this._overlayEntry);
+          this._overlayEntry.remove();
+          this._overlayEntry = null;
         } catch (e) {}
-      });
-    } else {
-      try {
-        this._overlayEntry.remove();
-        this._overlayEntry = null;
-      } catch (e) {}
+      }
     }
   }
 
@@ -334,7 +334,9 @@ class DashChatState extends State<DashChat> {
             });
           }
         } else {
-          if (widget.onLoadEarlier != null) {
+          if (scrollController.offset <=
+                  scrollController.position.minScrollExtent &&
+              !scrollController.position.outOfRange) {
             widget.onLoadEarlier();
           }
         }
