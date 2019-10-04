@@ -1,4 +1,4 @@
-package com.example.example;
+package com.example.dash_chat_tutorial;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
