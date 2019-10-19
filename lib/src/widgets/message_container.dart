@@ -55,7 +55,7 @@ class MessageContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.8,
+        maxWidth: MediaQuery.of(context).size.width * 0.79,
       ),
       child: Container(
         decoration: messageContainerDecoration != null
@@ -114,18 +114,19 @@ class MessageContainer extends StatelessWidget {
               )
             else
               Padding(
-                  padding: EdgeInsets.only(top: 5.0),
-                  child: Text(
-                    timeFormat != null
-                        ? timeFormat.format(message.createdAt)
-                        : DateFormat('HH:mm:ss').format(message.createdAt),
-                    style: TextStyle(
-                      fontSize: 10.0,
-                      color: message.user.color != null
-                          ? message.user.color
-                          : isUser ? Colors.white70 : Colors.black87,
-                    ),
-                  ))
+                padding: EdgeInsets.only(top: 5.0),
+                child: Text(
+                  timeFormat != null
+                      ? timeFormat.format(message.createdAt)
+                      : DateFormat('HH:mm:ss').format(message.createdAt),
+                  style: TextStyle(
+                    fontSize: 10.0,
+                    color: message.user.color != null
+                        ? message.user.color
+                        : isUser ? Colors.white70 : Colors.black87,
+                  ),
+                ),
+              )
           ],
         ),
       ),

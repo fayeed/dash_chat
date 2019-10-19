@@ -1,3 +1,8 @@
+## [1.0.6]
+
+- Change the default message container size to fix the overflowing of text.
+- Added a new feature to close the keyboard if tap anywhere else on the screen.
+
 ## [1.0.5]
 
 - Fixed an issue where `scrollToBottom` widget was not disabled.
