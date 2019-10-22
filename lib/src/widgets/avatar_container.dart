@@ -41,8 +41,8 @@ class AvatarContainer extends StatelessWidget {
               children: <Widget>[
                 ClipOval(
                   child: Container(
-                    height: 40.0,
-                    width: 40.0,
+                    height: MediaQuery.of(context).size.width * 0.08,
+                    width: MediaQuery.of(context).size.width * 0.08,
                     color: Colors.grey,
                     child: Center(child: Text(user.name[0])),
                   ),
@@ -54,8 +54,8 @@ class AvatarContainer extends StatelessWidget {
                             image: user.avatar,
                             placeholder: kTransparentImage,
                             fit: BoxFit.contain,
-                            height: 40.0,
-                            width: 40.0,
+                            height: MediaQuery.of(context).size.width * 0.08,
+                            width: MediaQuery.of(context).size.width * 0.08,
                           ),
                         ),
                       )

@@ -198,8 +198,18 @@ class DashChat extends StatefulWidget {
   /// or used as a callback when the listView reaches the top
   final Function onLoadEarlier;
 
+  /// Padding for the default input toolbar
+  /// by default it padding is set 0.0
+  final EdgeInsets inputToolbarPadding;
+
+  /// Margin for the default input toolbar
+  /// by default it padding is set 0.0
+  final EdgeInsets inputToolbarMargin;
+
   DashChat({
     Key key,
+    this.inputToolbarMargin = const EdgeInsets.all(0.0),
+    this.inputToolbarPadding = const EdgeInsets.all(0.0),
     this.shouldShowLoadEarlier = false,
     this.showLoadEarlierWidget,
     this.onLoadEarlier,
@@ -458,6 +468,8 @@ class DashChatState extends State<DashChat> {
                   ),
                 ChatInputToolbar(
                   key: inputKey,
+                  inputToolbarPadding: widget.inputToolbarPadding,
+                  inputToolbarMargin: widget.inputToolbarMargin,
                   showTraillingBeforeSend: widget.showTraillingBeforeSend,
                   inputMaxLines: widget.inputMaxLines,
                   controller: _controller,

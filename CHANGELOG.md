@@ -1,3 +1,8 @@
+## [1.0.7]
+
+- Made the default avatar responsive.
+- Two new property `inputToolbarPadding` & `inputToolbarMargin` added.
+
 ## [1.0.6]
 
 - Change the default message container size to fix the overflowing of text.

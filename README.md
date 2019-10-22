@@ -139,6 +139,8 @@ ChatMessage(
 - `shouldShowLoadEarlier` (bool) - Should the LoadEarlier Floating widget be shown or use load as you scroll scheme whcih will call the onLoadEarlier defaults to false which is this scheme.
 - `showLoadEarlierWidget` (Widget Function()) - Override the default behaviour of the onScrollToBottom Widget.
 - `onLoadEarlier` (Function) - Override the default behaviour of the onLoadEarleir Widget or used as a callback when the listView reaches the top.
+- `inputToolbarPadding` (EdgeInsets) - Can be used to add padding to the input toolbar.
+- `inputToolbarMargin` (EdgeInsets) - Can be used to add margin to the input toolbar.
 
 ## Credits  👨🏻‍💻
 - Transparent Image - [Brian Egan](https://github.com/brianegan)

@@ -23,6 +23,8 @@ class ChatInputToolbar extends StatelessWidget {
   final ScrollController scrollController;
   final bool showTraillingBeforeSend;
   final FocusNode focusNode;
+  final EdgeInsets inputToolbarPadding;
+  final EdgeInsets inputToolbarMargin;
 
   ChatInputToolbar({
     Key key,
@@ -48,6 +50,8 @@ class ChatInputToolbar extends StatelessWidget {
     this.inputFooterBuilder,
     this.sendButtonBuilder,
     this.showTraillingBeforeSend = true,
+    this.inputToolbarPadding = const EdgeInsets.all(0.0),
+    this.inputToolbarMargin = const EdgeInsets.all(0.0),
   }) : super(key: key);
 
   @override
@@ -60,6 +64,8 @@ class ChatInputToolbar extends StatelessWidget {
     );
 
     return Container(
+      padding: inputToolbarPadding,
+      margin: inputToolbarMargin,
       decoration: inputContainerStyle != null
           ? inputContainerStyle
           : BoxDecoration(color: Colors.white),
