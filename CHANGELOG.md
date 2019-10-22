@@ -1,3 +1,7 @@
+## [1.0.8]
+
+- Made the default avatar responsive for the current user.
+
 ## [1.0.7]
 
 - Made the default avatar responsive.

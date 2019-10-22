@@ -176,7 +176,7 @@ class _MessageListViewState extends State<MessageListView> {
                                 widget.messages[i].user.uid == widget.user.uid
                                     ? MainAxisAlignment.end
                                     : MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.symmetric(
@@ -194,9 +194,13 @@ class _MessageListViewState extends State<MessageListView> {
                                         avatarBuilder: widget.avatarBuilder,
                                       )
                                     : SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.08,
+                                        width: widget.messages[i].user.uid !=
+                                                widget.user.uid
+                                            ? MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.08
+                                            : 0.0,
                                       ),
                               ),
                               GestureDetector(
@@ -250,8 +254,10 @@ class _MessageListViewState extends State<MessageListView> {
                               ),
                               if (widget.showuserAvatar)
                                 Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 10.0),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          MediaQuery.of(context).size.width *
+                                              0.02),
                                   child: ((widget.showAvatarForEverMessage ||
                                               showAvatar) &&
                                           widget.messages[i].user.uid ==
@@ -263,7 +269,13 @@ class _MessageListViewState extends State<MessageListView> {
                                           avatarBuilder: widget.avatarBuilder,
                                         )
                                       : SizedBox(
-                                          width: 40.0,
+                                          width: widget.messages[i].user.uid ==
+                                                  widget.user.uid
+                                              ? MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.08
+                                              : 0.0,
                                         ),
                                 )
                               else
