@@ -1,3 +1,7 @@
+## [1.0.9]
+
+- ScrollController not attached issue fixed.
+
 ## [1.0.8]
 
 - Made the default avatar responsive for the current user.
