@@ -276,7 +276,7 @@ class DashChat extends StatefulWidget {
 class DashChatState extends State<DashChat> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode inputFocusNode = FocusNode();
-  final ScrollController scrollController = ScrollController();
+  ScrollController scrollController;
   String _text = "";
   bool visible = false;
   OverlayEntry _overlayEntry;
@@ -327,6 +327,8 @@ class DashChatState extends State<DashChat> {
 
   @override
   void initState() {
+    scrollController = widget.scrollController ?? ScrollController();
+
     Timer(Duration(milliseconds: 500), () {
       scrollController.jumpTo(scrollController.position.maxScrollExtent);
 
