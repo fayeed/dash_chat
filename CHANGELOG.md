@@ -1,3 +1,7 @@
+## [1.0.10]
+
+- Updated dependency intl to `0.16.0`.
+
 ## [1.0.9]
 
 - ScrollController not attached issue fixed.
