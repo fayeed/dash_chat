@@ -220,8 +220,10 @@ class DashChat extends StatefulWidget {
     this.quickReplyStyle,
     this.quickReplyTextStyle,
     this.quickReplyBuilder,
-    this.messageContainerPadding =
-        const EdgeInsets.only(top: 10.0, left: 2.0, right: 2.0),
+    this.messageContainerPadding = const EdgeInsets.only(
+      left: 2.0,
+      right: 2.0,
+    ),
     this.scrollController,
     this.inputCursorColor,
     this.inputCursorWidth = 2.0,
@@ -310,12 +312,12 @@ class DashChatState extends State<DashChat> {
             Overlay.of(context).insert(this._overlayEntry);
           } catch (e) {}
         });
-      } else {
-        try {
-          this._overlayEntry.remove();
-          this._overlayEntry = null;
-        } catch (e) {}
       }
+    } else {
+      try {
+        this._overlayEntry.remove();
+        this._overlayEntry = null;
+      } catch (e) {}
     }
   }
 
