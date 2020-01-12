@@ -1,3 +1,10 @@
+## [1.0.11]
+
+- Fixed an issue where `dateFormat` property was not working.
+- Fixed an issue where input value was not cleared.
+- Fixed an issue where the whole screen incluing the input was scrollable.
+- Few improvemnets to Bottom Scroll Button.
+
 ## [1.0.10]
 
 - Updated dependency intl to `0.16.0`.
