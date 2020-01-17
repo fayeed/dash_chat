@@ -4,6 +4,7 @@ class ChatInputToolbar extends StatelessWidget {
   final TextEditingController controller;
   final TextStyle inputTextStyle;
   final InputDecoration inputDecoration;
+  final TextCapitalization textCapitalization;
   final BoxDecoration inputContainerStyle;
   final List<Widget> leading;
   final List<Widget> trailling;
@@ -36,6 +37,7 @@ class ChatInputToolbar extends StatelessWidget {
     this.leading = const [],
     this.trailling = const [],
     this.inputDecoration,
+    this.textCapitalization = TextCapitalization.none,
     this.inputTextStyle,
     this.inputContainerStyle,
     this.inputMaxLines = 1,
@@ -97,6 +99,7 @@ class ChatInputToolbar extends StatelessWidget {
                             hintText: "",
                             fillColor: Colors.white,
                           ),
+                    textCapitalization: textCapitalization,
                     controller: controller,
                     style: inputTextStyle,
                     maxLength: maxInputLength,
