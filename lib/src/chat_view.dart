@@ -477,6 +477,7 @@ class DashChatState extends State<DashChat> {
               inputMaxLines: widget.inputMaxLines,
               controller: _controller,
               inputDecoration: widget.inputDecoration,
+              textCapitalization: widget.textCapitalization,
               onSend: widget.onSend,
               user: widget.user,
               messageIdGenerator: widget.messageIdGenerator,
