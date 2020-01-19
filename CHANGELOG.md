@@ -1,3 +1,7 @@
+## [1.0.12]
+
+- `textCapitalization` property added for Input Toolbar.
+
 ## [1.0.11]
 
 - Fixed an issue where `dateFormat` property was not working.
@@ -41,7 +45,6 @@
 ## [1.0.3]
 
 - Small fixes to the InputToolbar and ChatMessage class
-
 
 ## [1.0.2]
 
