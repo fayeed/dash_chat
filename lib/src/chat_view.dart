@@ -32,6 +32,11 @@ class DashChat extends StatefulWidget {
   /// "Add Message here...".
   final InputDecoration inputDecoration;
 
+  ///Configures how the platform keyboard will select an uppercase or lowercase keyboard.
+  ///Only supports text keyboards, other keyboard types will ignore this configuration. Capitalization is locale-aware.
+  ///Defaults to [TextCapitalization.none]. Must not be null.
+  final TextCapitalization textCapitalization;
+
   /// Usually new message added by the user gets [Uuid] String
   /// Can be override by proving this parameter
   final String Function() messageIdGenerator;
@@ -241,6 +246,7 @@ class DashChat extends StatefulWidget {
     this.onTextChange,
     this.text,
     this.inputDecoration,
+    this.textCapitalization,
     this.alwaysShowSend = false,
     this.messageIdGenerator,
     this.dateFormat,
@@ -471,6 +477,7 @@ class DashChatState extends State<DashChat> {
               inputMaxLines: widget.inputMaxLines,
               controller: _controller,
               inputDecoration: widget.inputDecoration,
+              textCapitalization: widget.textCapitalization,
               onSend: widget.onSend,
               user: widget.user,
               messageIdGenerator: widget.messageIdGenerator,
