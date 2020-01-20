@@ -1,3 +1,7 @@
+## [1.0.13]
+
+- `textCapitalization` property null error.
+
 ## [1.0.12]
 
 - `textCapitalization` property added for Input Toolbar.

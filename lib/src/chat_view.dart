@@ -246,7 +246,7 @@ class DashChat extends StatefulWidget {
     this.onTextChange,
     this.text,
     this.inputDecoration,
-    this.textCapitalization,
+    this.textCapitalization = TextCapitalization.none,
     this.alwaysShowSend = false,
     this.messageIdGenerator,
     this.dateFormat,

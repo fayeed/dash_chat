@@ -37,7 +37,7 @@ class ChatInputToolbar extends StatelessWidget {
     this.leading = const [],
     this.trailling = const [],
     this.inputDecoration,
-    this.textCapitalization = TextCapitalization.none,
+    this.textCapitalization,
     this.inputTextStyle,
     this.inputContainerStyle,
     this.inputMaxLines = 1,
