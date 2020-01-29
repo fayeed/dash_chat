@@ -18,6 +18,10 @@ class DashChat extends StatefulWidget {
   /// Takes a [List] of [ChatMessage]
   final List<ChatMessage> messages;
 
+  /// If provided, this text editing controller will be used for
+  /// the text input.
+  final TextEditingController textController;
+
   /// If provided will stop using the default controller
   /// i.e [TextEditingController] and will use this to update the
   /// text input field.
@@ -245,6 +249,7 @@ class DashChat extends StatefulWidget {
     @required this.messages,
     this.onTextChange,
     this.text,
+    this.textController,
     this.inputDecoration,
     this.textCapitalization = TextCapitalization.none,
     this.alwaysShowSend = false,
@@ -282,8 +287,8 @@ class DashChat extends StatefulWidget {
 }
 
 class DashChatState extends State<DashChat> {
-  final TextEditingController _controller = TextEditingController();
   final FocusNode inputFocusNode = FocusNode();
+  TextEditingController textController;
   ScrollController scrollController;
   String _text = "";
   bool visible = false;
@@ -344,6 +349,7 @@ class DashChatState extends State<DashChat> {
   @override
   void initState() {
     scrollController = widget.scrollController ?? ScrollController();
+    textController = widget.textController ?? TextEditingController();
 
     Timer(Duration(milliseconds: 500), () {
       scrollController.jumpTo(scrollController.position.maxScrollExtent);
@@ -475,7 +481,7 @@ class DashChatState extends State<DashChat> {
               inputToolbarMargin: widget.inputToolbarMargin,
               showTraillingBeforeSend: widget.showTraillingBeforeSend,
               inputMaxLines: widget.inputMaxLines,
-              controller: _controller,
+              controller: textController,
               inputDecoration: widget.inputDecoration,
               textCapitalization: widget.textCapitalization,
               onSend: widget.onSend,
