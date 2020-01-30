@@ -1,3 +1,7 @@
+## [1.0.14]
+
+- `textController` property added.
+
 ## [1.0.13]
 
 - `textCapitalization` property null error.
