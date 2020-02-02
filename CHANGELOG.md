@@ -1,3 +1,7 @@
+## [1.0.15]
+
+- If `inverted` is true, it will no longer scroll.
+
 ## [1.0.14]
 
 - `textController` property added.
