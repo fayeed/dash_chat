@@ -73,9 +73,11 @@ class ChatMessage {
       data['video'] = this.video;
       data['createdAt'] = this.createdAt.millisecondsSinceEpoch;
       data['user'] = user.toJson();
-      data['quickReplies'] = quickReplies.toJson();
-    } catch (e) {
+      data['quickReplies'] = quickReplies?.toJson();
+    } catch (e, stack) {
+      print('ERROR caught when trying to convert ChatMessage to JSON:');
       print(e);
+      print(stack);
     }
     return data;
   }
