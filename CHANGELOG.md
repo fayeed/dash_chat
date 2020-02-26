@@ -1,3 +1,11 @@
+## [1.0.16]
+
+- removed unnecessary print from the `message_listview`
+
+- changed 'vedio' field to 'video'
+
+- nullpointer on parsing quick replies; more detailed error reporting for ChatMessage parsing
+
 ## [1.0.15]
 
 - If `inverted` is true, it will no longer scroll.
