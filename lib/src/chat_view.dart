@@ -170,6 +170,10 @@ class DashChat extends StatefulWidget {
   /// will pass [Reply] as a paramter to function.
   final Function(Reply) onQuickReply;
 
+  /// Padding for the quick reply area
+  /// by default it padding is set 0.0
+  final EdgeInsetsGeometry quickReplyPadding;
+
   /// Container style for the QuickReply Container [BoxDecoration].
   final BoxDecoration quickReplyStyle;
 
@@ -226,6 +230,7 @@ class DashChat extends StatefulWidget {
     this.scrollToBottomWidget,
     this.onScrollToBottomPress,
     this.onQuickReply,
+    this.quickReplyPadding = const EdgeInsets.all(0),
     this.quickReplyStyle,
     this.quickReplyTextStyle,
     this.quickReplyBuilder,
@@ -352,7 +357,8 @@ class DashChatState extends State<DashChat> {
     textController = widget.textController ?? TextEditingController();
 
     Timer(Duration(milliseconds: 500), () {
-      double initPos = widget.inverted ? 0.0 : scrollController.position.maxScrollExtent;
+      double initPos =
+          widget.inverted ? 0.0 : scrollController.position.maxScrollExtent;
       scrollController.jumpTo(initPos);
 
       scrollController.addListener(() {
@@ -445,6 +451,7 @@ class DashChatState extends State<DashChat> {
                 widget.messages[widget.messages.length - 1].user.uid !=
                     widget.user.uid)
               Container(
+                padding: widget.quickReplyPadding,
                 constraints: BoxConstraints(maxHeight: 100.0),
                 width: MediaQuery.of(context).size.width,
                 child: Wrap(
