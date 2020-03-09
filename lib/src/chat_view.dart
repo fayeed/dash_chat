@@ -179,6 +179,9 @@ class DashChat extends StatefulWidget {
   /// quickReplyBuilder will override the the default QuickReply Widget.
   final Widget Function(Reply) quickReplyBuilder;
 
+  /// Should quick reply be horizontally scrollable
+  final bool quickReplyScroll;
+
   /// Should the [trailling] Widgets be shown before the send button
   /// As default it will be shown before the send button.
   final bool showTraillingBeforeSend;
@@ -229,6 +232,7 @@ class DashChat extends StatefulWidget {
     this.quickReplyStyle,
     this.quickReplyTextStyle,
     this.quickReplyBuilder,
+    this.quickReplyScroll = false,
     this.messageContainerPadding = const EdgeInsets.only(
       left: 2.0,
       right: 2.0,
@@ -352,7 +356,8 @@ class DashChatState extends State<DashChat> {
     textController = widget.textController ?? TextEditingController();
 
     Timer(Duration(milliseconds: 500), () {
-      double initPos = widget.inverted ? 0.0 : scrollController.position.maxScrollExtent;
+      double initPos =
+          widget.inverted ? 0.0 : scrollController.position.maxScrollExtent;
       scrollController.jumpTo(initPos);
 
       scrollController.addListener(() {
@@ -441,40 +446,7 @@ class DashChatState extends State<DashChat> {
               visible: visible,
               showLoadMore: showLoadMore,
             ),
-            if (widget.messages.length != 0 &&
-                widget.messages[widget.messages.length - 1].user.uid !=
-                    widget.user.uid)
-              Container(
-                constraints: BoxConstraints(maxHeight: 100.0),
-                width: MediaQuery.of(context).size.width,
-                child: Wrap(
-                  children: <Widget>[
-                    if (widget.messages[widget.messages.length - 1]
-                            .quickReplies !=
-                        null)
-                      ...widget.messages[widget.messages.length - 1]
-                          .quickReplies.values
-                          .sublist(
-                              0,
-                              widget.messages[widget.messages.length - 1]
-                                          .quickReplies.values.length <=
-                                      3
-                                  ? widget.messages[widget.messages.length - 1]
-                                      .quickReplies.values.length
-                                  : 3)
-                          .map(
-                            (reply) => QuickReply(
-                              reply: reply,
-                              onReply: widget.onQuickReply,
-                              quickReplyBuilder: widget.quickReplyBuilder,
-                              quickReplyStyle: widget.quickReplyStyle,
-                              quickReplyTextStyle: widget.quickReplyTextStyle,
-                            ),
-                          )
-                          .toList(),
-                  ],
-                ),
-              ),
+            _buildQuickReplies(),
             if (widget.chatFooterBuilder != null) widget.chatFooterBuilder(),
             ChatInputToolbar(
               key: inputKey,
@@ -513,4 +485,47 @@ class DashChatState extends State<DashChat> {
       ),
     );
   }
+
+  Widget _buildQuickReplies() {
+    Widget quickReplies = SizedBox.shrink();
+    if (widget.messages.length != 0 &&
+        widget.messages.last.user.uid != widget.user.uid &&
+        widget.messages.last.quickReplies != null) {
+      quickReplies = Container(
+        constraints:
+            BoxConstraints(maxHeight: widget.quickReplyScroll ? 50.0 : 100.0),
+        width:
+            widget.quickReplyScroll ? null : MediaQuery.of(context).size.width,
+        child: widget.quickReplyScroll
+            ? ListView(
+                scrollDirection: Axis.horizontal,
+                children: widget.messages.last.quickReplies.values
+                    .map(_mapReply)
+                    .toList(),
+              )
+            : Wrap(
+                children: <Widget>[
+                  ...widget.messages.last.quickReplies.values
+                      .sublist(
+                          0,
+                          widget.messages.last.quickReplies.values.length <= 3
+                              ? widget.messages.last.quickReplies.values.length
+                              : 3)
+                      .map(_mapReply)
+                      .toList(),
+                ],
+              ),
+      );
+    }
+
+    return quickReplies;
+  }
+
+  QuickReply _mapReply(Reply reply) => QuickReply(
+        reply: reply,
+        onReply: widget.onQuickReply,
+        quickReplyBuilder: widget.quickReplyBuilder,
+        quickReplyStyle: widget.quickReplyStyle,
+        quickReplyTextStyle: widget.quickReplyTextStyle,
+      );
 }
