@@ -497,6 +497,7 @@ class DashChatState extends State<DashChat> {
         widget.messages.last.user.uid != widget.user.uid &&
         widget.messages.last.quickReplies != null) {
       quickReplies = Container(
+        padding: widget.quickReplyPadding,
         constraints:
             BoxConstraints(maxHeight: widget.quickReplyScroll ? 50.0 : 100.0),
         width:
