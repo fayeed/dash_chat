@@ -98,8 +98,6 @@ class _MessageListViewState extends State<MessageListView> {
   Widget build(BuildContext context) {
     DateTime currentDate;
 
-    print(widget.dateFormat != null);
-
     return Flexible(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),

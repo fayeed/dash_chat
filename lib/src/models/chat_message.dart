@@ -27,7 +27,7 @@ class ChatMessage {
 
   /// A [non-optional] parameter which is used to display vedio
   /// takes a [Sring] as a url
-  String vedio;
+  String video;
 
   /// A [non-optional] parameter which is used to show quick replies
   /// to the user
@@ -38,7 +38,7 @@ class ChatMessage {
     @required this.text,
     @required this.user,
     this.image,
-    this.vedio,
+    this.video,
     this.quickReplies,
     String Function() messageIdGenerator,
     DateTime createdAt,
@@ -55,7 +55,7 @@ class ChatMessage {
     id = json['id'];
     text = json['text'];
     image = json['image'];
-    vedio = json['vedio'];
+    video = json['video'] ?? json['vedio'];
     createdAt = DateTime.fromMillisecondsSinceEpoch(json['createdAt']);
     user = ChatUser.fromJson(json['user']);
     quickReplies = json['quickReplies'] != null
@@ -70,12 +70,14 @@ class ChatMessage {
       data['id'] = this.id;
       data['text'] = this.text;
       data['image'] = this.image;
-      data['vedio'] = this.vedio;
+      data['video'] = this.video;
       data['createdAt'] = this.createdAt.millisecondsSinceEpoch;
       data['user'] = user.toJson();
-      data['quickReplies'] = quickReplies.toJson();
-    } catch (e) {
+      data['quickReplies'] = quickReplies?.toJson();
+    } catch (e, stack) {
+      print('ERROR caught when trying to convert ChatMessage to JSON:');
       print(e);
+      print(stack);
     }
     return data;
   }
