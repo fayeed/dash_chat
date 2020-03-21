@@ -296,7 +296,6 @@ class DashChatState extends State<DashChat> {
   GlobalKey inputKey = GlobalKey();
   double height = 48.0;
   bool showLoadMore = false;
-
   String get messageInput => _text;
 
   void onTextChange(String text) {
@@ -350,6 +349,7 @@ class DashChatState extends State<DashChat> {
   void initState() {
     scrollController = widget.scrollController ?? ScrollController();
     textController = widget.textController ?? TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback(widgetBuilt);
     super.initState();
   }
 
@@ -398,7 +398,6 @@ class DashChatState extends State<DashChat> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback(widgetBuilt);
     return SingleChildScrollView(
       physics: ClampingScrollPhysics(),
       child: Container(
