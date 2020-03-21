@@ -350,34 +350,6 @@ class DashChatState extends State<DashChat> {
   void initState() {
     scrollController = widget.scrollController ?? ScrollController();
     textController = widget.textController ?? TextEditingController();
-
-    Timer(Duration(milliseconds: 500), () {
-      double initPos = widget.inverted ? 0.0 : scrollController.position.maxScrollExtent;
-      scrollController.jumpTo(initPos);
-
-      scrollController.addListener(() {
-        if (widget.shouldShowLoadEarlier) {
-          if (scrollController.offset <=
-                  scrollController.position.minScrollExtent &&
-              !scrollController.position.outOfRange) {
-            setState(() {
-              showLoadMore = true;
-            });
-          } else {
-            setState(() {
-              showLoadMore = false;
-            });
-          }
-        } else {
-          if (scrollController.offset <=
-                  scrollController.position.minScrollExtent &&
-              !scrollController.position.outOfRange) {
-            widget.onLoadEarlier();
-          }
-        }
-      });
-    });
-
     super.initState();
   }
 
@@ -396,8 +368,37 @@ class DashChatState extends State<DashChat> {
     );
   }
 
+  void widgetBuilt(Duration d) {
+    double initPos =
+        widget.inverted ? 0.0 : scrollController.position.maxScrollExtent;
+    scrollController.jumpTo(initPos);
+
+    scrollController.addListener(() {
+      if (widget.shouldShowLoadEarlier) {
+        if (scrollController.offset <=
+                scrollController.position.minScrollExtent &&
+            !scrollController.position.outOfRange) {
+          setState(() {
+            showLoadMore = true;
+          });
+        } else {
+          setState(() {
+            showLoadMore = false;
+          });
+        }
+      } else {
+        if (scrollController.offset <=
+                scrollController.position.minScrollExtent &&
+            !scrollController.position.outOfRange) {
+          widget.onLoadEarlier();
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback(widgetBuilt);
     return SingleChildScrollView(
       physics: ClampingScrollPhysics(),
       child: Container(
