@@ -22,6 +22,9 @@ class DashChat extends StatefulWidget {
   /// the text input.
   final TextEditingController textController;
 
+  /// If provided, this focus node will be used for the text input.
+  final FocusNode focusNode;
+
   /// If provided will stop using the default controller
   /// i.e [TextEditingController] and will use this to update the
   /// text input field.
@@ -250,6 +253,7 @@ class DashChat extends StatefulWidget {
     this.onTextChange,
     this.text,
     this.textController,
+    this.focusNode,
     this.inputDecoration,
     this.textCapitalization = TextCapitalization.none,
     this.alwaysShowSend = false,
@@ -287,7 +291,7 @@ class DashChat extends StatefulWidget {
 }
 
 class DashChatState extends State<DashChat> {
-  final FocusNode inputFocusNode = FocusNode();
+  FocusNode inputFocusNode;
   TextEditingController textController;
   ScrollController scrollController;
   String _text = "";
@@ -350,6 +354,7 @@ class DashChatState extends State<DashChat> {
   void initState() {
     scrollController = widget.scrollController ?? ScrollController();
     textController = widget.textController ?? TextEditingController();
+    inputFocusNode = widget.focusNode ?? FocusNode();
 
     Timer(Duration(milliseconds: 500), () {
       double initPos = widget.inverted ? 0.0 : scrollController.position.maxScrollExtent;
