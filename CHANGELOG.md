@@ -1,3 +1,11 @@
+## [1.0.17]
+
+- Ability to set custom focus node for input.
+
+- Removed SingleChildScrollView from root.
+
+- Added `WidgetsBinding.instance.addPostFrameCallback` to prevent scrolling before the messages are built.
+
 ## [1.0.16]
 
 - removed unnecessary print from the `message_listview`
