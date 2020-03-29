@@ -25,6 +25,13 @@ class DashChat extends StatefulWidget {
   /// If provided, this focus node will be used for the text input.
   final FocusNode focusNode;
 
+  /// Use to change the direction of the text ltr is used for
+  /// launguages that start from left like English &
+  /// rtl is used for languages like Arabic
+  ///
+  /// Defaults to `TextDirection.ltr`
+  final TextDirection inputTextDirection;
+
   /// If provided will stop using the default controller
   /// i.e [TextEditingController] and will use this to update the
   /// text input field.
@@ -220,6 +227,7 @@ class DashChat extends StatefulWidget {
 
   DashChat({
     Key key,
+    this.inputTextDirection = TextDirection.ltr,
     this.inputToolbarMargin = const EdgeInsets.all(0.0),
     this.inputToolbarPadding = const EdgeInsets.all(0.0),
     this.shouldShowLoadEarlier = false,
@@ -482,6 +490,7 @@ class DashChatState extends State<DashChat> {
           ChatInputToolbar(
             key: inputKey,
             inputToolbarPadding: widget.inputToolbarPadding,
+            textDirection: widget.inputTextDirection,
             inputToolbarMargin: widget.inputToolbarMargin,
             showTraillingBeforeSend: widget.showTraillingBeforeSend,
             inputMaxLines: widget.inputMaxLines,

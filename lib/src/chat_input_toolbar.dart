@@ -26,9 +26,11 @@ class ChatInputToolbar extends StatelessWidget {
   final FocusNode focusNode;
   final EdgeInsets inputToolbarPadding;
   final EdgeInsets inputToolbarMargin;
+  final TextDirection textDirection;
 
   ChatInputToolbar({
     Key key,
+    this.textDirection = TextDirection.ltr,
     this.focusNode,
     this.scrollController,
     this.text,
@@ -81,33 +83,36 @@ class ChatInputToolbar extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: TextField(
-                    focusNode: focusNode,
-                    onChanged: (value) {
-                      onTextChange(value);
-                    },
-                    buildCounter: (
-                      BuildContext context, {
-                      int currentLength,
-                      int maxLength,
-                      bool isFocused,
-                    }) =>
-                        null,
-                    decoration: inputDecoration != null
-                        ? inputDecoration
-                        : InputDecoration.collapsed(
-                            hintText: "",
-                            fillColor: Colors.white,
-                          ),
-                    textCapitalization: textCapitalization,
-                    controller: controller,
-                    style: inputTextStyle,
-                    maxLength: maxInputLength,
-                    minLines: 1,
-                    maxLines: inputMaxLines,
-                    showCursor: showInputCursor,
-                    cursorColor: inputCursorColor,
-                    cursorWidth: inputCursorWidth,
+                  child: Directionality(
+                    textDirection: textDirection,
+                    child: TextField(
+                      focusNode: focusNode,
+                      onChanged: (value) {
+                        onTextChange(value);
+                      },
+                      buildCounter: (
+                        BuildContext context, {
+                        int currentLength,
+                        int maxLength,
+                        bool isFocused,
+                      }) =>
+                          null,
+                      decoration: inputDecoration != null
+                          ? inputDecoration
+                          : InputDecoration.collapsed(
+                              hintText: "",
+                              fillColor: Colors.white,
+                            ),
+                      textCapitalization: textCapitalization,
+                      controller: controller,
+                      style: inputTextStyle,
+                      maxLength: maxInputLength,
+                      minLines: 1,
+                      maxLines: inputMaxLines,
+                      showCursor: showInputCursor,
+                      cursorColor: inputCursorColor,
+                      cursorWidth: inputCursorWidth,
+                    ),
                   ),
                 ),
               ),

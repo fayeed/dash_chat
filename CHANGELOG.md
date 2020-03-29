@@ -1,3 +1,7 @@
+## [1.0.18]
+
+- `inputTextDirection` property added.
+
 ## [1.0.17]
 
 - Ability to set custom focus node for input.
