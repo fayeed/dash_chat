@@ -519,6 +519,7 @@ class DashChatState extends State<DashChat> {
                 ? widget.scrollController
                 : scrollController,
             focusNode: inputFocusNode,
+            reverse: widget.inverted
           )
         ],
       ),
