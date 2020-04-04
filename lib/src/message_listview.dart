@@ -114,6 +114,15 @@ class _MessageListViewState extends State<MessageListView> {
                   reverse: widget.inverted,
                   itemCount: widget.messages.length,
                   itemBuilder: (context, i) {
+                   
+                    Timer(Duration(milliseconds: 300), () {
+                              widget.scrollController.animateTo(
+                                widget.scrollController.position.maxScrollExtent,
+                                curve: Curves.easeOut,
+                                duration: const Duration(milliseconds: 100),
+                              );
+                            });
+                    
                     final j = i + 1;
                     bool showAvatar = false;
                     bool first = false;
