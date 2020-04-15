@@ -1,3 +1,8 @@
+## [1.0.19]
+
+- Fixed issue #51
+- fix scroll to top when inverted and send
+
 ## [1.0.18]
 
 - `inputTextDirection` property added.
