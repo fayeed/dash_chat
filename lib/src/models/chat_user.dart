@@ -33,8 +33,8 @@ class ChatUser {
     uid = json['uid'];
     name = json['name'];
     avatar = json['avatar'];
-    containerColor = json['containerColor'];
-    color = json['color'];
+    containerColor = Color(json['containerColor']);
+    color = Color(json['color']);
   }
 
   Map<String, dynamic> toJson() {
@@ -43,8 +43,8 @@ class ChatUser {
     data['uid'] = uid;
     data['name'] = name;
     data['avatar'] = avatar;
-    data['containerColor'] = containerColor;
-    data['color'] = color;
+    data['containerColor'] = containerColor.value;
+    data['color'] = color.value;
 
     return data;
   }
