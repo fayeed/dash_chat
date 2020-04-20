@@ -1,3 +1,8 @@
+## [1.0.20]
+
+- `customProperties` property added to ChatMessgae class.
+- Color serialization error fixed.
+
 ## [1.0.19]
 
 - Fixed issue #51
