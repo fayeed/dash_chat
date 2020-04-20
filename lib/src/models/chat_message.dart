@@ -33,6 +33,10 @@ class ChatMessage {
   /// to the user
   QuickReplies quickReplies;
 
+  /// Allows to set custom-properties that could help with implementing custom
+  /// functionality to dashchat.
+  Map<String, dynamic> customProperties;
+
   ChatMessage({
     String id,
     @required this.text,
@@ -42,6 +46,7 @@ class ChatMessage {
     this.quickReplies,
     String Function() messageIdGenerator,
     DateTime createdAt,
+    this.customProperties,
   }) {
     this.createdAt = createdAt != null ? createdAt : DateTime.now();
     this.id = id != null
@@ -61,6 +66,7 @@ class ChatMessage {
     quickReplies = json['quickReplies'] != null
         ? QuickReplies.fromJson(json['quickReplies'])
         : null;
+    customProperties = json['customProperties'] as Map<String, dynamic>;
   }
 
   Map<String, dynamic> toJson() {
@@ -74,6 +80,7 @@ class ChatMessage {
       data['createdAt'] = this.createdAt.millisecondsSinceEpoch;
       data['user'] = user.toJson();
       data['quickReplies'] = quickReplies?.toJson();
+      data['customProperties'] = this.customProperties;
     } catch (e, stack) {
       print('ERROR caught when trying to convert ChatMessage to JSON:');
       print(e);

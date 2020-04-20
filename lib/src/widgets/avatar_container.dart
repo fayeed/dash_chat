@@ -32,8 +32,8 @@ class AvatarContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onPress(user),
-      onLongPress: () => onLongPress(user),
+      onTap: () => onPress != null ? onPress(user) : null,
+      onLongPress: () => onLongPress != null ? onLongPress(user) : null,
       child: avatarBuilder != null
           ? avatarBuilder(user)
           : Stack(
@@ -65,13 +65,3 @@ class AvatarContainer extends StatelessWidget {
     );
   }
 }
-
-// CircleAvatar(
-//               backgroundImage: user.avatar == "" || user.avatar == null
-//                   ? null
-//                   : NetworkImage(user.avatar),
-//               child: user.avatar == "" || user.avatar == null
-//                   ? Text(user.name[0].toUpperCase())
-//                   : null,
-//               radius: 20.0,
-//             )
