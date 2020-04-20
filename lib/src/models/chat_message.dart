@@ -37,6 +37,10 @@ class ChatMessage {
   /// functionality to dashchat.
   Map<String, dynamic> customProperties;
 
+  /// Allows to set buttons that could help with implementing custom
+  /// actions in message container.
+  List<Widget> buttons;
+
   ChatMessage({
     String id,
     @required this.text,
@@ -47,6 +51,7 @@ class ChatMessage {
     String Function() messageIdGenerator,
     DateTime createdAt,
     this.customProperties,
+    this.buttons
   }) {
     this.createdAt = createdAt != null ? createdAt : DateTime.now();
     this.id = id != null

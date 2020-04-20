@@ -30,6 +30,7 @@ class MessageListView extends StatefulWidget {
   final Widget Function() showLoadEarlierWidget;
   final Function onLoadEarlier;
   final Function(bool) defaultLoadCallback;
+  final List<Widget> Function() messageButtonsBuilder;
 
   MessageListView({
     this.showLoadEarlierWidget,
@@ -62,6 +63,7 @@ class MessageListView extends StatefulWidget {
     this.changeVisible,
     this.visible,
     this.showLoadMore,
+    this.messageButtonsBuilder
   });
 
   @override
@@ -266,6 +268,8 @@ class _MessageListViewState extends State<MessageListView> {
                                           messageContainerDecoration:
                                               widget.messageContainerDecoration,
                                           parsePatterns: widget.parsePatterns,
+                                          buttons: widget.messages[i].buttons,
+                                          messageButtonsBuilder: widget.messageButtonsBuilder,
                                         ),
                                 ),
                                 if (widget.showuserAvatar)
