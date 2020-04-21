@@ -423,7 +423,7 @@ class DashChatState extends State<DashChat> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final maxWidth = constraints.maxWidth == double.infinity ? MediaQuery.of(context).size.width : constraints.maxWidth;
-        final maxHeight = constraints.maxWidth == double.infinity ? MediaQuery.of(context).size.height : constraints.maxWidth;
+        final maxHeight = constraints.maxWidth == double.infinity ? MediaQuery.of(context).size.height : constraints.maxHeight;
         return Container(
         height: widget.height != null
             ? widget.height
