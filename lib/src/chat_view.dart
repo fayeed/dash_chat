@@ -66,6 +66,13 @@ class DashChat extends StatefulWidget {
   /// Usually it will only become active if some text is entered.
   final bool alwaysShowSend;
 
+  /// Should the message be sent by hitting enter on web or text input action
+  /// Can be useful for tablet or web usage
+  final bool sendOnEnter;
+
+  /// Input action of the keyboard
+  final TextInputAction textInputAction;
+
   /// [DateFormat] object for formatting date to show in [MessageListView]
   /// defaults to `HH:mm:ss`.
   final DateFormat dateFormat;
@@ -233,6 +240,8 @@ class DashChat extends StatefulWidget {
     this.shouldShowLoadEarlier = false,
     this.showLoadEarlierWidget,
     this.onLoadEarlier,
+    this.sendOnEnter = false,
+    this.textInputAction,
     this.scrollToBottom = true,
     this.scrollToBottomWidget,
     this.onScrollToBottomPress,
@@ -489,6 +498,8 @@ class DashChatState extends State<DashChat> {
           if (widget.chatFooterBuilder != null) widget.chatFooterBuilder(),
           ChatInputToolbar(
             key: inputKey,
+            sendOnEnter: widget.sendOnEnter,
+            textInputAction: widget.textInputAction,
             inputToolbarPadding: widget.inputToolbarPadding,
             textDirection: widget.inputTextDirection,
             inputToolbarMargin: widget.inputToolbarMargin,
