@@ -228,7 +228,7 @@ class DashChat extends StatefulWidget {
   /// [messageButtonsBuilder] function takes a function with this
   /// structure [List<Widget> Function()] to render the buttons inside
   /// a row.
-  final List<Widget> Function() messageButtonsBuilder;
+  final List<Widget> Function(ChatMessage) messageButtonsBuilder;
 
   DashChat({
     Key key,

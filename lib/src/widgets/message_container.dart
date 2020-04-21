@@ -47,7 +47,7 @@ class MessageContainer extends StatelessWidget {
   /// [messageButtonsBuilder] function takes a function with this
   /// structure [List<Widget> Function()] to render the buttons inside
   /// a row.
-  final List<Widget> Function() messageButtonsBuilder;
+  final List<Widget> Function(ChatMessage) messageButtonsBuilder;
 
   const MessageContainer({
     @required this.message,
@@ -117,16 +117,16 @@ class MessageContainer extends StatelessWidget {
                     image: message.image,
                   ),
                 ),
-            if(messageButtonsBuilder != null)
+            if(buttons != null)
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: messageButtonsBuilder(),
+                children: buttons,
               )
-            else
+            else if(messageButtonsBuilder != null)
               Row(crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: buttons,
+              children: messageButtonsBuilder(message),
               ),
             if (messageTimeBuilder != null)
               messageTimeBuilder(

@@ -30,7 +30,7 @@ class MessageListView extends StatefulWidget {
   final Widget Function() showLoadEarlierWidget;
   final Function onLoadEarlier;
   final Function(bool) defaultLoadCallback;
-  final List<Widget> Function() messageButtonsBuilder;
+  final List<Widget> Function(ChatMessage) messageButtonsBuilder;
 
   MessageListView({
     this.showLoadEarlierWidget,
