@@ -22,15 +22,21 @@ class AvatarContainer extends StatelessWidget {
   /// [Widget Function(ChatUser)] to build the avatar
   final Widget Function(ChatUser) avatarBuilder;
 
+  /// [constraints] to apply to build the layout
+  /// by default used MediaQuery and take screen size as constaints
+  final BoxConstraints constraints;
+
   const AvatarContainer({
     @required this.user,
     this.onPress,
     this.onLongPress,
     this.avatarBuilder,
+    this.constraints,
   });
 
   @override
   Widget build(BuildContext context) {
+    final constraints = this.constraints ?? BoxConstraints(maxHeight: MediaQuery.of(context).size.height, maxWidth: MediaQuery.of(context).size.width);
     return GestureDetector(
       onTap: () => onPress != null ? onPress(user) : null,
       onLongPress: () => onLongPress != null ? onLongPress(user) : null,
@@ -41,8 +47,8 @@ class AvatarContainer extends StatelessWidget {
               children: <Widget>[
                 ClipOval(
                   child: Container(
-                    height: MediaQuery.of(context).size.width * 0.08,
-                    width: MediaQuery.of(context).size.width * 0.08,
+                    height: constraints.maxWidth * 0.08,
+                    width: constraints.maxWidth * 0.08,
                     color: Colors.grey,
                     child: Center(child: Text(user.name[0])),
                   ),
@@ -54,8 +60,8 @@ class AvatarContainer extends StatelessWidget {
                             image: user.avatar,
                             placeholder: kTransparentImage,
                             fit: BoxFit.contain,
-                            height: MediaQuery.of(context).size.width * 0.08,
-                            width: MediaQuery.of(context).size.width * 0.08,
+                            height: constraints.maxWidth * 0.08,
+                            width: constraints.maxWidth * 0.08,
                           ),
                         ),
                       )

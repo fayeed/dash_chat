@@ -40,9 +40,13 @@ class MessageContainer extends StatelessWidget {
   /// A flag which is used for assiging styles
   final bool isUser;
 
+  /// Constraint to use to build the message layout
+  final BoxConstraints constraints;
+
   const MessageContainer({
     @required this.message,
     @required this.timeFormat,
+    this.constraints,
     this.messageImageBuilder,
     this.messageTextBuilder,
     this.messageTimeBuilder,
@@ -53,23 +57,20 @@ class MessageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final constraints = this.constraints ?? BoxConstraints(maxHeight: MediaQuery.of(context).size.height, maxWidth: MediaQuery.of(context).size.width);
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.8,
+        maxWidth: constraints.maxWidth * 0.8,
       ),
       child: Container(
         decoration: messageContainerDecoration != null
             ? messageContainerDecoration.copyWith(
-                color: message.user.containerColor != null
-                    ? message.user.containerColor
-                    : messageContainerDecoration.color,
+                color: message.user.containerColor != null ? message.user.containerColor : messageContainerDecoration.color,
               )
             : BoxDecoration(
                 color: message.user.containerColor != null
                     ? message.user.containerColor
-                    : isUser
-                        ? Theme.of(context).accentColor
-                        : Color.fromRGBO(225, 225, 225, 1),
+                    : isUser ? Theme.of(context).accentColor : Color.fromRGBO(225, 225, 225, 1),
                 borderRadius: BorderRadius.circular(5.0),
               ),
         margin: EdgeInsets.only(
@@ -87,9 +88,7 @@ class MessageContainer extends StatelessWidget {
                 parse: parsePatterns,
                 text: message.text,
                 style: TextStyle(
-                  color: message.user.color != null
-                      ? message.user.color
-                      : isUser ? Colors.white70 : Colors.black87,
+                  color: message.user.color != null ? message.user.color : isUser ? Colors.white70 : Colors.black87,
                 ),
               ),
             if (message.image != null)
@@ -99,8 +98,8 @@ class MessageContainer extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: FadeInImage.memoryNetwork(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: constraints.maxHeight * 0.3,
+                    width: constraints.maxWidth * 0.7,
                     fit: BoxFit.contain,
                     placeholder: kTransparentImage,
                     image: message.image,
@@ -108,22 +107,16 @@ class MessageContainer extends StatelessWidget {
                 ),
             if (messageTimeBuilder != null)
               messageTimeBuilder(
-                timeFormat != null
-                    ? timeFormat.format(message.createdAt)
-                    : DateFormat('HH:mm:ss').format(message.createdAt),
+                timeFormat != null ? timeFormat.format(message.createdAt) : DateFormat('HH:mm:ss').format(message.createdAt),
               )
             else
               Padding(
                 padding: EdgeInsets.only(top: 5.0),
                 child: Text(
-                  timeFormat != null
-                      ? timeFormat.format(message.createdAt)
-                      : DateFormat('HH:mm:ss').format(message.createdAt),
+                  timeFormat != null ? timeFormat.format(message.createdAt) : DateFormat('HH:mm:ss').format(message.createdAt),
                   style: TextStyle(
                     fontSize: 10.0,
-                    color: message.user.color != null
-                        ? message.user.color
-                        : isUser ? Colors.white70 : Colors.black87,
+                    color: message.user.color != null ? message.user.color : isUser ? Colors.white70 : Colors.black87,
                   ),
                 ),
               )
