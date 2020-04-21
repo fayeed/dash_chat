@@ -59,7 +59,7 @@ class AvatarContainer extends StatelessWidget {
                           child: FadeInImage.memoryNetwork(
                             image: user.avatar,
                             placeholder: kTransparentImage,
-                            fit: BoxFit.contain,
+                            fit: BoxFit.cover,
                             height: constraints.maxWidth * 0.08,
                             width: constraints.maxWidth * 0.08,
                           ),
