@@ -15,17 +15,17 @@ class MessageContainer extends StatelessWidget {
   /// [messageTextBuilder] function takes a function with this
   /// structure [Widget Function(String)] to render the text inside
   /// the container.
-  final Widget Function(String) messageTextBuilder;
+  final Widget Function(String, [ChatMessage]) messageTextBuilder;
 
   /// [messageImageBuilder] function takes a function with this
   /// structure [Widget Function(String)] to render the image inside
   /// the container.
-  final Widget Function(String) messageImageBuilder;
+  final Widget Function(String, [ChatMessage]) messageImageBuilder;
 
   /// [messageTimeBuilder] function takes a function with this
   /// structure [Widget Function(String)] to render the time text inside
   /// the container.
-  final Widget Function(String) messageTimeBuilder;
+  final Widget Function(String, [ChatMessage]) messageTimeBuilder;
 
   /// Provides a custom style to the message container
   /// takes [BoxDecoration]
@@ -57,7 +57,10 @@ class MessageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final constraints = this.constraints ?? BoxConstraints(maxHeight: MediaQuery.of(context).size.height, maxWidth: MediaQuery.of(context).size.width);
+    final constraints = this.constraints ??
+        BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height,
+            maxWidth: MediaQuery.of(context).size.width);
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: constraints.maxWidth * 0.8,
@@ -65,12 +68,16 @@ class MessageContainer extends StatelessWidget {
       child: Container(
         decoration: messageContainerDecoration != null
             ? messageContainerDecoration.copyWith(
-                color: message.user.containerColor != null ? message.user.containerColor : messageContainerDecoration.color,
+                color: message.user.containerColor != null
+                    ? message.user.containerColor
+                    : messageContainerDecoration.color,
               )
             : BoxDecoration(
                 color: message.user.containerColor != null
                     ? message.user.containerColor
-                    : isUser ? Theme.of(context).accentColor : Color.fromRGBO(225, 225, 225, 1),
+                    : isUser
+                        ? Theme.of(context).accentColor
+                        : Color.fromRGBO(225, 225, 225, 1),
                 borderRadius: BorderRadius.circular(5.0),
               ),
         margin: EdgeInsets.only(
@@ -82,18 +89,20 @@ class MessageContainer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             if (messageTextBuilder != null)
-              messageTextBuilder(message.text)
+              messageTextBuilder(message.text, message)
             else
               ParsedText(
                 parse: parsePatterns,
                 text: message.text,
                 style: TextStyle(
-                  color: message.user.color != null ? message.user.color : isUser ? Colors.white70 : Colors.black87,
+                  color: message.user.color != null
+                      ? message.user.color
+                      : isUser ? Colors.white70 : Colors.black87,
                 ),
               ),
             if (message.image != null)
               if (messageImageBuilder != null)
-                messageImageBuilder(message.image)
+                messageImageBuilder(message.image, message)
               else
                 Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -107,16 +116,23 @@ class MessageContainer extends StatelessWidget {
                 ),
             if (messageTimeBuilder != null)
               messageTimeBuilder(
-                timeFormat != null ? timeFormat.format(message.createdAt) : DateFormat('HH:mm:ss').format(message.createdAt),
+                timeFormat != null
+                    ? timeFormat.format(message.createdAt)
+                    : DateFormat('HH:mm:ss').format(message.createdAt),
+                message,
               )
             else
               Padding(
                 padding: EdgeInsets.only(top: 5.0),
                 child: Text(
-                  timeFormat != null ? timeFormat.format(message.createdAt) : DateFormat('HH:mm:ss').format(message.createdAt),
+                  timeFormat != null
+                      ? timeFormat.format(message.createdAt)
+                      : DateFormat('HH:mm:ss').format(message.createdAt),
                   style: TextStyle(
                     fontSize: 10.0,
-                    color: message.user.color != null ? message.user.color : isUser ? Colors.white70 : Colors.black87,
+                    color: message.user.color != null
+                        ? message.user.color
+                        : isUser ? Colors.white70 : Colors.black87,
                   ),
                 ),
               )
