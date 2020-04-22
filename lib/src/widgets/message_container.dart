@@ -40,6 +40,15 @@ class MessageContainer extends StatelessWidget {
   /// A flag which is used for assiging styles
   final bool isUser;
 
+  /// Provides a list of buttons to allow the usage of adding buttons to
+  /// the bottom of the message
+  final List<Widget> buttons;
+
+  /// [messageButtonsBuilder] function takes a function with this
+  /// structure [List<Widget> Function()] to render the buttons inside
+  /// a row.
+  final List<Widget> Function(ChatMessage) messageButtonsBuilder;
+
   /// Constraint to use to build the message layout
   final BoxConstraints constraints;
 
@@ -53,6 +62,8 @@ class MessageContainer extends StatelessWidget {
     this.messageContainerDecoration,
     this.parsePatterns = const <MatchText>[],
     this.isUser,
+    this.messageButtonsBuilder,
+    this.buttons
   });
 
   @override
@@ -114,6 +125,17 @@ class MessageContainer extends StatelessWidget {
                     image: message.image,
                   ),
                 ),
+            if(buttons != null)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: buttons,
+              )
+            else if(messageButtonsBuilder != null)
+              Row(crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: messageButtonsBuilder(message),
+              ),
             if (messageTimeBuilder != null)
               messageTimeBuilder(
                 timeFormat != null

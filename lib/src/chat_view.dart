@@ -232,6 +232,11 @@ class DashChat extends StatefulWidget {
   /// by default it padding is set 0.0
   final EdgeInsets inputToolbarMargin;
 
+  /// [messageButtonsBuilder] function takes a function with this
+  /// structure [List<Widget> Function()] to render the buttons inside
+  /// a row.
+  final List<Widget> Function(ChatMessage) messageButtonsBuilder;
+
   DashChat({
     Key key,
     this.inputTextDirection = TextDirection.ltr,
@@ -297,6 +302,7 @@ class DashChat extends StatefulWidget {
     this.messageTextBuilder,
     this.messageTimeBuilder,
     this.showTraillingBeforeSend = true,
+    this.messageButtonsBuilder
   }) : super(key: key);
 
   String getVal() {
@@ -465,6 +471,7 @@ class DashChatState extends State<DashChat> {
                 changeVisible: changeVisible,
                 visible: visible,
                 showLoadMore: showLoadMore,
+                messageButtonsBuilder: widget.messageButtonsBuilder,
               ),
               if (widget.messages.length != 0 &&
                   widget.messages[widget.messages.length - 1].user.uid !=
