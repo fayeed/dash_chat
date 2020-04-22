@@ -66,6 +66,13 @@ class DashChat extends StatefulWidget {
   /// Usually it will only become active if some text is entered.
   final bool alwaysShowSend;
 
+  /// Should the message be sent by hitting enter on web or text input action
+  /// Can be useful for tablet or web usage
+  final bool sendOnEnter;
+
+  /// Input action of the keyboard
+  final TextInputAction textInputAction;
+
   /// [DateFormat] object for formatting date to show in [MessageListView]
   /// defaults to `HH:mm:ss`.
   final DateFormat dateFormat;
@@ -109,13 +116,13 @@ class DashChat extends StatefulWidget {
   final Widget Function(ChatMessage) messageBuilder;
 
   /// messageTextBuilder will override the the default message text.
-  final Widget Function(String) messageTextBuilder;
+  final Widget Function(String, [ChatMessage]) messageTextBuilder;
 
   /// messageImageBuilder will override the the default Image.
-  final Widget Function(String url) messageImageBuilder;
+  final Widget Function(String url, [ChatMessage]) messageImageBuilder;
 
   /// messageTimeBuilder will override the the default text.
-  final Widget Function(String url) messageTimeBuilder;
+  final Widget Function(String url, [ChatMessage]) messageTimeBuilder;
 
   /// dateBuilder will override the the default time text.
   final Widget Function(String) dateBuilder;
