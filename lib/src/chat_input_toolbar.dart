@@ -27,7 +27,9 @@ class ChatInputToolbar extends StatelessWidget {
   final EdgeInsets inputToolbarPadding;
   final EdgeInsets inputToolbarMargin;
   final TextDirection textDirection;
+  final bool sendOnEnter;
   final bool reverse;
+  final TextInputAction textInputAction;
 
   ChatInputToolbar({
     Key key,
@@ -35,6 +37,8 @@ class ChatInputToolbar extends StatelessWidget {
     this.focusNode,
     this.scrollController,
     this.text,
+    this.textInputAction,
+    this.sendOnEnter = false,
     this.onTextChange,
     this.controller,
     this.leading = const [],
@@ -92,6 +96,12 @@ class ChatInputToolbar extends StatelessWidget {
                       onChanged: (value) {
                         onTextChange(value);
                       },
+                      onSubmitted: (value) {
+                        if (sendOnEnter) {
+                          _sendMessage(context, message);
+                        }
+                      },
+                      textInputAction: textInputAction,
                       buildCounter: (
                         BuildContext context, {
                         int currentLength,
@@ -133,25 +143,7 @@ class ChatInputToolbar extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.send),
                   onPressed: alwaysShowSend || text.length != 0
-                      ? () async {
-                          if (text.length != 0) {
-                            await onSend(message);
-
-                            controller.text = "";
-
-                            onTextChange("");
-
-                            Timer(Duration(milliseconds: 700), () {
-                              scrollController.animateTo(
-                                reverse
-                                    ? 0.0
-                                    : scrollController.position.maxScrollExtent,
-                                curve: Curves.easeOut,
-                                duration: const Duration(milliseconds: 300),
-                              );
-                            });
-                          }
-                        }
+                      ? () => _sendMessage(context, message)
                       : null,
                 ),
               if (!showTraillingBeforeSend) ...trailling,
@@ -161,5 +153,27 @@ class ChatInputToolbar extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _sendMessage(BuildContext context, ChatMessage message) async {
+    if (text.length != 0) {
+      await onSend(message);
+
+      controller.text = "";
+
+      onTextChange("");
+
+      FocusScope.of(context).requestFocus(focusNode);
+
+      Timer(Duration(milliseconds: 700), () {
+        scrollController.animateTo(
+          reverse
+              ? 0.0
+              : scrollController.position.maxScrollExtent,
+          curve: Curves.easeOut,
+          duration: const Duration(milliseconds: 300),
+        );
+      });
+    }
   }
 }
