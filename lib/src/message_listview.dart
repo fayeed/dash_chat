@@ -31,6 +31,7 @@ class MessageListView extends StatefulWidget {
   final Function onLoadEarlier;
   final Function(bool) defaultLoadCallback;
   final BoxConstraints constraints;
+  final List<Widget> Function(ChatMessage) messageButtonsBuilder;
 
   MessageListView({
     this.showLoadEarlierWidget,
@@ -64,6 +65,7 @@ class MessageListView extends StatefulWidget {
     this.changeVisible,
     this.visible,
     this.showLoadMore,
+    this.messageButtonsBuilder
   });
 
   @override
@@ -280,6 +282,8 @@ class _MessageListViewState extends State<MessageListView> {
                                                   .messageContainerDecoration,
                                               parsePatterns:
                                                   widget.parsePatterns,
+                                              buttons: widget.messages[i].buttons,
+                                              messageButtonsBuilder: widget.messageButtonsBuilder,
                                             ),
                                           ),
                                   ),
