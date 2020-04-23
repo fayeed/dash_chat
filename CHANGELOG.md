@@ -1,3 +1,15 @@
+## [1.1.1]
+
+- Fixed an issue where an conversion `toJson` for class `ChatUser` was crashing the app.
+
+## [1.1.0]
+
+- Ability to send message on Enter or input action keyboard.
+- `MediaQuery` replaced with `LayoutBuilder`.
+- Added optional paramter for `ChatMessage`
+- Ability to have action buttons in ChatMessages.
+- Change Avatar `Boxfit.contain` to `Boxfit.cover`.
+
 ## [1.0.20]
 
 - `customProperties` property added to ChatMessgae class.
