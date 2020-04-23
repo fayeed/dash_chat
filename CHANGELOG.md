@@ -1,3 +1,7 @@
+## [1.1.1]
+
+- Fixed an issue where an conversion `toJson` for class `ChatUser` was crashing the app.
+
 ## [1.1.0]
 
 - Ability to send message on Enter or input action keyboard.

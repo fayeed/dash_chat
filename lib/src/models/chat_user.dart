@@ -33,18 +33,24 @@ class ChatUser {
     uid = json['uid'];
     name = json['name'];
     avatar = json['avatar'];
-    containerColor = Color(json['containerColor']);
-    color = Color(json['color']);
+    containerColor =
+        json['containerColor'] != null ? Color(json['containerColor']) : null;
+    color = json['color'] != null ? Color(json['color']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
 
-    data['uid'] = uid;
-    data['name'] = name;
-    data['avatar'] = avatar;
-    data['containerColor'] = containerColor.value;
-    data['color'] = color.value;
+    try {
+      data['uid'] = uid;
+      data['name'] = name;
+      data['avatar'] = avatar;
+      data['containerColor'] =
+          containerColor != null ? containerColor.value : null;
+      data['color'] = color != null ? color.value : null;
+    } catch (e) {
+      print(e);
+    }
 
     return data;
   }
