@@ -50,7 +50,7 @@ class AvatarContainer extends StatelessWidget {
                     height: constraints.maxWidth * 0.08,
                     width: constraints.maxWidth * 0.08,
                     color: Colors.grey,
-                    child: Center(child: Text(user.name[0])),
+                    child: Center(child: Text(user.name == null || user.name.isEmpty ? '' : user.name[0])),
                   ),
                 ),
                 user.avatar != null && user.avatar.length != 0
