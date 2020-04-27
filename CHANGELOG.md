@@ -1,3 +1,9 @@
+## [1.1.2]
+
+- Correct alignmnet to message buttons.
+- Added readonly mode to dashchat which hides the inputbar.
+- Fix avatar exception when username is null.
+
 ## [1.1.1]
 
 - Fixed an issue where an conversion `toJson` for class `ChatUser` was crashing the app.
