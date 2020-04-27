@@ -128,13 +128,16 @@ class MessageContainer extends StatelessWidget {
             if(buttons != null)
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: buttons,
               )
             else if(messageButtonsBuilder != null)
-              Row(crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: messageButtonsBuilder(message),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+                children: messageButtonsBuilder(message),
+                mainAxisSize: MainAxisSize.min,
               ),
             if (messageTimeBuilder != null)
               messageTimeBuilder(
