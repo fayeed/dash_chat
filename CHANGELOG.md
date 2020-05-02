@@ -1,3 +1,7 @@
+## [1.1.3]
+
+- A small bug fixed with inverted message list.
+
 ## [1.1.2]
 
 - Correct alignmnet to message buttons.
