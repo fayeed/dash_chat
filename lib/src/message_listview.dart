@@ -65,7 +65,7 @@ class MessageListView extends StatefulWidget {
     this.changeVisible,
     this.visible,
     this.showLoadMore,
-    this.messageButtonsBuilder
+    this.messageButtonsBuilder,
   });
 
   @override
@@ -143,7 +143,8 @@ class _MessageListViewState extends State<MessageListView> {
 
                     if (currentDate == null) {
                       currentDate = widget.messages[i].createdAt;
-                      showDate = true;
+                      showDate =
+                          !widget.inverted || widget.messages.length == 1;
                     } else if (currentDate
                             .difference(widget.messages[i].createdAt)
                             .inDays !=
@@ -157,37 +158,13 @@ class _MessageListViewState extends State<MessageListView> {
                     return Align(
                       child: Column(
                         children: <Widget>[
-                          if (showDate)
-                            if (widget.dateBuilder != null)
-                              widget.dateBuilder(widget.dateBuilder != null
-                                  ? widget.dateFormat
-                                      .format(widget.messages[i].createdAt)
-                                  : DateFormat('yyyy-MM-dd')
-                                      .format(widget.messages[i].createdAt))
-                            else
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(10.0)),
-                                padding: EdgeInsets.only(
-                                  bottom: 5.0,
-                                  top: 5.0,
-                                  left: 10.0,
-                                  right: 10.0,
-                                ),
-                                margin: EdgeInsets.symmetric(vertical: 10.0),
-                                child: Text(
-                                  widget.dateFormat != null
-                                      ? widget.dateFormat
-                                          .format(widget.messages[i].createdAt)
-                                      : DateFormat('MMM dd')
-                                          .format(widget.messages[i].createdAt),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ),
+                          if (showDate &&
+                              (!widget.inverted || widget.messages.length == 1))
+                            DateBuilder(
+                              date: widget.messages[i].createdAt,
+                              customDateBuilder: widget.dateBuilder,
+                              dateFormat: widget.dateFormat,
+                            ),
                           Padding(
                             padding: EdgeInsets.only(
                               top: first ? 10.0 : 0.0,
@@ -282,8 +259,10 @@ class _MessageListViewState extends State<MessageListView> {
                                                   .messageContainerDecoration,
                                               parsePatterns:
                                                   widget.parsePatterns,
-                                              buttons: widget.messages[i].buttons,
-                                              messageButtonsBuilder: widget.messageButtonsBuilder,
+                                              buttons:
+                                                  widget.messages[i].buttons,
+                                              messageButtonsBuilder:
+                                                  widget.messageButtonsBuilder,
                                             ),
                                           ),
                                   ),
@@ -319,6 +298,14 @@ class _MessageListViewState extends State<MessageListView> {
                               ],
                             ),
                           ),
+                          if (showDate &&
+                              widget.inverted &&
+                              widget.messages.length > 1)
+                            DateBuilder(
+                              date: widget.messages[i].createdAt,
+                              customDateBuilder: widget.dateBuilder,
+                              dateFormat: widget.dateFormat,
+                            ),
                         ],
                       ),
                     );

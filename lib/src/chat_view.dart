@@ -78,11 +78,11 @@ class DashChat extends StatefulWidget {
   final TextInputAction textInputAction;
 
   /// [DateFormat] object for formatting date to show in [MessageListView]
-  /// defaults to `HH:mm:ss`.
+  /// defaults to `yyyy-MM-dd`.
   final DateFormat dateFormat;
 
   /// [DateFormat] object for formatting time to show in [MessageContainer]
-  /// defaults to `yyyy-MM-dd`.
+  /// defaults to `HH:mm:ss`.
   final DateFormat timeFormat;
 
   /// Should the user avatar be shown defaults to false and will not
