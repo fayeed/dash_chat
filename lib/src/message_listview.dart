@@ -148,7 +148,7 @@ class _MessageListViewState extends State<MessageListView> {
                     );
 
                     // Needed for inverted list
-                    DateTime previousDate = currentDate;
+                    DateTime previousDate = currentDate ?? messageDate;
 
                     if (currentDate == null) {
                       currentDate = messageDate;
