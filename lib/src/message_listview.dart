@@ -141,16 +141,23 @@ class _MessageListViewState extends State<MessageListView> {
                       last = true;
                     }
 
+                    DateTime messageDate = DateTime(
+                      widget.messages[i].createdAt.year,
+                      widget.messages[i].createdAt.month,
+                      widget.messages[i].createdAt.day,
+                    );
+
+                    // Needed for inverted list
+                    DateTime previousDate = currentDate;
+
                     if (currentDate == null) {
-                      currentDate = widget.messages[i].createdAt;
+                      currentDate = messageDate;
                       showDate =
                           !widget.inverted || widget.messages.length == 1;
-                    } else if (currentDate
-                            .difference(widget.messages[i].createdAt)
-                            .inDays !=
+                    } else if (currentDate.difference(messageDate).inDays !=
                         0) {
                       showDate = true;
-                      currentDate = widget.messages[i].createdAt;
+                      currentDate = messageDate;
                     } else {
                       showDate = false;
                     }
@@ -161,7 +168,8 @@ class _MessageListViewState extends State<MessageListView> {
                           if (showDate &&
                               (!widget.inverted || widget.messages.length == 1))
                             DateBuilder(
-                              date: widget.messages[i].createdAt,
+                              date:
+                                  widget.inverted ? previousDate : currentDate,
                               customDateBuilder: widget.dateBuilder,
                               dateFormat: widget.dateFormat,
                             ),
@@ -302,7 +310,8 @@ class _MessageListViewState extends State<MessageListView> {
                               widget.inverted &&
                               widget.messages.length > 1)
                             DateBuilder(
-                              date: widget.messages[i].createdAt,
+                              date:
+                                  widget.inverted ? previousDate : currentDate,
                               customDateBuilder: widget.dateBuilder,
                               dateFormat: widget.dateFormat,
                             ),
