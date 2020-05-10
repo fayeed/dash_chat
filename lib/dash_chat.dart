@@ -20,6 +20,7 @@ part 'src/models/chat_message.dart';
 part 'src/widgets/custom_scroll_behaviour.dart';
 part 'src/chat_input_toolbar.dart';
 part 'src/message_listview.dart';
+part 'src/widgets/date_builder.dart';
 part 'src/widgets/avatar_container.dart';
 part 'src/widgets/message_container.dart';
 part 'src/widgets/quick_reply.dart';
