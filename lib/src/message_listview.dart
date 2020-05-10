@@ -189,22 +189,20 @@ class _MessageListViewState extends State<MessageListView> {
                                   padding: EdgeInsets.symmetric(
                                     horizontal: constraints.maxWidth * 0.02,
                                   ),
-                                  child: ((widget.showAvatarForEverMessage ||
-                                              showAvatar) &&
-                                          widget.messages[i].user.uid !=
-                                              widget.user.uid)
-                                      ? AvatarContainer(
-                                          user: widget.messages[i].user,
-                                          onPress: widget.onPressAvatar,
-                                          onLongPress: widget.onLongPressAvatar,
-                                          avatarBuilder: widget.avatarBuilder,
-                                        )
-                                      : SizedBox(
-                                          width: widget.messages[i].user.uid !=
-                                                  widget.user.uid
-                                              ? constraints.maxWidth * 0.08
-                                              : 0.0,
-                                        ),
+                                  child: Opacity(
+                                    opacity: (widget.showAvatarForEverMessage ||
+                                                showAvatar) &&
+                                            widget.messages[i].user.uid !=
+                                                widget.user.uid
+                                        ? 1
+                                        : 0,
+                                    child: AvatarContainer(
+                                      user: widget.messages[i].user,
+                                      onPress: widget.onPressAvatar,
+                                      onLongPress: widget.onLongPressAvatar,
+                                      avatarBuilder: widget.avatarBuilder,
+                                    ),
+                                  ),
                                 ),
                                 Expanded(
                                   child: GestureDetector(
@@ -280,24 +278,21 @@ class _MessageListViewState extends State<MessageListView> {
                                     padding: EdgeInsets.symmetric(
                                       horizontal: constraints.maxWidth * 0.02,
                                     ),
-                                    child: ((widget.showAvatarForEverMessage ||
-                                                showAvatar) &&
-                                            widget.messages[i].user.uid ==
-                                                widget.user.uid)
-                                        ? AvatarContainer(
-                                            user: widget.messages[i].user,
-                                            onPress: widget.onPressAvatar,
-                                            onLongPress:
-                                                widget.onLongPressAvatar,
-                                            avatarBuilder: widget.avatarBuilder,
-                                          )
-                                        : SizedBox(
-                                            width: widget
-                                                        .messages[i].user.uid ==
-                                                    widget.user.uid
-                                                ? constraints.maxWidth * 0.08
-                                                : 0.0,
-                                          ),
+                                    child: Opacity(
+                                      opacity:
+                                          (widget.showAvatarForEverMessage ||
+                                                      showAvatar) &&
+                                                  widget.messages[i].user.uid ==
+                                                      widget.user.uid
+                                              ? 1
+                                              : 0,
+                                      child: AvatarContainer(
+                                        user: widget.messages[i].user,
+                                        onPress: widget.onPressAvatar,
+                                        onLongPress: widget.onLongPressAvatar,
+                                        avatarBuilder: widget.avatarBuilder,
+                                      ),
+                                    ),
                                   )
                                 else
                                   SizedBox(
