@@ -208,6 +208,8 @@ class DashChat extends StatefulWidget {
   /// default to true.
   final bool scrollToBottom;
 
+  final bool shouldStartMessagesFromTop;
+
   /// Overrides the default [scrollToBottomWidget] with a custom widget
   final Widget Function() scrollToBottomWidget;
 
@@ -307,6 +309,7 @@ class DashChat extends StatefulWidget {
     this.messageTextBuilder,
     this.messageTimeBuilder,
     this.showTraillingBeforeSend = true,
+    this.shouldStartMessagesFromTop = false,
     this.messageButtonsBuilder
   }) : super(key: key);
 
@@ -445,7 +448,7 @@ class DashChatState extends State<DashChat> {
           height: widget.height != null ? widget.height : maxHeight,
           width: widget.width != null ? widget.width : maxWidth,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: widget.shouldStartMessagesFromTop ? MainAxisAlignment.start : MainAxisAlignment.end,
             children: <Widget>[
               MessageListView(
                 constraints: constraints,
