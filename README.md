@@ -129,6 +129,7 @@ ChatMessage(
 - `inputCursorColor` (Color) - Color of the input cursor defaults to theme.
 - `scrollController` (ScrollController) - ScrollController for the MessageListView.
 - `messageContainerPadding` (EdgeInsetsGeometry) - Padding for the MessageListView.
+- `messagePadding` (EdgeInsets) - Padding for the MessageContainer.
 - `onQuickReply` (Funtion(Reply)) - Callback method when the quickReply was tapped on.
 - `quickReplyStyle` (BoxDecoration) - Container style for the QuickReply Container.
 - `quickReplyTextStyle` (TextStyle) - QuickReply text style.

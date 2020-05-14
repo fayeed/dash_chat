@@ -32,6 +32,7 @@ class MessageListView extends StatefulWidget {
   final Function(bool) defaultLoadCallback;
   final BoxConstraints constraints;
   final List<Widget> Function(ChatMessage) messageButtonsBuilder;
+  final EdgeInsets messagePadding;
 
   MessageListView({
     this.showLoadEarlierWidget,
@@ -66,6 +67,7 @@ class MessageListView extends StatefulWidget {
     this.visible,
     this.showLoadMore,
     this.messageButtonsBuilder,
+    this.messagePadding = const EdgeInsets.all(8.0),
   });
 
   @override
@@ -249,6 +251,8 @@ class _MessageListViewState extends State<MessageListView> {
                                                     ? Alignment.centerRight
                                                     : Alignment.centerLeft,
                                             child: MessageContainer(
+                                              messagePadding:
+                                                  widget.messagePadding,
                                               constraints: constraints,
                                               isUser:
                                                   widget.messages[i].user.uid ==

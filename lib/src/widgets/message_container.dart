@@ -52,6 +52,10 @@ class MessageContainer extends StatelessWidget {
   /// Constraint to use to build the message layout
   final BoxConstraints constraints;
 
+  /// Padding of the message
+  /// Default to EdgeInsets.all(8.0)
+  final EdgeInsets messagePadding;
+
   const MessageContainer({
     @required this.message,
     @required this.timeFormat,
@@ -63,7 +67,8 @@ class MessageContainer extends StatelessWidget {
     this.parsePatterns = const <MatchText>[],
     this.isUser,
     this.messageButtonsBuilder,
-    this.buttons
+    this.buttons,
+    this.messagePadding = const EdgeInsets.all(8.0),
   });
 
   @override
@@ -94,7 +99,7 @@ class MessageContainer extends StatelessWidget {
         margin: EdgeInsets.only(
           bottom: 5.0,
         ),
-        padding: EdgeInsets.all(8.0),
+        padding: messagePadding,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
