@@ -100,6 +100,18 @@ class _MessageListViewState extends State<MessageListView> {
     return true;
   }
 
+  bool shouldShowAvatar(int index) {
+    if (widget.showAvatarForEverMessage) {
+      return true;
+    }
+    if (!widget.inverted && index+1 < widget.messages.length) {
+      return widget.messages[index+1].user.uid != widget.messages[index].user.uid;
+    } else if (widget.inverted && index-1 >= 0) {
+      return widget.messages[index-1].user.uid != widget.messages[index].user.uid;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     DateTime currentDate;
@@ -125,17 +137,10 @@ class _MessageListViewState extends State<MessageListView> {
                   reverse: widget.inverted,
                   itemCount: widget.messages.length,
                   itemBuilder: (context, i) {
-                    final j = i + 1;
-                    bool showAvatar = false;
+                    bool showAvatar = shouldShowAvatar(i);
                     bool first = false;
                     bool last = false;
                     bool showDate;
-                    if (j < widget.messages.length) {
-                      showAvatar = widget.messages[j].user.uid !=
-                          widget.messages[i].user.uid;
-                    } else {
-                      showAvatar = true;
-                    }
 
                     if (widget.messages.length == 0) {
                       first = true;
