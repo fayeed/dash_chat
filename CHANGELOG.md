@@ -1,3 +1,11 @@
+## [1.1.4]
+
+- Fixed an issue with date builder and inverted list.
+- Replaced SizedBox with Opacity for User Avatar.
+- Custom Message padding property added.
+- Fixed an issue with avatar position when the list is inverted.
+- Added a new property `customProperties` to ChatUser model.
+
 ## [1.1.3]
 
 - A small bug fixed with inverted message list.
