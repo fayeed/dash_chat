@@ -1,3 +1,7 @@
+## [1.1.5]
+
+- Added a new property `shouldStartMessagesFromTop` to Dashchat.
+
 ## [1.1.4]
 
 - Fixed an issue with date builder and inverted list.
