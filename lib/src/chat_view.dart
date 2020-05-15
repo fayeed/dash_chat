@@ -243,6 +243,10 @@ class DashChat extends StatefulWidget {
   /// a row.
   final List<Widget> Function(ChatMessage) messageButtonsBuilder;
 
+  /// Padding of the message
+  /// Default to EdgeInsets.all(8.0)
+  final EdgeInsets messagePadding;
+
   DashChat({
     Key key,
     this.inputTextDirection = TextDirection.ltr,
@@ -310,7 +314,8 @@ class DashChat extends StatefulWidget {
     this.messageTimeBuilder,
     this.showTraillingBeforeSend = true,
     this.shouldStartMessagesFromTop = false,
-    this.messageButtonsBuilder
+    this.messageButtonsBuilder,
+    this.messagePadding = const EdgeInsets.all(8.0),
   }) : super(key: key);
 
   String getVal() {
@@ -451,6 +456,7 @@ class DashChatState extends State<DashChat> {
             mainAxisAlignment: widget.shouldStartMessagesFromTop ? MainAxisAlignment.start : MainAxisAlignment.end,
             children: <Widget>[
               MessageListView(
+                messagePadding: widget.messagePadding,
                 constraints: constraints,
                 shouldShowLoadEarlier: widget.shouldShowLoadEarlier,
                 showLoadEarlierWidget: widget.showLoadEarlierWidget,
