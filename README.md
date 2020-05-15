@@ -142,6 +142,7 @@ ChatMessage(
 - `onLoadEarlier` (Function) - Override the default behaviour of the onLoadEarleir Widget or used as a callback when the listView reaches the top.
 - `inputToolbarPadding` (EdgeInsets) - Can be used to add padding to the input toolbar.
 - `inputToolbarMargin` (EdgeInsets) - Can be used to add margin to the input toolbar.
+- `shouldStartMessagesFromTop` (bool) - Can be used to align messages so that it starts from top to bottom instead of the default bottom to top.
 
 ## Credits  👨🏻‍💻
 - Transparent Image - [Brian Egan](https://github.com/brianegan)
