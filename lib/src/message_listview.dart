@@ -78,25 +78,18 @@ class _MessageListViewState extends State<MessageListView> {
   double previousPixelPostion = 0.0;
 
   bool scrollNotificationFunc(ScrollNotification scrollNotification) {
-    if (previousPixelPostion == 0.0) {
-      previousPixelPostion = scrollNotification.metrics.maxScrollExtent;
-    }
+    double bottom =
+        widget.inverted ? 0.0 : scrollNotification.metrics.maxScrollExtent;
 
-    if (scrollNotification.metrics.pixels ==
-        scrollNotification.metrics.maxScrollExtent) {
+    if (scrollNotification.metrics.pixels == bottom) {
       if (widget.visible) {
         widget.changeVisible(false);
       }
-    } else {
-      if (previousPixelPostion < scrollNotification.metrics.pixels) {
-        if (!widget.visible) {
-          widget.changeVisible(true);
-        }
+    } else if ((scrollNotification.metrics.pixels - bottom).abs() > 100) {
+      if (!widget.visible) {
+        widget.changeVisible(true);
       }
-
-      previousPixelPostion = scrollNotification.metrics.pixels;
     }
-
     return true;
   }
 
@@ -104,10 +97,12 @@ class _MessageListViewState extends State<MessageListView> {
     if (widget.showAvatarForEverMessage) {
       return true;
     }
-    if (!widget.inverted && index+1 < widget.messages.length) {
-      return widget.messages[index+1].user.uid != widget.messages[index].user.uid;
-    } else if (widget.inverted && index-1 >= 0) {
-      return widget.messages[index-1].user.uid != widget.messages[index].user.uid;
+    if (!widget.inverted && index + 1 < widget.messages.length) {
+      return widget.messages[index + 1].user.uid !=
+          widget.messages[index].user.uid;
+    } else if (widget.inverted && index - 1 >= 0) {
+      return widget.messages[index - 1].user.uid !=
+          widget.messages[index].user.uid;
     }
     return true;
   }
