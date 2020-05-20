@@ -102,7 +102,8 @@ class MessageContainer extends StatelessWidget {
         padding: messagePadding,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: isUser ? CrossAxisAlignment.end
+                                     : CrossAxisAlignment.start,
           children: <Widget>[
             if (messageTextBuilder != null)
               messageTextBuilder(message.text, message)
