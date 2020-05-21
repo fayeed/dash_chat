@@ -33,7 +33,8 @@ class MessageListView extends StatefulWidget {
   final BoxConstraints constraints;
   final List<Widget> Function(ChatMessage) messageButtonsBuilder;
   final EdgeInsets messagePadding;
-
+  final bool textBeforeImage;
+  
   MessageListView({
     this.showLoadEarlierWidget,
     this.shouldShowLoadEarlier,
@@ -68,6 +69,7 @@ class MessageListView extends StatefulWidget {
     this.showLoadMore,
     this.messageButtonsBuilder,
     this.messagePadding = const EdgeInsets.all(8.0),
+    this.textBeforeImage = true
   });
 
   @override
@@ -278,6 +280,7 @@ class _MessageListViewState extends State<MessageListView> {
                                                   widget.messages[i].buttons,
                                               messageButtonsBuilder:
                                                   widget.messageButtonsBuilder,
+                                              textBeforeImage: widget.textBeforeImage,
                                             ),
                                           ),
                                   ),

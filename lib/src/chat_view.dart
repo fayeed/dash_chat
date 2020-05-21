@@ -247,6 +247,11 @@ class DashChat extends StatefulWidget {
   /// Default to EdgeInsets.all(8.0)
   final EdgeInsets messagePadding;
 
+  /// Should show the text before the image in the [MessageContainer]
+  /// or the opposite
+  /// Default to `true`
+  final bool textBeforeImage;
+
   DashChat({
     Key key,
     this.inputTextDirection = TextDirection.ltr,
@@ -316,6 +321,7 @@ class DashChat extends StatefulWidget {
     this.shouldStartMessagesFromTop = false,
     this.messageButtonsBuilder,
     this.messagePadding = const EdgeInsets.all(8.0),
+    this.textBeforeImage = true
   }) : super(key: key);
 
   String getVal() {
@@ -488,6 +494,7 @@ class DashChatState extends State<DashChat> {
                 visible: visible,
                 showLoadMore: showLoadMore,
                 messageButtonsBuilder: widget.messageButtonsBuilder,
+                textBeforeImage: widget.textBeforeImage,
               ),
               if (widget.messages.length != 0 &&
                   widget.messages[widget.messages.length - 1].user.uid !=
