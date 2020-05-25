@@ -15,17 +15,17 @@ class MessageContainer extends StatelessWidget {
   /// [messageTextBuilder] function takes a function with this
   /// structure [Widget Function(String)] to render the text inside
   /// the container.
-  final Widget Function(String) messageTextBuilder;
+  final Widget Function(String, [ChatMessage]) messageTextBuilder;
 
   /// [messageImageBuilder] function takes a function with this
   /// structure [Widget Function(String)] to render the image inside
   /// the container.
-  final Widget Function(String) messageImageBuilder;
+  final Widget Function(String, [ChatMessage]) messageImageBuilder;
 
   /// [messageTimeBuilder] function takes a function with this
   /// structure [Widget Function(String)] to render the time text inside
   /// the container.
-  final Widget Function(String) messageTimeBuilder;
+  final Widget Function(String, [ChatMessage]) messageTimeBuilder;
 
   /// Provides a custom style to the message container
   /// takes [BoxDecoration]
@@ -40,22 +40,46 @@ class MessageContainer extends StatelessWidget {
   /// A flag which is used for assiging styles
   final bool isUser;
 
+  /// Provides a list of buttons to allow the usage of adding buttons to
+  /// the bottom of the message
+  final List<Widget> buttons;
+
+  /// [messageButtonsBuilder] function takes a function with this
+  /// structure [List<Widget> Function()] to render the buttons inside
+  /// a row.
+  final List<Widget> Function(ChatMessage) messageButtonsBuilder;
+
+  /// Constraint to use to build the message layout
+  final BoxConstraints constraints;
+
+  /// Padding of the message
+  /// Default to EdgeInsets.all(8.0)
+  final EdgeInsets messagePadding;
+
   const MessageContainer({
     @required this.message,
     @required this.timeFormat,
+    this.constraints,
     this.messageImageBuilder,
     this.messageTextBuilder,
     this.messageTimeBuilder,
     this.messageContainerDecoration,
     this.parsePatterns = const <MatchText>[],
     this.isUser,
+    this.messageButtonsBuilder,
+    this.buttons,
+    this.messagePadding = const EdgeInsets.all(8.0),
   });
 
   @override
   Widget build(BuildContext context) {
+    final constraints = this.constraints ??
+        BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height,
+            maxWidth: MediaQuery.of(context).size.width);
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.8,
+        maxWidth: constraints.maxWidth * 0.8,
       ),
       child: Container(
         decoration: messageContainerDecoration != null
@@ -75,13 +99,13 @@ class MessageContainer extends StatelessWidget {
         margin: EdgeInsets.only(
           bottom: 5.0,
         ),
-        padding: EdgeInsets.all(8.0),
+        padding: messagePadding,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             if (messageTextBuilder != null)
-              messageTextBuilder(message.text)
+              messageTextBuilder(message.text, message)
             else
               ParsedText(
                 parse: parsePatterns,
@@ -94,23 +118,38 @@ class MessageContainer extends StatelessWidget {
               ),
             if (message.image != null)
               if (messageImageBuilder != null)
-                messageImageBuilder(message.image)
+                messageImageBuilder(message.image, message)
               else
                 Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: FadeInImage.memoryNetwork(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: constraints.maxHeight * 0.3,
+                    width: constraints.maxWidth * 0.7,
                     fit: BoxFit.contain,
                     placeholder: kTransparentImage,
                     image: message.image,
                   ),
                 ),
+            if(buttons != null)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: buttons,
+              )
+            else if(messageButtonsBuilder != null)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+                children: messageButtonsBuilder(message),
+                mainAxisSize: MainAxisSize.min,
+              ),
             if (messageTimeBuilder != null)
               messageTimeBuilder(
                 timeFormat != null
                     ? timeFormat.format(message.createdAt)
                     : DateFormat('HH:mm:ss').format(message.createdAt),
+                message,
               )
             else
               Padding(

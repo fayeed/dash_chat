@@ -123,6 +123,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 key: _chatViewKey,
                 inverted: false,
                 onSend: onSend,
+                sendOnEnter: true,
+                textInputAction: TextInputAction.send,
                 user: user,
                 inputDecoration:
                     InputDecoration.collapsed(hintText: "Add message here..."),
