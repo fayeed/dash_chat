@@ -1,3 +1,59 @@
+## [1.1.5]
+
+- Added a new property `shouldStartMessagesFromTop` to Dashchat.
+
+## [1.1.4]
+
+- Fixed an issue with date builder and inverted list.
+- Replaced SizedBox with Opacity for User Avatar.
+- Custom Message padding property added.
+- Fixed an issue with avatar position when the list is inverted.
+- Added a new property `customProperties` to ChatUser model.
+
+## [1.1.3]
+
+- A small bug fixed with inverted message list.
+
+## [1.1.2]
+
+- Correct alignmnet to message buttons.
+- Added readonly mode to dashchat which hides the inputbar.
+- Fix avatar exception when username is null.
+
+## [1.1.1]
+
+- Fixed an issue where an conversion `toJson` for class `ChatUser` was crashing the app.
+
+## [1.1.0]
+
+- Ability to send message on Enter or input action keyboard.
+- `MediaQuery` replaced with `LayoutBuilder`.
+- Added optional paramter for `ChatMessage`
+- Ability to have action buttons in ChatMessages.
+- Change Avatar `Boxfit.contain` to `Boxfit.cover`.
+
+## [1.0.20]
+
+- `customProperties` property added to ChatMessgae class.
+- Color serialization error fixed.
+
+## [1.0.19]
+
+- Fixed issue #51
+- fix scroll to top when inverted and send
+
+## [1.0.18]
+
+- `inputTextDirection` property added.
+
+## [1.0.17]
+
+- Ability to set custom focus node for input.
+
+- Removed SingleChildScrollView from root.
+
+- Added `WidgetsBinding.instance.addPostFrameCallback` to prevent scrolling before the messages are built.
+
 ## [1.0.16]
 
 - removed unnecessary print from the `message_listview`

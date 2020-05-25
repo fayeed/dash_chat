@@ -19,12 +19,17 @@ class ChatUser {
   /// An [optional] parameter to set The Message bubble Color
   Color containerColor;
 
+  /// Allows to set custom-properties that could help with implementing custom
+  /// functionality to dashchat.
+  Map<String, dynamic> customProperties;
+
   ChatUser({
     String uid,
     this.name,
     this.avatar,
     this.containerColor,
     this.color,
+    this.customProperties,
   }) {
     this.uid = uid != null ? uid : Uuid().v4().toString();
   }
@@ -33,18 +38,26 @@ class ChatUser {
     uid = json['uid'];
     name = json['name'];
     avatar = json['avatar'];
-    containerColor = json['containerColor'];
-    color = json['color'];
+    containerColor =
+        json['containerColor'] != null ? Color(json['containerColor']) : null;
+    color = json['color'] != null ? Color(json['color']) : null;
+    customProperties = json['customProperties'] as Map<String, dynamic>;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
 
-    data['uid'] = uid;
-    data['name'] = name;
-    data['avatar'] = avatar;
-    data['containerColor'] = containerColor;
-    data['color'] = color;
+    try {
+      data['uid'] = uid;
+      data['name'] = name;
+      data['avatar'] = avatar;
+      data['containerColor'] =
+          containerColor != null ? containerColor.value : null;
+      data['color'] = color != null ? color.value : null;
+      data['customProperties'] = this.customProperties;
+    } catch (e) {
+      print(e);
+    }
 
     return data;
   }
