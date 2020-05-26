@@ -33,7 +33,8 @@ class MessageListView extends StatefulWidget {
   final BoxConstraints constraints;
   final List<Widget> Function(ChatMessage) messageButtonsBuilder;
   final EdgeInsets messagePadding;
-
+  final bool textBeforeImage;
+  
   MessageListView({
     this.showLoadEarlierWidget,
     this.shouldShowLoadEarlier,
@@ -68,6 +69,7 @@ class MessageListView extends StatefulWidget {
     this.showLoadMore,
     this.messageButtonsBuilder,
     this.messagePadding = const EdgeInsets.all(8.0),
+    this.textBeforeImage = true
   });
 
   @override
@@ -165,6 +167,8 @@ class _MessageListViewState extends State<MessageListView> {
                         0) {
                       showDate = true;
                       currentDate = messageDate;
+                    } else if (i == widget.messages.length - 1 && widget.inverted){
+                      showDate = true;
                     } else {
                       showDate = false;
                     }
@@ -173,7 +177,7 @@ class _MessageListViewState extends State<MessageListView> {
                       child: Column(
                         children: <Widget>[
                           if (showDate &&
-                              (!widget.inverted || widget.messages.length == 1))
+                              (!widget.inverted || widget.messages.length == 1 || (last && widget.inverted)))
                             DateBuilder(
                               date:
                                   widget.inverted ? previousDate : currentDate,
@@ -278,6 +282,7 @@ class _MessageListViewState extends State<MessageListView> {
                                                   widget.messages[i].buttons,
                                               messageButtonsBuilder:
                                                   widget.messageButtonsBuilder,
+                                              textBeforeImage: widget.textBeforeImage,
                                             ),
                                           ),
                                   ),
@@ -312,7 +317,7 @@ class _MessageListViewState extends State<MessageListView> {
                           ),
                           if (showDate &&
                               widget.inverted &&
-                              widget.messages.length > 1)
+                              widget.messages.length > 1 && !last)
                             DateBuilder(
                               date:
                                   widget.inverted ? previousDate : currentDate,

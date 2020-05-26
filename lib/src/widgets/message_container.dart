@@ -56,6 +56,11 @@ class MessageContainer extends StatelessWidget {
   /// Default to EdgeInsets.all(8.0)
   final EdgeInsets messagePadding;
 
+  /// Should show the text before the image in the chat bubble
+  /// or the opposite
+  /// Default to `true`
+  final bool textBeforeImage;
+
   const MessageContainer({
     @required this.message,
     @required this.timeFormat,
@@ -65,6 +70,7 @@ class MessageContainer extends StatelessWidget {
     this.messageTimeBuilder,
     this.messageContainerDecoration,
     this.parsePatterns = const <MatchText>[],
+    this.textBeforeImage = true,
     this.isUser,
     this.messageButtonsBuilder,
     this.buttons,
@@ -102,45 +108,30 @@ class MessageContainer extends StatelessWidget {
         padding: messagePadding,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment:
+              isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: <Widget>[
-            if (messageTextBuilder != null)
-              messageTextBuilder(message.text, message)
+            if (this.textBeforeImage)
+              _buildMessageText()
             else
-              ParsedText(
-                parse: parsePatterns,
-                text: message.text,
-                style: TextStyle(
-                  color: message.user.color != null
-                      ? message.user.color
-                      : isUser ? Colors.white70 : Colors.black87,
-                ),
-              ),
-            if (message.image != null)
-              if (messageImageBuilder != null)
-                messageImageBuilder(message.image, message)
-              else
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: FadeInImage.memoryNetwork(
-                    height: constraints.maxHeight * 0.3,
-                    width: constraints.maxWidth * 0.7,
-                    fit: BoxFit.contain,
-                    placeholder: kTransparentImage,
-                    image: message.image,
-                  ),
-                ),
-            if(buttons != null)
+              _buildMessageImage(),
+            if (this.textBeforeImage)
+              _buildMessageImage()
+            else
+              _buildMessageText(),
+            if (buttons != null)
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+                mainAxisAlignment:
+                    isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: buttons,
               )
-            else if(messageButtonsBuilder != null)
+            else if (messageButtonsBuilder != null)
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+                mainAxisAlignment:
+                    isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
                 children: messageButtonsBuilder(message),
                 mainAxisSize: MainAxisSize.min,
               ),
@@ -170,5 +161,39 @@ class MessageContainer extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildMessageText() {
+    if (messageTextBuilder != null)
+      return messageTextBuilder(message.text, message);
+    else
+      return ParsedText(
+        parse: parsePatterns,
+        text: message.text,
+        style: TextStyle(
+          color: message.user.color != null
+              ? message.user.color
+              : isUser ? Colors.white70 : Colors.black87,
+        ),
+      );
+  }
+
+  Widget _buildMessageImage() {
+    if (message.image != null) {
+      if (messageImageBuilder != null)
+        return messageImageBuilder(message.image, message);
+      else
+        return Padding(
+          padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+          child: FadeInImage.memoryNetwork(
+            height: constraints.maxHeight * 0.3,
+            width: constraints.maxWidth * 0.7,
+            fit: BoxFit.contain,
+            placeholder: kTransparentImage,
+            image: message.image,
+          ),
+        );
+    }
+    return Container(width: 0, height: 0);
   }
 }
