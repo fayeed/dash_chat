@@ -6,6 +6,7 @@ class ScrollToBottom extends StatelessWidget {
   final double bottomPosition;
   final Color backgroundColor;
   final Color textColor;
+  final ScrollToBottomStyle scrollToBottomStyle;
 
   ScrollToBottom({
     this.onScrollToBottomPress,
@@ -13,20 +14,22 @@ class ScrollToBottom extends StatelessWidget {
     this.bottomPosition,
     this.backgroundColor,
     this.textColor,
+    this.scrollToBottomStyle,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 35,
-      height: 35,
+      width: scrollToBottomStyle.width,
+      height: scrollToBottomStyle.height,
       child: RawMaterialButton(
         elevation: 5,
-        fillColor: backgroundColor ?? Theme.of(context).primaryColor,
+        fillColor: scrollToBottomStyle.backgroundColor ??
+            Theme.of(context).primaryColor,
         shape: CircleBorder(),
         child: Icon(
-          Icons.keyboard_arrow_down,
-          color: textColor ?? Colors.white,
+          scrollToBottomStyle.icon ?? Icons.keyboard_arrow_down,
+          color: scrollToBottomStyle.textColor ?? Colors.white,
         ),
         onPressed: () {
           if (onScrollToBottomPress != null) {

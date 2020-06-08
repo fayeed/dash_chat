@@ -265,8 +265,11 @@ class DashChat extends StatefulWidget {
   /// Defaults to `30.0`
   final double avatarMaxSize;
 
+  ScrollToBottomStyle scrollToBottomStyle;
+
   DashChat({
     Key key,
+    ScrollToBottomStyle scrollToBottomStyle,
     this.avatarMaxSize = 30.0,
     this.inputTextDirection = TextDirection.ltr,
     this.inputToolbarMargin = const EdgeInsets.all(0.0),
@@ -338,7 +341,9 @@ class DashChat extends StatefulWidget {
     this.messageButtonsBuilder,
     this.messagePadding = const EdgeInsets.all(8.0),
     this.textBeforeImage = true,
-  }) : super(key: key);
+  }) : super(key: key) {
+    this.scrollToBottomStyle = scrollToBottomStyle ?? new ScrollToBottomStyle();
+  }
 
   String getVal() {
     return text;
@@ -442,6 +447,7 @@ class DashChatState extends State<DashChat> {
                     : MainAxisAlignment.end,
                 children: <Widget>[
                   MessageListView(
+                    avatarMaxSize: widget.avatarMaxSize,
                     messagePadding: widget.messagePadding,
                     constraints: constraints,
                     shouldShowLoadEarlier: widget.shouldShowLoadEarlier,
@@ -557,13 +563,15 @@ class DashChatState extends State<DashChat> {
               ),
               if (visible)
                 Positioned(
-                  right: 0,
-                  left: 0,
-                  bottom: 70,
+                  right: widget.scrollToBottomStyle.right,
+                  left: widget.scrollToBottomStyle.left,
+                  bottom: widget.scrollToBottomStyle.bottom,
+                  top: widget.scrollToBottomStyle.top,
                   child: widget.scrollToBottomWidget != null
                       ? widget.scrollToBottomWidget()
                       : ScrollToBottom(
                           onScrollToBottomPress: widget.onScrollToBottomPress,
+                          scrollToBottomStyle: widget.scrollToBottomStyle,
                           scrollController: scrollController,
                           bottomPosition: widget.inverted
                               ? 0.0
