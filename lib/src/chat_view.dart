@@ -353,6 +353,7 @@ class DashChatState extends State<DashChat> {
   double height = 48.0;
   bool showLoadMore = false;
   String get messageInput => _text;
+  bool _initialLoad = true;
 
   void onTextChange(String text) {
     if (visible) {
@@ -387,9 +388,23 @@ class DashChatState extends State<DashChat> {
   }
 
   void widgetBuilt(Duration d) {
-    double initPos =
-        widget.inverted ? 0.0 : scrollController.position.maxScrollExtent;
-    scrollController.jumpTo(initPos);
+    double initPos = widget.inverted
+        ? 0.0
+        : scrollController.position.maxScrollExtent + 25.0;
+
+    scrollController
+        .animateTo(
+          initPos,
+          duration: const Duration(milliseconds: 150),
+          curve: Curves.easeInOut,
+        )
+        .whenComplete(() => {
+              Timer(Duration(milliseconds: 1000), () {
+                setState(() {
+                  _initialLoad = false;
+                });
+              })
+            });
 
     scrollController.addListener(() {
       bool topReached = widget.inverted
@@ -551,7 +566,7 @@ class DashChatState extends State<DashChat> {
                         reverse: widget.inverted)
                 ],
               ),
-              if (visible)
+              if (visible && !_initialLoad)
                 Positioned(
                   right: widget.scrollToBottomStyle.right,
                   left: widget.scrollToBottomStyle.left,
@@ -563,9 +578,7 @@ class DashChatState extends State<DashChat> {
                           onScrollToBottomPress: widget.onScrollToBottomPress,
                           scrollToBottomStyle: widget.scrollToBottomStyle,
                           scrollController: scrollController,
-                          bottomPosition: widget.inverted
-                              ? 0.0
-                              : scrollController.position.maxScrollExtent,
+                          inverted: widget.inverted,
                         ),
                 ),
             ],

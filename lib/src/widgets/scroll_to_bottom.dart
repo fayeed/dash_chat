@@ -3,13 +3,13 @@ part of dash_chat;
 class ScrollToBottom extends StatelessWidget {
   final Function onScrollToBottomPress;
   final ScrollController scrollController;
-  final double bottomPosition;
+  final bool inverted;
   final ScrollToBottomStyle scrollToBottomStyle;
 
   ScrollToBottom({
     this.onScrollToBottomPress,
     this.scrollController,
-    this.bottomPosition,
+    this.inverted,
     this.scrollToBottomStyle,
   });
 
@@ -32,9 +32,9 @@ class ScrollToBottom extends StatelessWidget {
             onScrollToBottomPress();
           } else {
             scrollController.animateTo(
-              bottomPosition ?? scrollController.position.maxScrollExtent,
+              inverted ? 0.0 : scrollController.position.maxScrollExtent + 25.0,
               duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOut,
+              curve: Curves.easeInOut,
             );
           }
         },
