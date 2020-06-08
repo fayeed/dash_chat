@@ -1,3 +1,7 @@
+## [1.1.7]
+
+- Fixed issue #30 where scrollToBottom widget was visible when the widget was dismounted.
+
 ## [1.1.6]
 
 - Added `firstName` & `lastName` property to User.
