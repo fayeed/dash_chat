@@ -1,3 +1,7 @@
+## [1.1.8]
+
+- Fixed issue #78, scrollToBottom widget not scrolling to maxExtent properly
+
 ## [1.1.7]
 
 - Fixed issue #30 where scrollToBottom widget was visible when the widget was dismounted.
