@@ -24,7 +24,9 @@ To use this package, add `dash_chat` as a [dependency in your pubspec.yaml file]
 - Composer actions (to attach photos, etc.) - WIP
 
 ### Message object 📦
+
 > example, Chat Message
+
 ```dart
 ChatMessage(
         text: "Hello",
@@ -37,7 +39,9 @@ ChatMessage(
         image: "http://www.sclance.com/images/picture/Picture_753248.jpg",
     );
 ```
+
 > example, Chat Message with Quick Replies
+
 ```dart
 ChatMessage(
         text: "This is a quick reply example.",
@@ -69,6 +73,7 @@ ChatMessage(
 - `inputDecoration` (InputDecoration) - Used to provide input decoration to the text.
 - `messageIdGenerator` (String Function) - Usually new message added by the user gets UUID v4 String generater by [uuid](https://pub.dev/packages/uuid).
 - `user` (ChatUser) - The current user object.
+
 ```dart
   DashChat(
     user: ChatUser(
@@ -78,8 +83,10 @@ ChatMessage(
     )
   );
 ```
+
 - `onSend` (Function(ChatMessage)) - Callback when sending a message.
 - `alwaysShowSend` (bool) - Should the send button be always active defaults to false.
+- `avatarMaxSize` (double) - Sets the default Avatar's max size, default is `30.0`.
 - `dateFormat` (DateFormat) - Format to use for rendering date default is `yyyy-MM-dd`.
 - `timeFormat` (DateFormat) - Format to use for rendering time default is `HH:mm:ss`.
 - `showUserAvatar` (bool) - Should the user avatar be shown.
@@ -145,18 +152,23 @@ ChatMessage(
 - `shouldStartMessagesFromTop` (bool) - Can be used to align messages so that it starts from top to bottom instead of the default bottom to top.
 - `textBeforeImage` (bool) - Can be used to set the order of the text and the image inside a message defaults to `true`.
 
-## Credits  👨🏻‍💻
+## Credits 👨🏻‍💻
+
 - Transparent Image - [Brian Egan](https://github.com/brianegan)
 - uuid - [Yulian Kuncheff](https://github.com/Daegalus)
 
 ## Found this project useful? ❤️
+
 If you found this project useful, then please consider giving it a ⭐️ on Github and sharing it with your friends via social media.
 
 ## License ⚖️
+
 - [MIT](https://github.com/fayeed/dash_chat/blob/master/LICENSE)
 
 ## API details 📝
+
 See the [dash_chat.dart](https://github.com/fayeed/dash_chat/blob/master/lib/dash_chat.dart) for more API details
 
 ## Issues and feedback 💭
+
 If you have any suggestion for including a feature or if something doesn't work, feel free to open a Github [issue](https://github.com/fayeed/dash_chat/issues) for us to have a discussion on it.

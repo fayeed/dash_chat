@@ -26,12 +26,15 @@ class AvatarContainer extends StatelessWidget {
   /// by default used MediaQuery and take screen size as constaints
   final BoxConstraints constraints;
 
+  final double avatarMaxSize;
+
   const AvatarContainer({
     @required this.user,
     this.onPress,
     this.onLongPress,
     this.avatarBuilder,
     this.constraints,
+    this.avatarMaxSize,
   });
 
   @override
@@ -41,7 +44,6 @@ class AvatarContainer extends StatelessWidget {
             maxHeight: MediaQuery.of(context).size.height,
             maxWidth: MediaQuery.of(context).size.width);
 
-    print(constraints.maxWidth * 0.08);
     return GestureDetector(
       onTap: () => onPress != null ? onPress(user) : null,
       onLongPress: () => onLongPress != null ? onLongPress(user) : null,
@@ -55,8 +57,8 @@ class AvatarContainer extends StatelessWidget {
                     height: constraints.maxWidth * 0.08,
                     width: constraints.maxWidth * 0.08,
                     constraints: BoxConstraints(
-                      maxWidth: 40.0,
-                      maxHeight: 40.0,
+                      maxWidth: avatarMaxSize,
+                      maxHeight: avatarMaxSize,
                     ),
                     color: Colors.grey,
                     child: Center(

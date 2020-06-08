@@ -252,8 +252,14 @@ class DashChat extends StatefulWidget {
   /// Default to `true`
   final bool textBeforeImage;
 
+  /// sets the default [AvatarContainer] maxSize.
+  ///
+  /// Defaults to `30.0`
+  final double avatarMaxSize;
+
   DashChat({
     Key key,
+    this.avatarMaxSize = 30.0,
     this.inputTextDirection = TextDirection.ltr,
     this.inputToolbarMargin = const EdgeInsets.all(0.0),
     this.inputToolbarPadding = const EdgeInsets.all(0.0),
@@ -321,7 +327,7 @@ class DashChat extends StatefulWidget {
     this.shouldStartMessagesFromTop = false,
     this.messageButtonsBuilder,
     this.messagePadding = const EdgeInsets.all(8.0),
-    this.textBeforeImage = true
+    this.textBeforeImage = true,
   }) : super(key: key);
 
   String getVal() {
@@ -459,9 +465,12 @@ class DashChatState extends State<DashChat> {
           height: widget.height != null ? widget.height : maxHeight,
           width: widget.width != null ? widget.width : maxWidth,
           child: Column(
-            mainAxisAlignment: widget.shouldStartMessagesFromTop ? MainAxisAlignment.start : MainAxisAlignment.end,
+            mainAxisAlignment: widget.shouldStartMessagesFromTop
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.end,
             children: <Widget>[
               MessageListView(
+                avatarMaxSize: widget.avatarMaxSize,
                 messagePadding: widget.messagePadding,
                 constraints: constraints,
                 shouldShowLoadEarlier: widget.shouldShowLoadEarlier,
