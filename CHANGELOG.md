@@ -1,3 +1,9 @@
+## [1.1.6]
+
+- Added `firstName` & `lastName` property to User.
+- Added `avatarMaxSize` property to avatar Container.
+- Fix an issue with text Alignment when buttons are set in message container.
+
 ## [1.1.5]
 
 - Added a new property `shouldStartMessagesFromTop` to Dashchat.

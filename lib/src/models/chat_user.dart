@@ -10,6 +10,12 @@ class ChatUser {
   /// An [optional] parameter to set the user name.
   String name;
 
+  /// An [optional] parameter to set the user first name, if set will override the name property.
+  String firstName;
+
+  /// An [optional] parameter to set the user last name, if set will override the name property.
+  String lastName;
+
   /// An [optional] parameter to set the user avatar.
   String avatar;
 
@@ -25,18 +31,25 @@ class ChatUser {
 
   ChatUser({
     String uid,
-    this.name,
+    String name,
     this.avatar,
     this.containerColor,
     this.color,
     this.customProperties,
+    this.firstName,
+    this.lastName,
   }) {
+    this.name = this.name == null ? "$firstName $lastName" : name;
     this.uid = uid != null ? uid : Uuid().v4().toString();
   }
 
   ChatUser.fromJson(Map<dynamic, dynamic> json) {
+    final pName = json["name"] as String;
+
     uid = json['uid'];
-    name = json['name'];
+    name = pName == null ? "$firstName $lastName" : pName;
+    firstName = json['firstName'];
+    lastName = json['lastName'];
     avatar = json['avatar'];
     containerColor =
         json['containerColor'] != null ? Color(json['containerColor']) : null;
@@ -50,6 +63,8 @@ class ChatUser {
     try {
       data['uid'] = uid;
       data['name'] = name;
+      data['firstName'] = firstName;
+      data['lastName'] = lastName;
       data['avatar'] = avatar;
       data['containerColor'] =
           containerColor != null ? containerColor.value : null;
