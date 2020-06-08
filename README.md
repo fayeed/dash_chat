@@ -142,6 +142,7 @@ ChatMessage(
 - `quickReplyTextStyle` (TextStyle) - QuickReply text style.
 - `quickReplyBuilder` (Widget Function(Reply)) - Will override the the default QuickReply Widget.
 - `scrollToBottom` (bool) - Should the scroll to bottom widget be shown defaults to `true`.
+- `scrollToBottomStyle` (ScrollToBottomStyle) - sets the style & position for the scrollToBottom widget.
 - `scrollToBottomWidget` (Widget Function()) - Overrides the default scrollToBottomWidget with a custom widget.
 - `onScrollToBottomPress` (Function) - override the default behaviour of the onScrollToBottom Widget.
 - `shouldShowLoadEarlier` (bool) - Should the LoadEarlier Floating widget be shown or use load as you scroll scheme whcih will call the onLoadEarlier defaults to false which is this scheme.

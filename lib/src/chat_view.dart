@@ -257,8 +257,11 @@ class DashChat extends StatefulWidget {
   /// Defaults to `30.0`
   final double avatarMaxSize;
 
+  ScrollToBottomStyle scrollToBottomStyle;
+
   DashChat({
     Key key,
+    ScrollToBottomStyle scrollToBottomStyle,
     this.avatarMaxSize = 30.0,
     this.inputTextDirection = TextDirection.ltr,
     this.inputToolbarMargin = const EdgeInsets.all(0.0),
@@ -328,7 +331,9 @@ class DashChat extends StatefulWidget {
     this.messageButtonsBuilder,
     this.messagePadding = const EdgeInsets.all(8.0),
     this.textBeforeImage = true,
-  }) : super(key: key);
+  }) : super(key: key) {
+    this.scrollToBottomStyle = scrollToBottomStyle ?? new ScrollToBottomStyle();
+  }
 
   String getVal() {
     return text;
@@ -344,7 +349,6 @@ class DashChatState extends State<DashChat> {
   ScrollController scrollController;
   String _text = "";
   bool visible = false;
-  OverlayEntry _overlayEntry;
   GlobalKey inputKey = GlobalKey();
   double height = 48.0;
   bool showLoadMore = false;
@@ -361,33 +365,9 @@ class DashChatState extends State<DashChat> {
 
   void changeVisible(bool value) {
     if (widget.scrollToBottom) {
-      if (value != visible) {
-        setState(() {
-          visible = value;
-        });
-      }
-
-      if (this._overlayEntry == null) {
-        // height = inputKey.currentContext.size.height;
-        this._overlayEntry = this._createOverlayEntry(height);
-
-        if (value) {
-          Timer(Duration(milliseconds: 120), () {
-            try {
-              Overlay.of(context).insert(this._overlayEntry);
-            } catch (e) {}
-          });
-        }
-      } else {
-        try {
-          if (!value) {
-            this._overlayEntry.remove();
-            this._overlayEntry = null;
-          }
-        } catch (e) {
-          this._overlayEntry = null;
-        }
-      }
+      setState(() {
+        visible = value;
+      });
     }
   }
 
@@ -404,21 +384,6 @@ class DashChatState extends State<DashChat> {
     inputFocusNode = widget.focusNode ?? FocusNode();
     WidgetsBinding.instance.addPostFrameCallback(widgetBuilt);
     super.initState();
-  }
-
-  OverlayEntry _createOverlayEntry(double height) {
-    return OverlayEntry(
-      builder: (context) => Positioned(
-        bottom: height + 12.0,
-        right: 10.0,
-        child: widget.scrollToBottomWidget != null
-            ? widget.scrollToBottomWidget()
-            : ScrollToBottom(
-                onScrollToBottomPress: widget.onScrollToBottomPress,
-                scrollController: scrollController,
-              ),
-      ),
-    );
   }
 
   void widgetBuilt(Duration d) {
@@ -464,121 +429,145 @@ class DashChatState extends State<DashChat> {
         return Container(
           height: widget.height != null ? widget.height : maxHeight,
           width: widget.width != null ? widget.width : maxWidth,
-          child: Column(
-            mainAxisAlignment: widget.shouldStartMessagesFromTop
-                ? MainAxisAlignment.start
-                : MainAxisAlignment.end,
+          child: Stack(
             children: <Widget>[
-              MessageListView(
-                avatarMaxSize: widget.avatarMaxSize,
-                messagePadding: widget.messagePadding,
-                constraints: constraints,
-                shouldShowLoadEarlier: widget.shouldShowLoadEarlier,
-                showLoadEarlierWidget: widget.showLoadEarlierWidget,
-                onLoadEarlier: widget.onLoadEarlier,
-                defaultLoadCallback: changeDefaultLoadMore,
-                messageContainerPadding: widget.messageContainerPadding,
-                scrollController: widget.scrollController != null
-                    ? widget.scrollController
-                    : scrollController,
-                user: widget.user,
-                messages: widget.messages,
-                showuserAvatar: widget.showUserAvatar,
-                dateFormat: widget.dateFormat,
-                timeFormat: widget.timeFormat,
-                inverted: widget.inverted,
-                showAvatarForEverMessage: widget.showAvatarForEveryMessage,
-                onLongPressAvatar: widget.onLongPressAvatar,
-                onPressAvatar: widget.onPressAvatar,
-                onLongPressMessage: widget.onLongPressMessage,
-                avatarBuilder: widget.avatarBuilder,
-                messageBuilder: widget.messageBuilder,
-                messageTextBuilder: widget.messageTextBuilder,
-                messageImageBuilder: widget.messageImageBuilder,
-                messageTimeBuilder: widget.messageTimeBuilder,
-                dateBuilder: widget.dateBuilder,
-                messageContainerDecoration: widget.messageContainerDecoration,
-                parsePatterns: widget.parsePatterns,
-                changeVisible: changeVisible,
-                visible: visible,
-                showLoadMore: showLoadMore,
-                messageButtonsBuilder: widget.messageButtonsBuilder,
-                textBeforeImage: widget.textBeforeImage,
-              ),
-              if (widget.messages.length != 0 &&
-                  widget.messages[widget.messages.length - 1].user.uid !=
-                      widget.user.uid)
-                Container(
-                  constraints: BoxConstraints(maxHeight: 100.0),
-                  width: constraints.maxWidth,
-                  child: Wrap(
-                    children: <Widget>[
-                      if (widget.messages[widget.messages.length - 1]
-                              .quickReplies !=
-                          null)
-                        ...widget.messages[widget.messages.length - 1]
-                            .quickReplies.values
-                            .sublist(
-                                0,
-                                widget.messages[widget.messages.length - 1]
-                                            .quickReplies.values.length <=
-                                        3
-                                    ? widget
-                                        .messages[widget.messages.length - 1]
-                                        .quickReplies
-                                        .values
-                                        .length
-                                    : 3)
-                            .map(
-                              (reply) => QuickReply(
-                                reply: reply,
-                                onReply: widget.onQuickReply,
-                                quickReplyBuilder: widget.quickReplyBuilder,
-                                quickReplyStyle: widget.quickReplyStyle,
-                                quickReplyTextStyle: widget.quickReplyTextStyle,
-                              ),
-                            )
-                            .toList(),
-                    ],
-                  ),
-                ),
-              if (widget.chatFooterBuilder != null) widget.chatFooterBuilder(),
-              if (!widget.readOnly)
-                ChatInputToolbar(
-                    key: inputKey,
-                    sendOnEnter: widget.sendOnEnter,
-                    textInputAction: widget.textInputAction,
-                    inputToolbarPadding: widget.inputToolbarPadding,
-                    textDirection: widget.inputTextDirection,
-                    inputToolbarMargin: widget.inputToolbarMargin,
-                    showTraillingBeforeSend: widget.showTraillingBeforeSend,
-                    inputMaxLines: widget.inputMaxLines,
-                    controller: textController,
-                    inputDecoration: widget.inputDecoration,
-                    textCapitalization: widget.textCapitalization,
-                    onSend: widget.onSend,
-                    user: widget.user,
-                    messageIdGenerator: widget.messageIdGenerator,
-                    maxInputLength: widget.maxInputLength,
-                    sendButtonBuilder: widget.sendButtonBuilder,
-                    text: widget.text != null ? widget.text : _text,
-                    onTextChange: widget.onTextChange != null
-                        ? widget.onTextChange
-                        : onTextChange,
-                    leading: widget.leading,
-                    trailling: widget.trailing,
-                    inputContainerStyle: widget.inputContainerStyle,
-                    inputTextStyle: widget.inputTextStyle,
-                    inputFooterBuilder: widget.inputFooterBuilder,
-                    inputCursorColor: widget.inputCursorColor,
-                    inputCursorWidth: widget.inputCursorWidth,
-                    showInputCursor: widget.showInputCursor,
-                    alwaysShowSend: widget.alwaysShowSend,
+              Column(
+                mainAxisAlignment: widget.shouldStartMessagesFromTop
+                    ? MainAxisAlignment.start
+                    : MainAxisAlignment.end,
+                children: <Widget>[
+                  MessageListView(
+                    avatarMaxSize: widget.avatarMaxSize,
+                    messagePadding: widget.messagePadding,
+                    constraints: constraints,
+                    shouldShowLoadEarlier: widget.shouldShowLoadEarlier,
+                    showLoadEarlierWidget: widget.showLoadEarlierWidget,
+                    onLoadEarlier: widget.onLoadEarlier,
+                    defaultLoadCallback: changeDefaultLoadMore,
+                    messageContainerPadding: widget.messageContainerPadding,
                     scrollController: widget.scrollController != null
                         ? widget.scrollController
                         : scrollController,
-                    focusNode: inputFocusNode,
-                    reverse: widget.inverted)
+                    user: widget.user,
+                    messages: widget.messages,
+                    showuserAvatar: widget.showUserAvatar,
+                    dateFormat: widget.dateFormat,
+                    timeFormat: widget.timeFormat,
+                    inverted: widget.inverted,
+                    showAvatarForEverMessage: widget.showAvatarForEveryMessage,
+                    onLongPressAvatar: widget.onLongPressAvatar,
+                    onPressAvatar: widget.onPressAvatar,
+                    onLongPressMessage: widget.onLongPressMessage,
+                    avatarBuilder: widget.avatarBuilder,
+                    messageBuilder: widget.messageBuilder,
+                    messageTextBuilder: widget.messageTextBuilder,
+                    messageImageBuilder: widget.messageImageBuilder,
+                    messageTimeBuilder: widget.messageTimeBuilder,
+                    dateBuilder: widget.dateBuilder,
+                    messageContainerDecoration:
+                        widget.messageContainerDecoration,
+                    parsePatterns: widget.parsePatterns,
+                    changeVisible: changeVisible,
+                    visible: visible,
+                    showLoadMore: showLoadMore,
+                    messageButtonsBuilder: widget.messageButtonsBuilder,
+                  ),
+                  if (widget.messages.length != 0 &&
+                      widget.messages[widget.messages.length - 1].user.uid !=
+                          widget.user.uid)
+                    Container(
+                      constraints: BoxConstraints(maxHeight: 100.0),
+                      width: constraints.maxWidth,
+                      child: Wrap(
+                        children: <Widget>[
+                          if (widget.messages[widget.messages.length - 1]
+                                  .quickReplies !=
+                              null)
+                            ...widget.messages[widget.messages.length - 1]
+                                .quickReplies.values
+                                .sublist(
+                                    0,
+                                    widget.messages[widget.messages.length - 1]
+                                                .quickReplies.values.length <=
+                                            3
+                                        ? widget
+                                            .messages[
+                                                widget.messages.length - 1]
+                                            .quickReplies
+                                            .values
+                                            .length
+                                        : 3)
+                                .map(
+                                  (reply) => QuickReply(
+                                    reply: reply,
+                                    onReply: widget.onQuickReply,
+                                    quickReplyBuilder: widget.quickReplyBuilder,
+                                    quickReplyStyle: widget.quickReplyStyle,
+                                    quickReplyTextStyle:
+                                        widget.quickReplyTextStyle,
+                                  ),
+                                )
+                                .toList(),
+                        ],
+                      ),
+                    ),
+                  if (widget.chatFooterBuilder != null)
+                    widget.chatFooterBuilder(),
+                  if (!widget.readOnly)
+                    ChatInputToolbar(
+                        key: inputKey,
+                        sendOnEnter: widget.sendOnEnter,
+                        textInputAction: widget.textInputAction,
+                        inputToolbarPadding: widget.inputToolbarPadding,
+                        textDirection: widget.inputTextDirection,
+                        inputToolbarMargin: widget.inputToolbarMargin,
+                        showTraillingBeforeSend: widget.showTraillingBeforeSend,
+                        inputMaxLines: widget.inputMaxLines,
+                        controller: textController,
+                        inputDecoration: widget.inputDecoration,
+                        textCapitalization: widget.textCapitalization,
+                        onSend: widget.onSend,
+                        user: widget.user,
+                        messageIdGenerator: widget.messageIdGenerator,
+                        maxInputLength: widget.maxInputLength,
+                        sendButtonBuilder: widget.sendButtonBuilder,
+                        text: widget.text != null ? widget.text : _text,
+                        onTextChange: widget.onTextChange != null
+                            ? widget.onTextChange
+                            : onTextChange,
+                        leading: widget.leading,
+                        trailling: widget.trailing,
+                        inputContainerStyle: widget.inputContainerStyle,
+                        inputTextStyle: widget.inputTextStyle,
+                        inputFooterBuilder: widget.inputFooterBuilder,
+                        inputCursorColor: widget.inputCursorColor,
+                        inputCursorWidth: widget.inputCursorWidth,
+                        showInputCursor: widget.showInputCursor,
+                        alwaysShowSend: widget.alwaysShowSend,
+                        scrollController: widget.scrollController != null
+                            ? widget.scrollController
+                            : scrollController,
+                        focusNode: inputFocusNode,
+                        reverse: widget.inverted)
+                ],
+              ),
+              if (visible)
+                Positioned(
+                  right: widget.scrollToBottomStyle.right,
+                  left: widget.scrollToBottomStyle.left,
+                  bottom: widget.scrollToBottomStyle.bottom,
+                  top: widget.scrollToBottomStyle.top,
+                  child: widget.scrollToBottomWidget != null
+                      ? widget.scrollToBottomWidget()
+                      : ScrollToBottom(
+                          onScrollToBottomPress: widget.onScrollToBottomPress,
+                          scrollToBottomStyle: widget.scrollToBottomStyle,
+                          scrollController: scrollController,
+                          bottomPosition: widget.inverted
+                              ? 0.0
+                              : scrollController.position.maxScrollExtent,
+                        ),
+                ),
             ],
           ),
         );
