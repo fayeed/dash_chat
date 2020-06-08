@@ -208,14 +208,6 @@ class DashChat extends StatefulWidget {
   /// default to true.
   final bool scrollToBottom;
 
-  /// The background color of the scroll to bottom widget
-  /// Default to primary
-  final Color scrollToBottomBackgroundColor;
-
-  /// The text color of the scroll to bottom widget
-  /// Default to white
-  final Color scrollToBottomTextColor;
-
   final bool shouldStartMessagesFromTop;
 
   /// Overrides the default [scrollToBottomWidget] with a custom widget
@@ -280,8 +272,6 @@ class DashChat extends StatefulWidget {
     this.sendOnEnter = false,
     this.textInputAction,
     this.scrollToBottom = true,
-    this.scrollToBottomBackgroundColor,
-    this.scrollToBottomTextColor,
     this.scrollToBottomWidget,
     this.onScrollToBottomPress,
     this.onQuickReply,
@@ -576,8 +566,6 @@ class DashChatState extends State<DashChat> {
                           bottomPosition: widget.inverted
                               ? 0.0
                               : scrollController.position.maxScrollExtent,
-                          backgroundColor: widget.scrollToBottomBackgroundColor,
-                          textColor: widget.scrollToBottomTextColor,
                         ),
                 ),
             ],

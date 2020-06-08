@@ -4,16 +4,12 @@ class ScrollToBottom extends StatelessWidget {
   final Function onScrollToBottomPress;
   final ScrollController scrollController;
   final double bottomPosition;
-  final Color backgroundColor;
-  final Color textColor;
   final ScrollToBottomStyle scrollToBottomStyle;
 
   ScrollToBottom({
     this.onScrollToBottomPress,
     this.scrollController,
     this.bottomPosition,
-    this.backgroundColor,
-    this.textColor,
     this.scrollToBottomStyle,
   });
 

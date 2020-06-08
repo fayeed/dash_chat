@@ -14,7 +14,7 @@ class ScrollToBottomStyle {
   ScrollToBottomStyle({
     this.backgroundColor,
     this.textColor,
-    this.bottom = 80.0,
+    this.bottom = 70.0,
     this.left,
     this.right: 20.0,
     this.top,
