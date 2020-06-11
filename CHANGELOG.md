@@ -1,3 +1,7 @@
+## [1.1.9]
+
+- Fixed issue #91, where setting the name was not handled properly
+
 ## [1.1.8]
 
 - Fixed issue #78, scrollToBottom widget not scrolling to maxExtent properly
