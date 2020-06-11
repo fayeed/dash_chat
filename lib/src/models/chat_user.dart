@@ -39,7 +39,7 @@ class ChatUser {
     this.firstName,
     this.lastName,
   }) {
-    this.name = this.name == null ? "$firstName $lastName" : name;
+    this.name = name == null ? "$firstName $lastName" : name;
     this.uid = uid != null ? uid : Uuid().v4().toString();
   }
 
