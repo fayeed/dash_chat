@@ -152,6 +152,8 @@ ChatMessage(
 - `inputToolbarMargin` (EdgeInsets) - Can be used to add margin to the input toolbar.
 - `shouldStartMessagesFromTop` (bool) - Can be used to align messages so that it starts from top to bottom instead of the default bottom to top.
 - `textBeforeImage` (bool) - Can be used to set the order of the text and the image inside a message defaults to `true`.
+- `quickReplyScroll` (bool) - Should the quick reply options be horizontally scrollable
+- `quickReplyPadding` (EdgeInsetsGeometry) - Padding for QuickReply
 
 ## Credits 👨🏻‍💻
 
