@@ -191,6 +191,10 @@ class DashChat extends StatefulWidget {
   /// will pass [Reply] as a paramter to function.
   final Function(Reply) onQuickReply;
 
+  /// Padding for the quick reply area
+  /// by default it padding is set 0.0
+  final EdgeInsetsGeometry quickReplyPadding;
+
   /// Container style for the QuickReply Container [BoxDecoration].
   final BoxDecoration quickReplyStyle;
 
@@ -199,6 +203,9 @@ class DashChat extends StatefulWidget {
 
   /// quickReplyBuilder will override the the default QuickReply Widget.
   final Widget Function(Reply) quickReplyBuilder;
+
+  /// Should quick reply be horizontally scrollable
+  final bool quickReplyScroll;
 
   /// Should the [trailling] Widgets be shown before the send button
   /// As default it will be shown before the send button.
@@ -275,9 +282,11 @@ class DashChat extends StatefulWidget {
     this.scrollToBottomWidget,
     this.onScrollToBottomPress,
     this.onQuickReply,
+    this.quickReplyPadding = const EdgeInsets.all(0.0),
     this.quickReplyStyle,
     this.quickReplyTextStyle,
     this.quickReplyBuilder,
+    this.quickReplyScroll = false,
     this.messageContainerPadding = const EdgeInsets.only(
       left: 2.0,
       right: 2.0,
@@ -488,43 +497,34 @@ class DashChatState extends State<DashChat> {
                     messageButtonsBuilder: widget.messageButtonsBuilder,
                   ),
                   if (widget.messages.length != 0 &&
-                      widget.messages[widget.messages.length - 1].user.uid !=
-                          widget.user.uid)
+                      widget.messages.last.user.uid != widget.user.uid)
                     Container(
-                      constraints: BoxConstraints(maxHeight: 100.0),
-                      width: constraints.maxWidth,
-                      child: Wrap(
-                        children: <Widget>[
-                          if (widget.messages[widget.messages.length - 1]
-                                  .quickReplies !=
-                              null)
-                            ...widget.messages[widget.messages.length - 1]
-                                .quickReplies.values
-                                .sublist(
-                                    0,
-                                    widget.messages[widget.messages.length - 1]
-                                                .quickReplies.values.length <=
-                                            3
-                                        ? widget
-                                            .messages[
-                                                widget.messages.length - 1]
-                                            .quickReplies
-                                            .values
-                                            .length
-                                        : 3)
-                                .map(
-                                  (reply) => QuickReply(
-                                    reply: reply,
-                                    onReply: widget.onQuickReply,
-                                    quickReplyBuilder: widget.quickReplyBuilder,
-                                    quickReplyStyle: widget.quickReplyStyle,
-                                    quickReplyTextStyle:
-                                        widget.quickReplyTextStyle,
-                                  ),
-                                )
-                                .toList(),
-                        ],
-                      ),
+                      padding: widget.quickReplyPadding,
+                      constraints: BoxConstraints(
+                          maxHeight: widget.quickReplyScroll ? 50.0 : 100.0),
+                      width: widget.quickReplyScroll ? null : maxWidth,
+                      child: widget.quickReplyScroll
+                          ? ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: widget.messages.last.quickReplies.values
+                                  .map(_mapReply)
+                                  .toList(),
+                            )
+                          : Wrap(
+                              children: <Widget>[
+                                ...widget.messages.last.quickReplies.values
+                                    .sublist(
+                                        0,
+                                        widget.messages.last.quickReplies.values
+                                                    .length <=
+                                                3
+                                            ? widget.messages.last.quickReplies
+                                                .values.length
+                                            : 3)
+                                    .map(_mapReply)
+                                    .toList(),
+                              ],
+                            ),
                     ),
                   if (widget.chatFooterBuilder != null)
                     widget.chatFooterBuilder(),
@@ -587,4 +587,12 @@ class DashChatState extends State<DashChat> {
       },
     );
   }
+
+  QuickReply _mapReply(Reply reply) => QuickReply(
+        reply: reply,
+        onReply: widget.onQuickReply,
+        quickReplyBuilder: widget.quickReplyBuilder,
+        quickReplyStyle: widget.quickReplyStyle,
+        quickReplyTextStyle: widget.quickReplyTextStyle,
+      );
 }
