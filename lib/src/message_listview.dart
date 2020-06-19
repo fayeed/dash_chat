@@ -33,42 +33,45 @@ class MessageListView extends StatefulWidget {
   final BoxConstraints constraints;
   final List<Widget> Function(ChatMessage) messageButtonsBuilder;
   final EdgeInsets messagePadding;
+  final bool textBeforeImage;
+  final double avatarMaxSize;
 
-  MessageListView({
-    this.showLoadEarlierWidget,
-    this.shouldShowLoadEarlier,
-    this.constraints,
-    this.onLoadEarlier,
-    this.defaultLoadCallback,
-    this.messageContainerPadding =
-        const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
-    this.scrollController,
-    this.parsePatterns = const [],
-    this.messageContainerDecoration,
-    this.messages,
-    this.user,
-    this.showuserAvatar,
-    this.dateFormat,
-    this.timeFormat,
-    this.showAvatarForEverMessage,
-    this.inverted,
-    this.onLongPressAvatar,
-    this.onLongPressMessage,
-    this.onPressAvatar,
-    this.renderAvatarOnTop,
-    this.messageBuilder,
-    this.renderMessageFooter,
-    this.avatarBuilder,
-    this.dateBuilder,
-    this.messageImageBuilder,
-    this.messageTextBuilder,
-    this.messageTimeBuilder,
-    this.changeVisible,
-    this.visible,
-    this.showLoadMore,
-    this.messageButtonsBuilder,
-    this.messagePadding = const EdgeInsets.all(8.0),
-  });
+  MessageListView(
+      {this.showLoadEarlierWidget,
+      this.avatarMaxSize,
+      this.shouldShowLoadEarlier,
+      this.constraints,
+      this.onLoadEarlier,
+      this.defaultLoadCallback,
+      this.messageContainerPadding =
+          const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
+      this.scrollController,
+      this.parsePatterns = const [],
+      this.messageContainerDecoration,
+      this.messages,
+      this.user,
+      this.showuserAvatar,
+      this.dateFormat,
+      this.timeFormat,
+      this.showAvatarForEverMessage,
+      this.inverted,
+      this.onLongPressAvatar,
+      this.onLongPressMessage,
+      this.onPressAvatar,
+      this.renderAvatarOnTop,
+      this.messageBuilder,
+      this.renderMessageFooter,
+      this.avatarBuilder,
+      this.dateBuilder,
+      this.messageImageBuilder,
+      this.messageTextBuilder,
+      this.messageTimeBuilder,
+      this.changeVisible,
+      this.visible,
+      this.showLoadMore,
+      this.messageButtonsBuilder,
+      this.messagePadding = const EdgeInsets.all(8.0),
+      this.textBeforeImage = true});
 
   @override
   _MessageListViewState createState() => _MessageListViewState();
@@ -78,25 +81,18 @@ class _MessageListViewState extends State<MessageListView> {
   double previousPixelPostion = 0.0;
 
   bool scrollNotificationFunc(ScrollNotification scrollNotification) {
-    if (previousPixelPostion == 0.0) {
-      previousPixelPostion = scrollNotification.metrics.maxScrollExtent;
-    }
+    double bottom =
+        widget.inverted ? 0.0 : scrollNotification.metrics.maxScrollExtent;
 
-    if (scrollNotification.metrics.pixels ==
-        scrollNotification.metrics.maxScrollExtent) {
+    if (scrollNotification.metrics.pixels == bottom) {
       if (widget.visible) {
         widget.changeVisible(false);
       }
-    } else {
-      if (previousPixelPostion < scrollNotification.metrics.pixels) {
-        if (!widget.visible) {
-          widget.changeVisible(true);
-        }
+    } else if ((scrollNotification.metrics.pixels - bottom).abs() > 100) {
+      if (!widget.visible) {
+        widget.changeVisible(true);
       }
-
-      previousPixelPostion = scrollNotification.metrics.pixels;
     }
-
     return true;
   }
 
@@ -104,10 +100,12 @@ class _MessageListViewState extends State<MessageListView> {
     if (widget.showAvatarForEverMessage) {
       return true;
     }
-    if (!widget.inverted && index+1 < widget.messages.length) {
-      return widget.messages[index+1].user.uid != widget.messages[index].user.uid;
-    } else if (widget.inverted && index-1 >= 0) {
-      return widget.messages[index-1].user.uid != widget.messages[index].user.uid;
+    if (!widget.inverted && index + 1 < widget.messages.length) {
+      return widget.messages[index + 1].user.uid !=
+          widget.messages[index].user.uid;
+    } else if (widget.inverted && index - 1 >= 0) {
+      return widget.messages[index - 1].user.uid !=
+          widget.messages[index].user.uid;
     }
     return true;
   }
@@ -165,6 +163,9 @@ class _MessageListViewState extends State<MessageListView> {
                         0) {
                       showDate = true;
                       currentDate = messageDate;
+                    } else if (i == widget.messages.length - 1 &&
+                        widget.inverted) {
+                      showDate = true;
                     } else {
                       showDate = false;
                     }
@@ -173,7 +174,9 @@ class _MessageListViewState extends State<MessageListView> {
                       child: Column(
                         children: <Widget>[
                           if (showDate &&
-                              (!widget.inverted || widget.messages.length == 1))
+                              (!widget.inverted ||
+                                  widget.messages.length == 1 ||
+                                  (last && widget.inverted)))
                             DateBuilder(
                               date:
                                   widget.inverted ? previousDate : currentDate,
@@ -208,6 +211,7 @@ class _MessageListViewState extends State<MessageListView> {
                                       onPress: widget.onPressAvatar,
                                       onLongPress: widget.onLongPressAvatar,
                                       avatarBuilder: widget.avatarBuilder,
+                                      avatarMaxSize: widget.avatarMaxSize,
                                     ),
                                   ),
                                 ),
@@ -278,6 +282,8 @@ class _MessageListViewState extends State<MessageListView> {
                                                   widget.messages[i].buttons,
                                               messageButtonsBuilder:
                                                   widget.messageButtonsBuilder,
+                                              textBeforeImage:
+                                                  widget.textBeforeImage,
                                             ),
                                           ),
                                   ),
@@ -300,6 +306,7 @@ class _MessageListViewState extends State<MessageListView> {
                                         onPress: widget.onPressAvatar,
                                         onLongPress: widget.onLongPressAvatar,
                                         avatarBuilder: widget.avatarBuilder,
+                                        avatarMaxSize: widget.avatarMaxSize,
                                       ),
                                     ),
                                   )
@@ -312,7 +319,8 @@ class _MessageListViewState extends State<MessageListView> {
                           ),
                           if (showDate &&
                               widget.inverted &&
-                              widget.messages.length > 1)
+                              widget.messages.length > 1 &&
+                              !last)
                             DateBuilder(
                               date:
                                   widget.inverted ? previousDate : currentDate,
