@@ -1,3 +1,7 @@
+## [1.1.10]
+
+- Add quick reply horizontal scroll and padding options
+
 ## [1.1.9]
 
 - Fixed issue #91, where setting the name was not handled properly
