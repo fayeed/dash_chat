@@ -1,3 +1,7 @@
+## [1.1.11]
+
+- Fixed a bug with previous version causing the widget to break.
+
 ## [1.1.10]
 
 - Add quick reply horizontal scroll and padding options
