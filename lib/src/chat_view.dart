@@ -45,6 +45,9 @@ class DashChat extends StatefulWidget {
   /// be passed.
   final Function(String) onTextChange;
 
+  /// If the input TextField is disabled.
+  final bool inputDisabled;
+
   /// Used to provide input decoration to the text as default only
   /// to the input placeholder for the chat input
   /// "Add Message here...".

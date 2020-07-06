@@ -15,6 +15,7 @@ class ChatInputToolbar extends StatelessWidget {
   final Function(ChatMessage) onSend;
   final String text;
   final Function(String) onTextChange;
+  final bool inputDisabled;
   final String Function() messageIdGenerator;
   final Widget Function(Function) sendButtonBuilder;
   final Widget Function() inputFooterBuilder;
@@ -40,6 +41,7 @@ class ChatInputToolbar extends StatelessWidget {
     this.textInputAction,
     this.sendOnEnter = false,
     this.onTextChange,
+    this.inputDisabled = false,
     this.controller,
     this.leading = const [],
     this.trailling = const [],
@@ -124,6 +126,7 @@ class ChatInputToolbar extends StatelessWidget {
                       showCursor: showInputCursor,
                       cursorColor: inputCursorColor,
                       cursorWidth: inputCursorWidth,
+                      enabled: !inputDisabled,
                     ),
                   ),
                 ),
