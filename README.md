@@ -154,6 +154,7 @@ ChatMessage(
 - `textBeforeImage` (bool) - Can be used to set the order of the text and the image inside a message defaults to `true`.
 - `quickReplyScroll` (bool) - Should the quick reply options be horizontally scrollable
 - `quickReplyPadding` (EdgeInsetsGeometry) - Padding for QuickReply
+-  `inputDisabled` (bool) - Should the input TextField be disabled, defaults to `false`
 
 ## Credits 👨🏻‍💻
 
