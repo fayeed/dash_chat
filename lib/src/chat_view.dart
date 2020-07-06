@@ -311,6 +311,7 @@ class DashChat extends StatefulWidget {
     @required this.messages,
     this.onTextChange,
     this.text,
+    this.inputDisabled,
     this.textController,
     this.focusNode,
     this.inputDecoration,
@@ -554,6 +555,7 @@ class DashChatState extends State<DashChat> {
                         onTextChange: widget.onTextChange != null
                             ? widget.onTextChange
                             : onTextChange,
+                        inputDisabled: widget.inputDisabled,
                         leading: widget.leading,
                         trailling: widget.trailing,
                         inputContainerStyle: widget.inputContainerStyle,
