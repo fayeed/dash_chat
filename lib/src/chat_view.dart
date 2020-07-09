@@ -45,6 +45,9 @@ class DashChat extends StatefulWidget {
   /// be passed.
   final Function(String) onTextChange;
 
+  /// If the input TextField is disabled.
+  final bool inputDisabled;
+
   /// Used to provide input decoration to the text as default only
   /// to the input placeholder for the chat input
   /// "Add Message here...".
@@ -308,6 +311,7 @@ class DashChat extends StatefulWidget {
     @required this.messages,
     this.onTextChange,
     this.text,
+    this.inputDisabled,
     this.textController,
     this.focusNode,
     this.inputDecoration,
@@ -551,6 +555,7 @@ class DashChatState extends State<DashChat> {
                         onTextChange: widget.onTextChange != null
                             ? widget.onTextChange
                             : onTextChange,
+                        inputDisabled: widget.inputDisabled,
                         leading: widget.leading,
                         trailling: widget.trailing,
                         inputContainerStyle: widget.inputContainerStyle,
