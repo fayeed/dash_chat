@@ -1,3 +1,7 @@
+## [1.1.12]
+
+- `inputDisabled` property added.
+
 ## [1.1.11]
 
 - Fixed a bug with previous version causing the widget to break.
