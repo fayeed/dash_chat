@@ -1,3 +1,7 @@
+## [1.1.13]
+
+- Fixed a bug from previous update.
+
 ## [1.1.12]
 
 - `inputDisabled` property added.

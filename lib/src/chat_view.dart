@@ -311,7 +311,7 @@ class DashChat extends StatefulWidget {
     @required this.messages,
     this.onTextChange,
     this.text,
-    this.inputDisabled,
+    this.inputDisabled = false,
     this.textController,
     this.focusNode,
     this.inputDecoration,
