@@ -267,6 +267,21 @@ class DashChat extends StatefulWidget {
   /// Defaults to `30.0`
   final double avatarMaxSize;
 
+  /// Color for the userContainer , if you want to overwrite
+  ///
+  /// Default to accentColor
+  final Color userContainerColor;
+
+  /// Color for the otherContainer , if you want to overwrite
+  ///
+  /// Default to Color.fromRGBO(218, 235, 247, 1),
+  final Color otherContainerColor;
+
+  /// For showing corner pointing towards the message sender
+  ///
+  /// Default container decoration is round
+  final bool showPointedMessageContainer;
+
   ScrollToBottomStyle scrollToBottomStyle;
 
   DashChat({
@@ -344,6 +359,9 @@ class DashChat extends StatefulWidget {
     this.messageButtonsBuilder,
     this.messagePadding = const EdgeInsets.all(8.0),
     this.textBeforeImage = true,
+    this.userContainerColor,
+    this.otherContainerColor,
+    this.showPointedMessageContainer = false,
   }) : super(key: key) {
     this.scrollToBottomStyle = scrollToBottomStyle ?? new ScrollToBottomStyle();
   }
@@ -499,6 +517,10 @@ class DashChatState extends State<DashChat> {
                     visible: visible,
                     showLoadMore: showLoadMore,
                     messageButtonsBuilder: widget.messageButtonsBuilder,
+                    userContainerColor: widget.userContainerColor,
+                    otherContainerColor: widget.otherContainerColor,
+                    showPointedMessageContainer:
+                        widget.showPointedMessageContainer,
                   ),
                   if (widget.messages.length != 0 &&
                       widget.messages.last.user.uid != widget.user.uid &&

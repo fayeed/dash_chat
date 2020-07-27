@@ -61,6 +61,21 @@ class MessageContainer extends StatelessWidget {
   /// Default to `true`
   final bool textBeforeImage;
 
+  /// Color for the userContainer , if you want to overwrite
+  ///
+  /// Default to accentColor
+  final Color userContainerColor;
+
+  /// Color for the otherContainer , if you want to overwrite
+  ///
+  /// Default to Color.fromRGBO(218, 235, 247, 1),
+  final Color otherContainerColor;
+
+  /// For showing corner pointing towards the message sender
+  ///
+  /// Default container decoration is round
+  final bool showPointedMessageContainer;
+
   const MessageContainer({
     @required this.message,
     @required this.timeFormat,
@@ -75,7 +90,12 @@ class MessageContainer extends StatelessWidget {
     this.messageButtonsBuilder,
     this.buttons,
     this.messagePadding = const EdgeInsets.all(8.0),
+    this.userContainerColor,
+    this.otherContainerColor,
+    this.showPointedMessageContainer,
   });
+
+  final containerRadius = const Radius.circular(10.0);
 
   @override
   Widget build(BuildContext context) {
@@ -98,9 +118,23 @@ class MessageContainer extends StatelessWidget {
                 color: message.user.containerColor != null
                     ? message.user.containerColor
                     : isUser
-                        ? Theme.of(context).accentColor
-                        : Color.fromRGBO(225, 225, 225, 1),
-                borderRadius: BorderRadius.circular(5.0),
+                        ? userContainerColor ?? Theme.of(context).primaryColor
+                        : otherContainerColor ??
+                            Color.fromRGBO(218, 235, 247, 1),
+                borderRadius: BorderRadius.only(
+                  topRight: containerRadius,
+                  topLeft: containerRadius,
+                  bottomRight: isUser
+                      ? showPointedMessageContainer
+                          ? Radius.circular(0.0)
+                          : containerRadius
+                      : containerRadius,
+                  bottomLeft: isUser
+                      ? containerRadius
+                      : showPointedMessageContainer
+                          ? Radius.circular(0.0)
+                          : containerRadius,
+                ),
               ),
         margin: EdgeInsets.only(
           bottom: 5.0,

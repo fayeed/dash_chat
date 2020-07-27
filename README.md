@@ -158,6 +158,9 @@ ChatMessage(
 - `quickReplyScroll` (bool) - Should the quick reply options be horizontally scrollable
 - `quickReplyPadding` (EdgeInsetsGeometry) - Padding for QuickReply
 - `inputDisabled` (bool) - Should the input TextField be disabled, defaults to `false`
+- `userContainerColor` (Color) - Override the Color for the current user message container, defaults to `accentColor`
+- `otherContainerColor` (Color) - Override the Color for the other's message container, defaults to `Color.fromRGBO(218, 235, 247, 1),`
+- `showPointedMessageContainer` (bool) -For showing pointed container pointed towards the sender, defaults to `false`
 
 ## Credits 👨🏻‍💻
 

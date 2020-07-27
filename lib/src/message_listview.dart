@@ -35,9 +35,12 @@ class MessageListView extends StatefulWidget {
   final EdgeInsets messagePadding;
   final bool textBeforeImage;
   final double avatarMaxSize;
+  final Color userContainerColor;
+  final Color otherContainerColor;
+  final bool showPointedMessageContainer;
 
-  MessageListView(
-      {this.showLoadEarlierWidget,
+  MessageListView({
+      this.showLoadEarlierWidget,
       this.avatarMaxSize,
       this.shouldShowLoadEarlier,
       this.constraints,
@@ -71,7 +74,11 @@ class MessageListView extends StatefulWidget {
       this.showLoadMore,
       this.messageButtonsBuilder,
       this.messagePadding = const EdgeInsets.all(8.0),
-      this.textBeforeImage = true});
+      this.textBeforeImage = true,
+      this.userContainerColor,
+      this.otherContainerColor,
+      this.showPointedMessageContainer,
+  });
 
   @override
   _MessageListViewState createState() => _MessageListViewState();
@@ -284,6 +291,12 @@ class _MessageListViewState extends State<MessageListView> {
                                                   widget.messageButtonsBuilder,
                                               textBeforeImage:
                                                   widget.textBeforeImage,
+                                              userContainerColor:
+                                                  widget.userContainerColor,
+                                              otherContainerColor:
+                                                  widget.otherContainerColor,
+                                              showPointedMessageContainer: widget
+                                                  .showPointedMessageContainer,
                                             ),
                                           ),
                                   ),
