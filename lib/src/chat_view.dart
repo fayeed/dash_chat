@@ -267,6 +267,12 @@ class DashChat extends StatefulWidget {
   /// Defaults to `30.0`
   final double avatarMaxSize;
 
+  /// overrides the boxdecoration of the message
+  /// can be used to override color, or customise the message container
+  /// params [ChatMessage] and [isUser]: boolean
+  /// return BoxDecoration
+  final BoxDecoration Function(ChatMessage, bool) messageDecorationBuilder;
+
   ScrollToBottomStyle scrollToBottomStyle;
 
   DashChat({
@@ -344,6 +350,7 @@ class DashChat extends StatefulWidget {
     this.messageButtonsBuilder,
     this.messagePadding = const EdgeInsets.all(8.0),
     this.textBeforeImage = true,
+    this.messageDecorationBuilder,
   }) : super(key: key) {
     this.scrollToBottomStyle = scrollToBottomStyle ?? new ScrollToBottomStyle();
   }
@@ -499,6 +506,7 @@ class DashChatState extends State<DashChat> {
                     visible: visible,
                     showLoadMore: showLoadMore,
                     messageButtonsBuilder: widget.messageButtonsBuilder,
+                    messageDecorationBuilder: widget.messageDecorationBuilder
                   ),
                   if (widget.messages.length != 0 &&
                       widget.messages.last.user.uid != widget.user.uid &&
