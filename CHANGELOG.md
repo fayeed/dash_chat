@@ -1,3 +1,7 @@
+## [1.1.14]
+
+- `messageDecorationBuilder` property added.
+
 ## [1.1.13]
 
 - Fixed a bug from previous update.
