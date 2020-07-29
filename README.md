@@ -158,6 +158,21 @@ ChatMessage(
 - `quickReplyScroll` (bool) - Should the quick reply options be horizontally scrollable
 - `quickReplyPadding` (EdgeInsetsGeometry) - Padding for QuickReply
 - `inputDisabled` (bool) - Should the input TextField be disabled, defaults to `false`
+- `messageDecorationBuilder` (BoxDecoration Function(ChatMessage, isUser) - Override the message container decoration. [Note: This will override the messageContainerDecoration ]
+
+  ```dart
+  DashChat(
+    ...
+    messageDecorationBuilder: (ChatMessage msg, bool isUser){
+      return BoxDecoration(
+        ...
+        color: isUser ? Colors.red : Colors.blue, // example
+        ...
+      );
+    },
+    ...
+  );
+  ```
 
 ## Credits 👨🏻‍💻
 

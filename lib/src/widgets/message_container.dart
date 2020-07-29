@@ -61,6 +61,12 @@ class MessageContainer extends StatelessWidget {
   /// Default to `true`
   final bool textBeforeImage;
 
+  /// overrides the boxdecoration of the message
+  /// can be used to override color, or customise the message container
+  /// params [ChatMessage] and [isUser]: boolean
+  /// return BoxDecoration
+  final BoxDecoration Function(ChatMessage, bool) messageDecorationBuilder;
+
   const MessageContainer({
     @required this.message,
     @required this.timeFormat,
@@ -75,6 +81,7 @@ class MessageContainer extends StatelessWidget {
     this.messageButtonsBuilder,
     this.buttons,
     this.messagePadding = const EdgeInsets.all(8.0),
+    this.messageDecorationBuilder,
   });
 
   @override
@@ -88,20 +95,22 @@ class MessageContainer extends StatelessWidget {
         maxWidth: constraints.maxWidth * 0.8,
       ),
       child: Container(
-        decoration: messageContainerDecoration != null
-            ? messageContainerDecoration.copyWith(
-                color: message.user.containerColor != null
-                    ? message.user.containerColor
-                    : messageContainerDecoration.color,
-              )
-            : BoxDecoration(
-                color: message.user.containerColor != null
-                    ? message.user.containerColor
-                    : isUser
-                        ? Theme.of(context).accentColor
-                        : Color.fromRGBO(225, 225, 225, 1),
-                borderRadius: BorderRadius.circular(5.0),
-              ),
+        decoration: messageDecorationBuilder != null
+            ? messageDecorationBuilder(message, isUser)
+            : messageContainerDecoration != null
+                ? messageContainerDecoration.copyWith(
+                    color: message.user.containerColor != null
+                        ? message.user.containerColor
+                        : messageContainerDecoration.color,
+                  )
+                : BoxDecoration(
+                    color: message.user.containerColor != null
+                        ? message.user.containerColor
+                        : isUser
+                            ? Theme.of(context).accentColor
+                            : Color.fromRGBO(225, 225, 225, 1),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
         margin: EdgeInsets.only(
           bottom: 5.0,
         ),
