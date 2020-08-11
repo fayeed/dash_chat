@@ -260,8 +260,8 @@ class _MessageListViewState extends State<MessageListView> {
                                             alignment:
                                                 widget.messages[i].user.uid ==
                                                         widget.user.uid
-                                                    ? Alignment.centerRight
-                                                    : Alignment.centerLeft,
+                                                    ? AlignmentDirectional.centerEnd
+                                                    : AlignmentDirectional.centerStart,
                                             child: MessageContainer(
                                               messagePadding:
                                                   widget.messagePadding,
