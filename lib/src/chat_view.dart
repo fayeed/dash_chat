@@ -515,7 +515,8 @@ class DashChatState extends State<DashChat> {
                     visible: visible,
                     showLoadMore: showLoadMore,
                     messageButtonsBuilder: widget.messageButtonsBuilder,
-                    messageDecorationBuilder: widget.messageDecorationBuilder),
+                    messageDecorationBuilder: widget.messageDecorationBuilder
+                  ),
                   if (widget.messages.length != 0 &&
                       widget.messages.last.user.uid != widget.user.uid &&
                       widget.messages.last.quickReplies != null)
