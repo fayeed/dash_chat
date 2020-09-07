@@ -374,6 +374,7 @@ class DashChatState extends State<DashChat> {
   bool showLoadMore = false;
   String get messageInput => _text;
   bool _initialLoad = true;
+  Timer _timer;
 
   void onTextChange(String text) {
     if (visible) {
@@ -407,6 +408,12 @@ class DashChatState extends State<DashChat> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   void widgetBuilt(Duration d) {
     double initPos = widget.inverted
         ? 0.0
@@ -414,17 +421,19 @@ class DashChatState extends State<DashChat> {
 
     scrollController
         .animateTo(
-          initPos,
-          duration: const Duration(milliseconds: 150),
-          curve: Curves.easeInOut,
-        )
-        .whenComplete(() => {
-              Timer(Duration(milliseconds: 1000), () {
-                setState(() {
-                  _initialLoad = false;
-                });
-              })
-            });
+      initPos,
+      duration: const Duration(milliseconds: 150),
+      curve: Curves.easeInOut,
+    )
+        .whenComplete(() {
+      _timer = Timer(Duration(milliseconds: 1000), () {
+        if (this.mounted) {
+          setState(() {
+            _initialLoad = false;
+          });
+        }
+      });
+    });
 
     scrollController.addListener(() {
       bool topReached = widget.inverted
