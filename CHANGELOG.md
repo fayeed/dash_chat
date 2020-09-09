@@ -1,3 +1,7 @@
+## [1.1.15]
+
+- Memory leaked issue fixed, PR [#133](https://github.com/fayeed/dash_chat/pull/133) by [@peter-sg](https://github.com/peter-sg) & [@pycstitch](https://github.com/pycstitch)
+
 ## [1.1.14]
 
 - `messageDecorationBuilder` property added.
