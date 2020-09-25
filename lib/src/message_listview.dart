@@ -36,45 +36,47 @@ class MessageListView extends StatefulWidget {
   final bool textBeforeImage;
   final double avatarMaxSize;
   final BoxDecoration Function(ChatMessage, bool) messageDecorationBuilder;
+  final ScrollPhysics physics;
 
-  MessageListView(
-      {this.showLoadEarlierWidget,
-      this.avatarMaxSize,
-      this.shouldShowLoadEarlier,
-      this.constraints,
-      this.onLoadEarlier,
-      this.defaultLoadCallback,
-      this.messageContainerPadding =
-          const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
-      this.scrollController,
-      this.parsePatterns = const [],
-      this.messageContainerDecoration,
-      this.messages,
-      this.user,
-      this.showuserAvatar,
-      this.dateFormat,
-      this.timeFormat,
-      this.showAvatarForEverMessage,
-      this.inverted,
-      this.onLongPressAvatar,
-      this.onLongPressMessage,
-      this.onPressAvatar,
-      this.renderAvatarOnTop,
-      this.messageBuilder,
-      this.renderMessageFooter,
-      this.avatarBuilder,
-      this.dateBuilder,
-      this.messageImageBuilder,
-      this.messageTextBuilder,
-      this.messageTimeBuilder,
-      this.changeVisible,
-      this.visible,
-      this.showLoadMore,
-      this.messageButtonsBuilder,
-      this.messagePadding = const EdgeInsets.all(8.0),
-      this.textBeforeImage = true,
-      this.messageDecorationBuilder,
-      });
+  MessageListView({
+    this.showLoadEarlierWidget,
+    this.avatarMaxSize,
+    this.shouldShowLoadEarlier,
+    this.constraints,
+    this.onLoadEarlier,
+    this.defaultLoadCallback,
+    this.messageContainerPadding =
+        const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
+    this.scrollController,
+    this.parsePatterns = const [],
+    this.messageContainerDecoration,
+    this.messages,
+    this.user,
+    this.showuserAvatar,
+    this.dateFormat,
+    this.timeFormat,
+    this.showAvatarForEverMessage,
+    this.inverted,
+    this.onLongPressAvatar,
+    this.onLongPressMessage,
+    this.onPressAvatar,
+    this.renderAvatarOnTop,
+    this.messageBuilder,
+    this.renderMessageFooter,
+    this.avatarBuilder,
+    this.dateBuilder,
+    this.messageImageBuilder,
+    this.messageTextBuilder,
+    this.messageTimeBuilder,
+    this.changeVisible,
+    this.visible,
+    this.showLoadMore,
+    this.messageButtonsBuilder,
+    this.messagePadding = const EdgeInsets.all(8.0),
+    this.textBeforeImage = true,
+    this.messageDecorationBuilder,
+    this.physics,
+  });
 
   @override
   _MessageListViewState createState() => _MessageListViewState();
@@ -136,6 +138,7 @@ class _MessageListViewState extends State<MessageListView> {
                   controller: widget.scrollController,
                   shrinkWrap: true,
                   reverse: widget.inverted,
+                  physics: widget.physics,
                   itemCount: widget.messages.length,
                   itemBuilder: (context, i) {
                     bool showAvatar = shouldShowAvatar(i);
@@ -257,11 +260,12 @@ class _MessageListViewState extends State<MessageListView> {
                                         ? widget
                                             .messageBuilder(widget.messages[i])
                                         : Align(
-                                            alignment:
-                                                widget.messages[i].user.uid ==
-                                                        widget.user.uid
-                                                    ? AlignmentDirectional.centerEnd
-                                                    : AlignmentDirectional.centerStart,
+                                            alignment: widget
+                                                        .messages[i].user.uid ==
+                                                    widget.user.uid
+                                                ? AlignmentDirectional.centerEnd
+                                                : AlignmentDirectional
+                                                    .centerStart,
                                             child: MessageContainer(
                                               messagePadding:
                                                   widget.messagePadding,
@@ -287,8 +291,8 @@ class _MessageListViewState extends State<MessageListView> {
                                                   widget.messageButtonsBuilder,
                                               textBeforeImage:
                                                   widget.textBeforeImage,
-                                              messageDecorationBuilder:
-                                                  widget.messageDecorationBuilder,
+                                              messageDecorationBuilder: widget
+                                                  .messageDecorationBuilder,
                                             ),
                                           ),
                                   ),
