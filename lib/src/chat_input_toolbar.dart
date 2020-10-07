@@ -21,6 +21,7 @@ class ChatInputToolbar extends StatelessWidget {
   final Widget Function() inputFooterBuilder;
   final bool showInputCursor;
   final double inputCursorWidth;
+  final List<TextInputFormatter> inputFormatters;
   final Color inputCursorColor;
   final ScrollController scrollController;
   final bool showTraillingBeforeSend;
@@ -54,6 +55,7 @@ class ChatInputToolbar extends StatelessWidget {
     this.maxInputLength,
     this.inputCursorWidth = 2.0,
     this.inputCursorColor,
+    this.inputFormatters,
     this.onSend,
     this.reverse = false,
     @required this.user,
@@ -94,6 +96,7 @@ class ChatInputToolbar extends StatelessWidget {
                   child: Directionality(
                     textDirection: textDirection,
                     child: TextField(
+                      inputFormatters: inputFormatters,
                       focusNode: focusNode,
                       onChanged: (value) {
                         onTextChange(value);
