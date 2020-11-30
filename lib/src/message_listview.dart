@@ -176,6 +176,14 @@ class _MessageListViewState extends State<MessageListView> {
                       showCurrentDate = true;
                     }
 
+                    print("i: $i");
+                    print("last: $last");
+                    print("Message: ${widget.messages[i].text}");
+                    print("Previous Date: $previousDate");
+                    print("Show Previous Date: $showPreviousDate");
+                    print("Current Date: $currentDate");
+                    print("Show Current Date: $showCurrentDate");
+
                     return Align(
                       child: Column(
                         children: <Widget>[
