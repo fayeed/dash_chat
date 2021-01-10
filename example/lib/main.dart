@@ -2,13 +2,18 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:dash_chat/dash_chat.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:dash_chat/dash_chat.dart';
 
-void main() => runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await firebase_core.Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -73,12 +78,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void onSend(ChatMessage message) {
     print(message.toJson());
-    var documentReference = Firestore.instance
+    var documentReference = FirebaseFirestore.instance
         .collection('messages')
-        .document(DateTime.now().millisecondsSinceEpoch.toString());
+        .doc(DateTime.now().millisecondsSinceEpoch.toString());
 
-    Firestore.instance.runTransaction((transaction) async {
-      await transaction.set(
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      transaction.set(
         documentReference,
         message.toJson(),
       );
@@ -105,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text("Chat App"),
       ),
       body: StreamBuilder(
-          stream: Firestore.instance.collection('messages').snapshots(),
+          stream: FirebaseFirestore.instance.collection('messages').snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(
@@ -116,9 +121,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               );
             } else {
-              List<DocumentSnapshot> items = snapshot.data.documents;
-              var messages =
-                  items.map((i) => ChatMessage.fromJson(i.data)).toList();
+              var messages = snapshot.data.docs
+                  .map((DocumentSnapshot document) =>
+                      ChatMessage.fromJson(document.data()))
+                  .toList();
               return DashChat(
                 key: _chatViewKey,
                 inverted: false,
@@ -186,39 +192,43 @@ class _MyHomePageState extends State<MyHomePage> {
                   IconButton(
                     icon: Icon(Icons.photo),
                     onPressed: () async {
-                      File result = await ImagePicker.pickImage(
+                      PickedFile selectedFile = await ImagePicker().getImage(
                         source: ImageSource.gallery,
                         imageQuality: 80,
                         maxHeight: 400,
                         maxWidth: 400,
                       );
+                      File result = File(selectedFile.path);
+
+                      final metadata = firebase_storage.SettableMetadata(
+                        contentType: 'image/jpg',
+                      );
 
                       if (result != null) {
-                        final StorageReference storageRef =
-                            FirebaseStorage.instance.ref().child("chat_images");
+                        final firebase_storage.Reference storageRef =
+                            firebase_storage.FirebaseStorage.instance
+                                .ref()
+                                .child("chat_images");
 
-                        StorageUploadTask uploadTask = storageRef.putFile(
-                          result,
-                          StorageMetadata(
-                            contentType: 'image/jpg',
-                          ),
-                        );
-                        StorageTaskSnapshot download =
-                            await uploadTask.onComplete;
+                        firebase_storage.UploadTask uploadTask =
+                            storageRef.putFile(result, metadata);
+                        firebase_storage.TaskSnapshot download =
+                            await uploadTask;
 
                         String url = await download.ref.getDownloadURL();
 
                         ChatMessage message =
                             ChatMessage(text: "", user: user, image: url);
 
-                        var documentReference = Firestore.instance
+                        var documentReference = FirebaseFirestore.instance
                             .collection('messages')
-                            .document(DateTime.now()
+                            .doc(DateTime.now()
                                 .millisecondsSinceEpoch
                                 .toString());
 
-                        Firestore.instance.runTransaction((transaction) async {
-                          await transaction.set(
+                        FirebaseFirestore.instance
+                            .runTransaction((transaction) async {
+                          transaction.set(
                             documentReference,
                             message.toJson(),
                           );
