@@ -133,6 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 timeFormat: DateFormat('HH:mm'),
                 messages: messages,
                 showUserAvatar: false,
+                shouldStartMessagesFromTop: true,
                 showAvatarForEveryMessage: false,
                 scrollToBottom: false,
                 onPressAvatar: (ChatUser user) {

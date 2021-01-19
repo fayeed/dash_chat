@@ -221,6 +221,7 @@ class DashChat extends StatefulWidget {
   /// default to true.
   final bool scrollToBottom;
 
+  /// shouldStartMessagesFromTop will used to set the Message starting from Top or Bottom. default value is false.
   final bool shouldStartMessagesFromTop;
 
   /// Overrides the default [scrollToBottomWidget] with a custom widget
@@ -480,9 +481,6 @@ class DashChatState extends State<DashChat> {
           child: Stack(
             children: <Widget>[
               Column(
-                mainAxisAlignment: widget.shouldStartMessagesFromTop
-                    ? MainAxisAlignment.start
-                    : MainAxisAlignment.end,
                 children: <Widget>[
                   MessageListView(
                     avatarMaxSize: widget.avatarMaxSize,
@@ -490,6 +488,7 @@ class DashChatState extends State<DashChat> {
                     constraints: constraints,
                     shouldShowLoadEarlier: widget.shouldShowLoadEarlier,
                     showLoadEarlierWidget: widget.showLoadEarlierWidget,
+                    shouldStartMessagesFromTop: widget.shouldStartMessagesFromTop,
                     onLoadEarlier: widget.onLoadEarlier,
                     defaultLoadCallback: changeDefaultLoadMore,
                     messageContainerPadding: widget.messageContainerPadding,
