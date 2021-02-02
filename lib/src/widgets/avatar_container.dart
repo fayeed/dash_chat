@@ -67,19 +67,19 @@ class AvatarContainer extends StatelessWidget {
                             : user.name[0])),
                   ),
                 ),
-                user.avatar != null && user.avatar.length != 0
-                    ? Center(
-                        child: ClipOval(
-                          child: FadeInImage.memoryNetwork(
-                            image: user.avatar,
-                            placeholder: kTransparentImage,
-                            fit: BoxFit.cover,
-                            height: constraints.maxWidth * 0.08,
-                            width: constraints.maxWidth * 0.08,
-                          ),
+                user.avatar != null && user.avatar.length != 0 && user.avatar.contains("/")
+                  ? Center(
+                      child: ClipOval(
+                        child: FadeInImage.memoryNetwork(
+                          image: user.avatar,
+                          placeholder: kTransparentImage,
+                          fit: BoxFit.cover,
+                          height: constraints.maxWidth * 0.08,
+                          width: constraints.maxWidth * 0.08,
                         ),
-                      )
-                    : Container()
+                      ),
+                    )
+                  : Container()
               ],
             ),
     );
