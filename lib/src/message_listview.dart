@@ -138,8 +138,9 @@ class _MessageListViewState extends State<MessageListView> {
                   alignment: widget.shouldStartMessagesFromTop ? 
                     AlignmentDirectional.topCenter : AlignmentDirectional.bottomCenter,
                   child: SingleChildScrollView(
+                    controller: widget.scrollController,
                     child: ListView.builder(
-                      controller: widget.scrollController,
+                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       reverse: widget.inverted,
                       itemCount: widget.messages.length,
