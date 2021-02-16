@@ -126,7 +126,7 @@ class _MessageListViewState extends State<MessageListView> {
 
     return Flexible(
       child: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Padding(
           padding: widget.messageContainerPadding,
           child: NotificationListener<ScrollNotification>(
@@ -137,10 +137,8 @@ class _MessageListViewState extends State<MessageListView> {
                 Container(
                   alignment: widget.shouldStartMessagesFromTop ? 
                     AlignmentDirectional.topCenter : AlignmentDirectional.bottomCenter,
-                  child: SingleChildScrollView(
-                    controller: widget.scrollController,
                     child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                      controller: widget.scrollController,
                       shrinkWrap: true,
                       reverse: widget.inverted,
                       itemCount: widget.messages.length,
@@ -344,7 +342,6 @@ class _MessageListViewState extends State<MessageListView> {
                         );
                       },
                     ),
-                  ),
                 ),
                 Container(
                   height: 100.0,
