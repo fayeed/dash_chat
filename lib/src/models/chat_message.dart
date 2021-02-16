@@ -66,7 +66,7 @@ class ChatMessage {
     text = json['text'];
     image = json['image'];
     video = json['video'] ?? json['vedio'];
-    createdAt = DateTime.fromMillisecondsSinceEpoch(json['createdAt']);
+    createdAt = DateTime.fromMillisecondsSinceEpoch(json['createdAt'] * 1000);
     user = ChatUser.fromJson(json['user']);
     quickReplies = json['quickReplies'] != null
         ? QuickReplies.fromJson(json['quickReplies'])
