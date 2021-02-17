@@ -63,7 +63,7 @@ class ChatMessage {
 
   ChatMessage.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
-    text = json['text'];
+    text = json['text'] ?? '';
     image = json['image'];
     video = json['video'] ?? json['vedio'];
     createdAt = DateTime.fromMillisecondsSinceEpoch(json['createdAt'] * 1000);
