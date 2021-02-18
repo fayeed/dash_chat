@@ -41,11 +41,16 @@ class ChatMessage {
   /// actions in message container.
   List<Widget> buttons;
 
+  /// Allows files to be added
+
+  String file;
+
   ChatMessage({
     String id,
     @required this.text,
     @required this.user,
     this.image,
+    this.file,
     this.video,
     this.quickReplies,
     String Function() messageIdGenerator,
@@ -65,6 +70,7 @@ class ChatMessage {
     id = json['id'];
     text = json['text'] ?? '';
     image = json['image'];
+    file = json['file'];
     video = json['video'] ?? json['vedio'];
     createdAt = DateTime.fromMillisecondsSinceEpoch(json['createdAt'] * 1000);
     user = ChatUser.fromJson(json['user']);
@@ -81,6 +87,7 @@ class ChatMessage {
       data['id'] = this.id;
       data['text'] = this.text;
       data['image'] = this.image;
+      data['file'] = this.file;
       data['video'] = this.video;
       data['createdAt'] = this.createdAt.millisecondsSinceEpoch;
       data['user'] = user.toJson();
