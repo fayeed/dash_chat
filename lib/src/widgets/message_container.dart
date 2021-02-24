@@ -162,7 +162,9 @@ class MessageContainer extends StatelessWidget {
                     fontSize: 10.0,
                     color: message.user.color != null
                         ? message.user.color
-                        : isUser ? Colors.white70 : Colors.black87,
+                        : isUser
+                            ? Colors.white70
+                            : Colors.black87,
                   ),
                 ),
               )
@@ -180,9 +182,12 @@ class MessageContainer extends StatelessWidget {
         parse: parsePatterns,
         text: message.text,
         style: TextStyle(
+          height: 1.5,
           color: message.user.color != null
               ? message.user.color
-              : isUser ? Colors.white70 : Colors.black87,
+              : isUser
+                  ? Colors.white70
+                  : Colors.black87,
         ),
       );
   }
