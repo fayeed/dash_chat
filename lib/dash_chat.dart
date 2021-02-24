@@ -1,6 +1,7 @@
 library dash_chat;
 
 import 'dart:async';
+import 'package:dash_chat/src/codeboy_widgets/multi_line_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';

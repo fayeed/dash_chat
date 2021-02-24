@@ -181,8 +181,7 @@ class MessageContainer extends StatelessWidget {
       return ParsedText(
         parse: parsePatterns,
         text: message.text,
-        style: TextStyle(
-          height: 1.5,
+        style: MultiLineStyle(
           color: message.user.color != null
               ? message.user.color
               : isUser
