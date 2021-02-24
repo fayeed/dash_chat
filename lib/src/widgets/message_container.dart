@@ -179,6 +179,7 @@ class MessageContainer extends StatelessWidget {
       return messageTextBuilder(message.text, message);
     else
       return ParsedText(
+        selectable: true,
         parse: parsePatterns,
         text: message.text,
         style: MultiLineStyle(
