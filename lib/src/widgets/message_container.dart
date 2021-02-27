@@ -187,6 +187,13 @@ class MessageContainer extends StatelessWidget {
                   ? Colors.white70
                   : Colors.black87,
         ),
+        onOpen: (link) async {
+          if (await canLaunch(link.url)) {
+            await launch(link.url);
+          } else {
+            throw 'Could not launch $link';
+          }
+        },
       );
   }
 
