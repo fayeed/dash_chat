@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:dash_chat/dash_chat.dart';
 
@@ -20,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      // home: MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
@@ -44,33 +41,9 @@ class _MyHomePageState extends State<MyHomePage> {
     uid: "25649654",
   );
 
-  List<ChatMessage> messages = List<ChatMessage>();
-  var m = List<ChatMessage>();
-
-  var i = 0;
-
   @override
   void initState() {
     super.initState();
-  }
-
-  void systemMessage() {
-    Timer(Duration(milliseconds: 300), () {
-      if (i < 6) {
-        setState(() {
-          messages = [...messages, m[i]];
-        });
-        i++;
-      }
-      Timer(Duration(milliseconds: 300), () {
-        _chatViewKey.currentState.scrollController
-          ..animateTo(
-            _chatViewKey.currentState.scrollController.position.maxScrollExtent,
-            curve: Curves.easeOut,
-            duration: const Duration(milliseconds: 300),
-          );
-      });
-    });
   }
 
   void onSend(ChatMessage message) {
@@ -85,19 +58,6 @@ class _MyHomePageState extends State<MyHomePage> {
         message.toJson(),
       );
     });
-    /* setState(() {
-      messages = [...messages, message];
-      print(messages.length);
-    });
-
-    if (i == 0) {
-      systemMessage();
-      Timer(Duration(milliseconds: 600), () {
-        systemMessage();
-      });
-    } else {
-      systemMessage();
-    } */
   }
 
   @override
@@ -122,8 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
               var messages =
                   items.map((i) => ChatMessage.fromJson(i.data())).toList();
               return DashChat(
-                key: _chatViewKey,
-                inverted: false,
                 onSend: onSend,
                 sendOnEnter: true,
                 textInputAction: TextInputAction.send,
@@ -136,85 +94,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 showUserAvatar: false,
                 showAvatarForEveryMessage: false,
                 scrollToBottom: false,
-                onPressAvatar: (ChatUser user) {
-                  print("OnPressAvatar: ${user.name}");
-                },
-                onLongPressAvatar: (ChatUser user) {
-                  print("OnLongPressAvatar: ${user.name}");
-                },
                 inputMaxLines: 5,
                 messageContainerPadding: EdgeInsets.only(left: 5.0, right: 5.0),
                 alwaysShowSend: true,
-                inputTextStyle: TextStyle(fontSize: 16.0),
-                inputContainerStyle: BoxDecoration(
-                  border: Border.all(width: 0.0),
-                  color: Colors.white,
-                ),
-                onQuickReply: (Reply reply) {
-                  setState(() {
-                    messages.add(ChatMessage(
-                        text: reply.value,
-                        createdAt: DateTime.now(),
-                        user: user));
-
-                    messages = [...messages];
-                  });
-
-                  Timer(Duration(milliseconds: 300), () {
-                    _chatViewKey.currentState.scrollController
-                      ..animateTo(
-                        _chatViewKey.currentState.scrollController.position
-                            .maxScrollExtent,
-                        curve: Curves.easeOut,
-                        duration: const Duration(milliseconds: 300),
-                      );
-
-                    if (i == 0) {
-                      systemMessage();
-                      Timer(Duration(milliseconds: 600), () {
-                        systemMessage();
-                      });
-                    } else {
-                      systemMessage();
-                    }
-                  });
-                },
                 onLoadEarlier: () {
                   print("laoding...");
                 },
                 shouldShowLoadEarlier: false,
                 showTraillingBeforeSend: true,
-                trailing: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.photo),
-                    onPressed: () async {
-                      File result = await ImagePicker.pickImage(
-                        source: ImageSource.gallery,
-                        imageQuality: 80,
-                        maxHeight: 400,
-                        maxWidth: 400,
-                      );
-
-                      if (result != null) {
-                        ChatMessage message = ChatMessage(text: "", user: user);
-
-                        var documentReference = FirebaseFirestore.instance
-                            .collection('messages')
-                            .doc(DateTime.now()
-                                .millisecondsSinceEpoch
-                                .toString());
-
-                        FirebaseFirestore.instance
-                            .runTransaction((transaction) async {
-                          await transaction.set(
-                            documentReference,
-                            message.toJson(),
-                          );
-                        });
-                      }
-                    },
-                  )
-                ],
               );
             }
           }),
