@@ -13,6 +13,8 @@ dependencies:
   uuid: ^2.0.1
   intl: ^0.16.0
   transparent_image: ^1.0.0
+  flutter_linkify: ^4.0.2
+
 
 dev_dependencies:
   flutter_test:

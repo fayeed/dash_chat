@@ -178,9 +178,7 @@ class MessageContainer extends StatelessWidget {
     if (messageTextBuilder != null)
       return messageTextBuilder(message.text, message);
     else
-      return ParsedText(
-        selectable: true,
-        parse: parsePatterns,
+      return SelectableLinkify(
         text: message.text,
         style: MultiLineStyle(
           color: message.user.color != null
