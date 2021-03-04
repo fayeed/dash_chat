@@ -4,12 +4,12 @@ class ScrollToBottomStyle {
   /// Background color of the scrollToBottom widget
   ///
   /// Defaults to theme accent color
-  Color backgroundColor;
+  Color? backgroundColor;
 
   /// Text/ Icon color for scrollToBottom widget
   ///
   /// Defaults to white
-  Color textColor;
+  Color? textColor;
 
   /// Height of the scrollToBottom widget
   ///
@@ -24,12 +24,12 @@ class ScrollToBottomStyle {
   /// Top absolute position of the widget
   ///
   /// Defaults to 0.0
-  double top;
+  double? top;
 
   /// Left absolute position of the widget
   ///
   /// Defaults to 0.0
-  double left;
+  double? left;
 
   /// Right absolute position of the widget
   ///
@@ -44,7 +44,7 @@ class ScrollToBottomStyle {
   /// Icon inside the widget
   ///
   /// Defaults to material icon -> `keyboard_arrow_down`
-  IconData icon;
+  IconData? icon;
 
   ScrollToBottomStyle({
     this.backgroundColor,
