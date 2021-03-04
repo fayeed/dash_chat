@@ -98,6 +98,10 @@ class _MessageListViewState extends State<MessageListView> {
         widget.changeVisible(true);
       }
     }
+
+    if (scrollNotification is UserScrollNotification && scrollNotification.direction == ScrollDirection.forward) {
+      FocusScope.of(context).unfocus();
+    }
     return true;
   }
 
@@ -135,6 +139,7 @@ class _MessageListViewState extends State<MessageListView> {
               alignment: AlignmentDirectional.topCenter,
               children: [
                 Container(
+                  color: Colors.transparent,
                   alignment: widget.shouldStartMessagesFromTop ? 
                     AlignmentDirectional.topCenter : AlignmentDirectional.bottomCenter,
                     child: ListView.builder(
