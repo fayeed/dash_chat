@@ -126,12 +126,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 sendOnEnter: true,
                 textInputAction: TextInputAction.send,
                 user: user,
+                inputFormatters: [],
                 inputDecoration:
                     InputDecoration.collapsed(hintText: "Add message here..."),
                 dateFormat: DateFormat('yyyy-MMM-dd'),
                 timeFormat: DateFormat('HH:mm'),
                 messages: messages,
                 showUserAvatar: false,
+                shouldStartMessagesFromTop: true,
                 showAvatarForEveryMessage: false,
                 scrollToBottom: false,
                 onPressAvatar: (ChatUser user) {

@@ -161,6 +161,9 @@ class DashChat extends StatefulWidget {
   /// sendButtonBuilder will override the the default [IconButton].
   final Widget Function(Function) sendButtonBuilder;
 
+  /// inputFormatters will used to set the custom input formates. default format is [].
+  final List<TextInputFormatter> inputFormatters;
+
   /// Style for the [TextField].
   final TextStyle inputTextStyle;
 
@@ -218,6 +221,7 @@ class DashChat extends StatefulWidget {
   /// default to true.
   final bool scrollToBottom;
 
+  /// shouldStartMessagesFromTop will used to set the Message starting from Top or Bottom. default value is false.
   final bool shouldStartMessagesFromTop;
 
   /// Overrides the default [scrollToBottomWidget] with a custom widget
@@ -317,6 +321,7 @@ class DashChat extends StatefulWidget {
     @required this.messages,
     this.onTextChange,
     this.text,
+    this.inputFormatters,
     this.inputDisabled = false,
     this.textController,
     this.focusNode,
@@ -476,9 +481,6 @@ class DashChatState extends State<DashChat> {
           child: Stack(
             children: <Widget>[
               Column(
-                mainAxisAlignment: widget.shouldStartMessagesFromTop
-                    ? MainAxisAlignment.start
-                    : MainAxisAlignment.end,
                 children: <Widget>[
                   MessageListView(
                     avatarMaxSize: widget.avatarMaxSize,
@@ -486,6 +488,7 @@ class DashChatState extends State<DashChat> {
                     constraints: constraints,
                     shouldShowLoadEarlier: widget.shouldShowLoadEarlier,
                     showLoadEarlierWidget: widget.showLoadEarlierWidget,
+                    shouldStartMessagesFromTop: widget.shouldStartMessagesFromTop,
                     onLoadEarlier: widget.onLoadEarlier,
                     defaultLoadCallback: changeDefaultLoadMore,
                     messageContainerPadding: widget.messageContainerPadding,
@@ -570,6 +573,7 @@ class DashChatState extends State<DashChat> {
                         maxInputLength: widget.maxInputLength,
                         sendButtonBuilder: widget.sendButtonBuilder,
                         text: widget.text != null ? widget.text : _text,
+                        inputFormatters: widget.inputFormatters,
                         onTextChange: widget.onTextChange != null
                             ? widget.onTextChange
                             : onTextChange,
