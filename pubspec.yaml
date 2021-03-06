@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_parsed_text: ^1.1.0
-  uuid: ^2.0.1
+  uuid: ^3.0.1
   intl: ^0.16.0
   transparent_image: ^1.0.0
 
