@@ -3,7 +3,7 @@ part of dash_chat;
 class LoadEarlierWidget extends StatelessWidget {
   const LoadEarlierWidget({
     Key? key,
-    required this.onLoadEarlier,
+    this.onLoadEarlier,
     required this.defaultLoadCallback,
   }) : super(key: key);
 
