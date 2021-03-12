@@ -1,3 +1,7 @@
+## [1.1.15-nullsafety]
+
+- Support for sound null-safety added [#164](https://github.com/fayeed/dash_chat/pull/164) by [@diegogarciar](https://github.com/diegogarciar)
+
 ## [1.1.15]
 
 - Memory leaked issue fixed, PR [#133](https://github.com/fayeed/dash_chat/pull/133) by [@peter-sg](https://github.com/peter-sg) & [@pycstitch](https://github.com/pycstitch)
