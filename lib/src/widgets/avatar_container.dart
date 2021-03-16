@@ -54,17 +54,18 @@ class AvatarContainer extends StatelessWidget {
               children: <Widget>[
                 ClipOval(
                   child: Container(
-                    height: constraints.maxWidth * 0.08,
-                    width: constraints.maxWidth * 0.08,
+                    height: constraints.maxWidth * 0.15,
+                    width: constraints.maxWidth * 0.15,
                     constraints: BoxConstraints(
-                      maxWidth: avatarMaxSize,
-                      maxHeight: avatarMaxSize,
+                      maxWidth: avatarMaxSize + 15,
+                      maxHeight: avatarMaxSize + 15,
                     ),
                     color: Colors.grey,
                     child: Center(
-                        child: Text(user.name == null || user.name.isEmpty
-                            ? ''
-                            : user.name[0])),
+                        child: Text(userInitial(user.firstName,user.lastName),style: TextStyle(
+            fontSize: 12,
+            // color: receiveMsgFontColor,
+          ),)),
                   ),
                 ),
                 user.avatar != null && user.avatar.length != 0 && user.avatar.contains("/")
@@ -74,8 +75,8 @@ class AvatarContainer extends StatelessWidget {
                           image: user.avatar,
                           placeholder: kTransparentImage,
                           fit: BoxFit.cover,
-                          height: constraints.maxWidth * 0.08,
-                          width: constraints.maxWidth * 0.08,
+                          height: constraints.maxWidth * 0.12,
+                          width: constraints.maxWidth * 0.12,
                         ),
                       ),
                     )
@@ -84,4 +85,27 @@ class AvatarContainer extends StatelessWidget {
             ),
     );
   }
+   String userInitial(String firstName, String lastName) {
+    String value;
+    if (lastName != '' && lastName != null) {
+      if (firstName != '' && firstName != null) {
+        value = firstName[0].toUpperCase() + lastName[0].toUpperCase();
+      } else {
+        value = lastName.substring(0,2).toUpperCase();
+      }
+    } else {
+      if (firstName == '' || firstName == null) {
+        value = '';
+      } else {
+        var nameArray = firstName.split(' ');
+        if (nameArray.length > 1) {
+          value = nameArray[0].substring(0,1).toUpperCase() + nameArray[1].substring(0,1).toUpperCase();
+        } else {
+          value = firstName.substring(0,2).toUpperCase();
+        }
+      }
+    }
+    return value;
+  }
+
 }
