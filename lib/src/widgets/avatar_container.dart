@@ -62,10 +62,10 @@ class AvatarContainer extends StatelessWidget {
                     ),
                     color: Colors.grey,
                     child: Center(
-                        child: Text(userInitial(user.firstName,user.lastName),style: TextStyle(
-            fontSize: 12,
-            // color: receiveMsgFontColor,
-          ),)),
+                      child: Text(userInitial(user.firstName,user.lastName),style: TextStyle(
+                          fontSize: 14,
+                          color: Color.fromRGBO(202, 202, 202, 1),
+                     ),)),
                   ),
                 ),
                 user.avatar != null && user.avatar.length != 0 && user.avatar.contains("/")
