@@ -7,6 +7,7 @@ class ChatInputToolbar extends StatelessWidget {
   final TextCapitalization textCapitalization;
   final BoxDecoration inputContainerStyle;
   final List<Widget> leading;
+  final Widget plusButton;
   final List<Widget> trailling;
   final int inputMaxLines;
   final int maxInputLength;
@@ -45,6 +46,7 @@ class ChatInputToolbar extends StatelessWidget {
     this.inputDisabled = false,
     this.controller,
     this.leading = const [],
+    this.plusButton,
     this.trailling = const [],
     this.inputDecoration,
     this.textCapitalization,
@@ -78,84 +80,96 @@ class ChatInputToolbar extends StatelessWidget {
     );
 
     return Container(
-      padding: inputToolbarPadding,
-      margin: inputToolbarMargin,
-      decoration: inputContainerStyle != null
-          ? inputContainerStyle
-          : BoxDecoration(color: Colors.white),
-      child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              ...leading,
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Directionality(
-                    textDirection: textDirection,
-                    child: TextField(
-                      inputFormatters: inputFormatters,
-                      focusNode: focusNode,
-                      onChanged: (value) {
-                        onTextChange(value);
-                      },
-                      onSubmitted: (value) {
-                        if (sendOnEnter) {
-                          _sendMessage(context, message);
-                        }
-                      },
-                      textInputAction: textInputAction,
-                      buildCounter: (
-                        BuildContext context, {
-                        int currentLength,
-                        int maxLength,
-                        bool isFocused,
-                      }) =>
-                          null,
-                      decoration: inputDecoration != null
-                          ? inputDecoration
-                          : InputDecoration.collapsed(
-                              hintText: "",
-                              fillColor: Colors.white,
-                            ),
-                      textCapitalization: textCapitalization,
-                      controller: controller,
-                      style: inputTextStyle,
-                      maxLength: maxInputLength,
-                      minLines: 1,
-                      maxLines: inputMaxLines,
-                      showCursor: showInputCursor,
-                      cursorColor: inputCursorColor,
-                      cursorWidth: inputCursorWidth,
-                      enabled: !inputDisabled,
-                    ),
-                  ),
-                ),
-              ),
-              if (showTraillingBeforeSend) ...trailling,
-              if (sendButtonBuilder != null)
-                sendButtonBuilder(() async {
-                  if (text.length != 0) {
-                    await onSend(message);
-
-                    controller.text = "";
-
-                    onTextChange("");
-                  }
-                })
-              else
-                IconButton(
-                  icon: Icon(Icons.send),
-                  onPressed: alwaysShowSend || text.length != 0
-                      ? () => _sendMessage(context, message)
-                      : null,
-                ),
-              if (!showTraillingBeforeSend) ...trailling,
-            ],
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Row(children: leading,),
           ),
-          if (inputFooterBuilder != null) inputFooterBuilder()
+          Container(
+            padding: inputToolbarPadding,
+            margin: inputToolbarMargin,
+            decoration: inputContainerStyle != null
+                ? inputContainerStyle
+                : BoxDecoration(color: Colors.white),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    // ...leading,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Directionality(
+                          textDirection: textDirection,
+                          child: TextField(
+                            enableInteractiveSelection: true,
+                            inputFormatters: inputFormatters,
+                            focusNode: focusNode,
+                            onChanged: (value) {
+                              onTextChange(value);
+                            },
+                            onSubmitted: (value) {
+                              if (sendOnEnter) {
+                                _sendMessage(context, message);
+                              }
+                            },
+                            textInputAction: textInputAction,
+                            buildCounter: (
+                              BuildContext context, {
+                              int currentLength,
+                              int maxLength,
+                              bool isFocused,
+                            }) =>
+                                null,
+                            decoration: inputDecoration != null
+                                ? inputDecoration
+                                : InputDecoration.collapsed(
+                                    hintText: "",
+                                    fillColor: Colors.white,
+                                  ),
+                            textCapitalization: textCapitalization,
+                            controller: controller,
+                            style: inputTextStyle,
+                            maxLength: maxInputLength,
+                            minLines: 1,
+                            maxLines: inputMaxLines,
+                            showCursor: showInputCursor,
+                            cursorColor: inputCursorColor,
+                            cursorWidth: inputCursorWidth,
+                            enabled: !inputDisabled,
+                          ),
+                        ),
+                      ),
+                    ),
+                    if (showTraillingBeforeSend) ...trailling,
+                    if (sendButtonBuilder != null)
+                      sendButtonBuilder(() async {
+                        if (text.length != 0) {
+                          await onSend(message);
+
+                          controller.text = "";
+
+                          onTextChange("");
+                        }
+                      })
+                    else
+                      IconButton(
+                        icon: Icon(Icons.send),
+                        onPressed: alwaysShowSend || text.length != 0
+                            ? () => _sendMessage(context, message)
+                            : null,
+                      ),
+                    if (!showTraillingBeforeSend) ...trailling,
+                  ],
+                ),
+                if (inputFooterBuilder != null) inputFooterBuilder()
+              ],
+            ),
+          ),
+          
         ],
       ),
     );
