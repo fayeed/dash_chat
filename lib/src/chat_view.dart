@@ -424,21 +424,23 @@ class DashChatState extends State<DashChat> {
         ? 0.0
         : scrollController.position.maxScrollExtent + 25.0;
 
-    scrollController
-        .animateTo(
-      initPos,
-      duration: const Duration(milliseconds: 150),
-      curve: Curves.easeInOut,
-    )
-        .whenComplete(() {
-      _timer = Timer(Duration(milliseconds: 1000), () {
-        if (this.mounted) {
-          setState(() {
-            _initialLoad = false;
-          });
-        }
-      });
-    });
+    if (scrollController.hasClients) {
+        scrollController
+                .animateTo(
+            initPos,
+            duration: const Duration(milliseconds: 150),
+            curve: Curves.easeInOut,
+        )
+            .whenComplete(() {
+            _timer = Timer(Duration(milliseconds: 1000), () {
+                if (this.mounted) {
+                setState(() {
+                    _initialLoad = false;
+                });
+                }
+            });
+        });
+    }
 
     scrollController.addListener(() {
       bool topReached = widget.inverted
