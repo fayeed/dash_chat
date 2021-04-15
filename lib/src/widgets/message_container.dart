@@ -178,19 +178,19 @@ class MessageContainer extends StatelessWidget {
   }
 
   Widget _buildMessageImage() {
-    if (message.image != null) {
-      return messageImageBuilder?.call(message.image, message) ??
-          Padding(
-            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-            child: FadeInImage.memoryNetwork(
-              height: constraints!.maxHeight * 0.3,
-              width: constraints!.maxWidth * 0.7,
-              fit: BoxFit.contain,
-              placeholder: kTransparentImage,
-              image: message.image!,
-            ),
-          );
-    }
+    // if (message.image != null) {
+    //   return messageImageBuilder?.call(message.image, message) ??
+    //       Padding(
+    //         padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+    //         child: FadeInImage.memoryNetwork(
+    //           height: constraints!.maxHeight * 0.3,
+    //           width: constraints!.maxWidth * 0.7,
+    //           fit: BoxFit.contain,
+    //           placeholder: kTransparentImage,
+    //           image: message.image!,
+    //         ),
+    //       );
+    // }
     return SizedBox(width: 0, height: 0);
   }
 }

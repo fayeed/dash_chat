@@ -1,5 +1,12 @@
 part of dash_chat;
 
+enum MessageStatus {
+  none,
+  read,
+  received,
+  pending,
+}
+
 /// A message data structure used by dash chat to handle messages
 /// and also to handle quick replies
 class ChatMessage {
@@ -22,12 +29,10 @@ class ChatMessage {
   late ChatUser user;
 
   /// A [non-optional] parameter which is used to display images
-  /// takes a [Sring] as a url
-  String? image;
+  /// takes a [ChatMedia] as a url
+  List<ChatMedia>? media;
 
-  /// A [non-optional] parameter which is used to display vedio
-  /// takes a [Sring] as a url
-  String? video;
+  MessageStatus? status;
 
   /// A [non-optional] parameter which is used to show quick replies
   /// to the user
@@ -41,17 +46,18 @@ class ChatMessage {
   /// actions in message container.
   List<Widget>? buttons;
 
-  ChatMessage(
-      {String? id,
-      required this.text,
-      required this.user,
-      this.image,
-      this.video,
-      this.quickReplies,
-      String Function()? messageIdGenerator,
-      DateTime? createdAt,
-      this.customProperties,
-      this.buttons}) {
+  ChatMessage({
+    String? id,
+    required this.text,
+    required this.user,
+    this.media,
+    this.quickReplies,
+    status = MessageStatus.none,
+    String Function()? messageIdGenerator,
+    DateTime? createdAt,
+    this.customProperties,
+    this.buttons,
+  }) {
     this.createdAt = createdAt != null ? createdAt : DateTime.now();
     this.id = id ?? messageIdGenerator?.call() ?? Uuid().v4().toString();
   }
@@ -59,8 +65,7 @@ class ChatMessage {
   ChatMessage.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     text = json['text'];
-    image = json['image'];
-    video = json['video'] ?? json['vedio'];
+    media = json['media'];
     createdAt = DateTime.fromMillisecondsSinceEpoch(json['createdAt']);
     user = ChatUser.fromJson(json['user']);
     quickReplies = json['quickReplies'] != null
@@ -75,8 +80,7 @@ class ChatMessage {
     try {
       data['id'] = this.id;
       data['text'] = this.text;
-      data['image'] = this.image;
-      data['video'] = this.video;
+      data['media'] = this.media;
       data['createdAt'] = this.createdAt.millisecondsSinceEpoch;
       data['user'] = user.toJson();
       data['quickReplies'] = quickReplies?.toJson();
