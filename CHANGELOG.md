@@ -1,3 +1,6 @@
+## [1.1.16]
+- Pubspec updated to work with new UUID package [#172] https://github.com/fayeed/dash_chat/pull/172 by [@GonzaloAldana](https://github.com/GonzaloAldana)
+
 ## [1.1.15-nullsafety]
 
 - Support for sound null-safety added [#164](https://github.com/fayeed/dash_chat/pull/164) by [@diegogarciar](https://github.com/diegogarciar)
