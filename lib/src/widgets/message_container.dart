@@ -117,14 +117,13 @@ class MessageContainer extends StatelessWidget {
           crossAxisAlignment:
               isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: <Widget>[
-            if (this.textBeforeImage)
-              _buildMessageText()
-            else
-              _buildMessageImage(),
-            if (this.textBeforeImage)
-              _buildMessageImage()
-            else
+            if (this.textBeforeImage) ...[
               _buildMessageText(),
+              _buildMessageImage()
+            ] else ...[
+              _buildMessageImage(),
+              _buildMessageText()
+            ],
             if (buttons != null)
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -178,6 +177,7 @@ class MessageContainer extends StatelessWidget {
   }
 
   Widget _buildMessageImage() {
+    // TODO: change this
     // if (message.image != null) {
     //   return messageImageBuilder?.call(message.image, message) ??
     //       Padding(
