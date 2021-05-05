@@ -223,7 +223,7 @@ class DashChatState extends State<DashChat> {
           inputCursorWidth: widget.inputOptions.cursorStyle.width,
           showInputCursor: !widget.inputOptions.cursorStyle.hide,
           alwaysShowSend: widget.inputOptions.alwayShowSend,
-          scrollController: widget.messageListOptions.scrollController,
+          scrollController: scrollController,
           focusNode: inputFocusNode,
           reverse: inverted,
         );
@@ -250,8 +250,7 @@ class DashChatState extends State<DashChat> {
                     defaultLoadCallback: changeDefaultLoadMore,
                     messageContainerPadding:
                         widget.messageOptions.messageContainerPadding,
-                    scrollController:
-                        widget.messageListOptions.scrollController,
+                    scrollController: scrollController,
                     user: widget.user,
                     messages: widget.messages,
                     showuserAvatar: widget.messageOptions.showCurrentUserAvatar,
