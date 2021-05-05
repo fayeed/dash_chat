@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+part of dash_chat;
 
 class DashchatStyle {
   final double? height;

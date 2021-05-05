@@ -27,3 +27,11 @@ part 'src/widgets/message_container.dart';
 part 'src/widgets/quick_reply.dart';
 part 'src/widgets/scroll_to_bottom.dart';
 part 'src/widgets/load_earlier.dart';
+
+part 'src/models/input_options.dart';
+part 'src/models/chat_media.dart';
+part 'src/models/dash_chat_style.dart';
+part 'src/models/message_list_options.dart';
+part 'src/models/message_options.dart';
+part 'src/models/quick_reply_options.dart';
+part 'src/models/scroll_to_bottom_options.dart';

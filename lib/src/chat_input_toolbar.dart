@@ -27,7 +27,7 @@ class ChatInputToolbar extends StatelessWidget {
   final FocusNode? focusNode;
   final EdgeInsets inputToolbarPadding;
   final EdgeInsets inputToolbarMargin;
-  final TextDirection textDirection;
+  final TextDirection? textDirection;
   final bool sendOnEnter;
   final bool reverse;
   final TextInputAction? textInputAction;
@@ -92,7 +92,7 @@ class ChatInputToolbar extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Directionality(
-                    textDirection: textDirection,
+                    textDirection: textDirection!,
                     child: TextField(
                       focusNode: focusNode,
                       onChanged: (value) {
@@ -169,7 +169,7 @@ class ChatInputToolbar extends StatelessWidget {
       FocusScope.of(context).requestFocus(focusNode);
 
       Timer(Duration(milliseconds: 150), () {
-        scrollController!.animateTo(
+        scrollController?.animateTo(
           reverse ? 0.0 : scrollController!.position.maxScrollExtent + 30.0,
           curve: Curves.easeOut,
           duration: const Duration(milliseconds: 300),

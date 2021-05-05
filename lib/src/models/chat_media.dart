@@ -1,3 +1,5 @@
+part of dash_chat;
+
 enum MimeType {
   image,
   video,

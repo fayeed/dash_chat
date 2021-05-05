@@ -1,5 +1,4 @@
-import 'package:dash_chat/dash_chat.dart';
-import 'package:flutter/material.dart';
+part of dash_chat;
 
 class QuickReplyOptions {
   final Function(Reply)? onQuickReply;

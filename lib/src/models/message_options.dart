@@ -1,9 +1,8 @@
-import 'package:dash_chat/dash_chat.dart';
-import 'package:flutter/material.dart';
+part of dash_chat;
 
 class MessageOptions {
   final int messageContainerFlex;
-  late DateFormat timeFormat;
+  DateFormat? timeFormat;
   final bool showTime;
   final bool showCurrentUserAvatar;
   final bool showOtherUsersAvatar;
@@ -19,13 +18,13 @@ class MessageOptions {
   final Widget Function(ChatMessage)? messageBuilder;
   final Widget Function(ChatMessage)? messageTextBuilder;
   final Widget Function(ChatMessage)? messageImageBuilder;
-  final Widget Function(ChatMessage)? messageTimeBuilder;
+  final Widget Function(String, ChatMessage)? messageTimeBuilder;
   // TODO: add default types for mentions or figure out a better way
-  final List<MatchText>? parsePatterns;
+  final List<MatchText> parsePatterns;
   final BoxDecoration? messageContainerDecoration;
-  final EdgeInsets? messageContainerPadding;
+  final EdgeInsets messageContainerPadding;
   final List<Widget> Function(ChatMessage)? messageButtonsBuilder;
-  final EdgeInsets? messagePadding;
+  final EdgeInsets messagePadding;
   final bool textBeforeImage;
   final BoxDecoration Function(ChatMessage bool)? messageDecorationBuilder;
   // TODO: don't remember these two props find their usecase
@@ -34,7 +33,7 @@ class MessageOptions {
 
   MessageOptions({
     this.messageContainerFlex = 1,
-    timeFormat,
+    DateFormat? timeFormat,
     this.showTime = true,
     this.showCurrentUserAvatar = false,
     this.showOtherUsersAvatar = true,
@@ -51,16 +50,16 @@ class MessageOptions {
     this.messageTextBuilder,
     this.messageImageBuilder,
     this.messageTimeBuilder,
-    this.parsePatterns,
+    this.parsePatterns = const [],
     this.messageContainerDecoration,
-    this.messageContainerPadding,
+    this.messageContainerPadding = const EdgeInsets.all(0.0),
     this.messageButtonsBuilder,
-    this.messagePadding,
+    this.messagePadding = const EdgeInsets.all(0.0),
     this.textBeforeImage = true,
     this.messageDecorationBuilder,
     this.top,
     this.bottom,
   }) {
-    timeFormat = DateFormat('HH:mm');
+    timeFormat = this.timeFormat ?? DateFormat('HH:mm');
   }
 }

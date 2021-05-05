@@ -15,17 +15,17 @@ class MessageContainer extends StatelessWidget {
   /// [messageTextBuilder] function takes a function with this
   /// structure [Widget Function(String)] to render the text inside
   /// the container.
-  final Widget Function(String?, [ChatMessage])? messageTextBuilder;
+  final Widget Function(ChatMessage)? messageTextBuilder;
 
   /// [messageImageBuilder] function takes a function with this
   /// structure [Widget Function(String)] to render the image inside
   /// the container.
-  final Widget Function(String?, [ChatMessage])? messageImageBuilder;
+  final Widget Function(ChatMessage)? messageImageBuilder;
 
   /// [messageTimeBuilder] function takes a function with this
   /// structure [Widget Function(String)] to render the time text inside
   /// the container.
-  final Widget Function(String, [ChatMessage])? messageTimeBuilder;
+  final Widget Function(String, ChatMessage)? messageTimeBuilder;
 
   /// Provides a custom style to the message container
   /// takes [BoxDecoration]
@@ -65,7 +65,7 @@ class MessageContainer extends StatelessWidget {
   /// can be used to override color, or customise the message container
   /// params [ChatMessage] and [isUser]: boolean
   /// return BoxDecoration
-  final BoxDecoration Function(ChatMessage, bool?)? messageDecorationBuilder;
+  final BoxDecoration Function(ChatMessage)? messageDecorationBuilder;
 
   const MessageContainer({
     required this.message,
@@ -95,7 +95,7 @@ class MessageContainer extends StatelessWidget {
         maxWidth: constraints.maxWidth * 0.8,
       ),
       child: Container(
-        decoration: messageDecorationBuilder?.call(message, isUser) ??
+        decoration: messageDecorationBuilder?.call(message) ??
             messageContainerDecoration?.copyWith(
               color: message.user.containerColor != null
                   ? message.user.containerColor
@@ -166,7 +166,7 @@ class MessageContainer extends StatelessWidget {
   }
 
   Widget _buildMessageText() {
-    return messageTextBuilder?.call(message.text, message) ??
+    return messageTextBuilder?.call(message) ??
         ParsedText(
           parse: parsePatterns,
           text: message.text!,

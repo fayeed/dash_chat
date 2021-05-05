@@ -1,11 +1,9 @@
-import 'package:dash_chat/dash_chat.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+part of dash_chat;
 
 // TODO: add list of widgets to the top & bottom
 class InputOptions {
-  late TextEditingController textEditingController;
-  late FocusNode focusNode;
+  TextEditingController? textEditingController;
+  FocusNode? focusNode;
   final TextDirection? inputTextDirection;
   final String hintText;
   final TextStyle? hintStyle;
@@ -17,7 +15,7 @@ class InputOptions {
   final bool alwayShowSend;
   final bool sendOnEnter;
   final TextInputAction? textInputAction;
-  final double? maxInputLength;
+  final int? maxInputLength;
   final List<Widget> leading;
   final List<Widget> trailing;
   final TextStyle? inputTextStyle;
@@ -25,14 +23,14 @@ class InputOptions {
   final int inputMaxLines;
   final Widget Function()? inputFooterBuilder;
   final bool showTraillingBeforeSend;
-  final EdgeInsets? inputToolbarPadding;
-  final EdgeInsets? inputToolbarMargin;
-  final CursorStyle? cursorStyle;
+  final EdgeInsets inputToolbarPadding;
+  final EdgeInsets inputToolbarMargin;
+  final CursorStyle cursorStyle;
 
   InputOptions({
-    textEditingController,
-    focusNode,
-    this.inputTextDirection,
+    TextEditingController? textEditingController,
+    FocusNode? focusNode,
+    this.inputTextDirection = TextDirection.ltr,
     this.hintText = "Write a message here...",
     this.hintStyle,
     this.onMention,
@@ -51,12 +49,13 @@ class InputOptions {
     this.inputMaxLines = 5,
     this.inputFooterBuilder,
     this.showTraillingBeforeSend = false,
-    this.inputToolbarPadding,
-    this.inputToolbarMargin,
-    this.cursorStyle,
+    this.inputToolbarPadding = const EdgeInsets.all(0.0),
+    this.inputToolbarMargin = const EdgeInsets.all(0.0),
+    this.cursorStyle = const CursorStyle(),
   }) {
-    textEditingController = TextEditingController(text: '');
-    focusNode = FocusNode();
+    textEditingController =
+        textEditingController ?? TextEditingController(text: '');
+    focusNode = focusNode ?? FocusNode();
   }
 }
 
@@ -67,7 +66,7 @@ class CursorStyle {
   final Color? color;
   final bool hide;
 
-  CursorStyle({
+  const CursorStyle({
     this.width = 2.0,
     this.height,
     this.radius,

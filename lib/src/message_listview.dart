@@ -14,9 +14,9 @@ class MessageListView extends StatefulWidget {
   final bool inverted;
   final Widget Function(ChatUser)? avatarBuilder;
   final Widget Function(ChatMessage)? messageBuilder;
-  final Widget Function(String?, [ChatMessage])? messageTextBuilder;
-  final Widget Function(String?, [ChatMessage])? messageImageBuilder;
-  final Widget Function(String, [ChatMessage])? messageTimeBuilder;
+  final Widget Function(ChatMessage)? messageTextBuilder;
+  final Widget Function(ChatMessage)? messageImageBuilder;
+  final Widget Function(String, ChatMessage)? messageTimeBuilder;
   final Widget Function(String)? dateBuilder;
   final Widget Function()? renderMessageFooter;
   final BoxDecoration? messageContainerDecoration;
@@ -35,7 +35,7 @@ class MessageListView extends StatefulWidget {
   final EdgeInsets messagePadding;
   final bool textBeforeImage;
   final double? avatarMaxSize;
-  final BoxDecoration Function(ChatMessage, bool?)? messageDecorationBuilder;
+  final BoxDecoration Function(ChatMessage)? messageDecorationBuilder;
 
   MessageListView({
     this.showLoadEarlierWidget,

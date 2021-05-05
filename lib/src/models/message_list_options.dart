@@ -1,27 +1,26 @@
-import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
+part of dash_chat;
 
 class MessageListOptions {
-  late DateFormat dateSperatorFormat;
+  DateFormat? dateSperatorFormat;
   final Widget Function(String)? dateSeperatorBuilder;
   final bool showAvatarForEveryMessage;
-  late ScrollController scrollController;
+  ScrollController? scrollController;
   final bool shouldStartMessageFromTop;
   final bool shouldShowLoadEarlier;
   final Widget Function()? showLoadEarlierBuilder;
   final Function? onLoadEarlier;
 
   MessageListOptions({
-    dateSperatorFormat,
+    this.dateSperatorFormat,
     this.dateSeperatorBuilder,
     this.showAvatarForEveryMessage = false,
-    scrollController,
+    ScrollController? scrollController,
     this.shouldStartMessageFromTop = false,
     this.shouldShowLoadEarlier = true,
     this.showLoadEarlierBuilder,
     this.onLoadEarlier,
   }) {
-    dateSperatorFormat = DateFormat('dd MMM yyyy');
-    scrollController = ScrollController();
+    dateSperatorFormat = this.dateSperatorFormat ?? DateFormat('dd MMM yyyy');
+    scrollController = this.scrollController ?? ScrollController();
   }
 }
