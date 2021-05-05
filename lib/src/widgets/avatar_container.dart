@@ -39,49 +39,41 @@ class AvatarContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final constraints = this.constraints ??
-        BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height,
-            maxWidth: MediaQuery.of(context).size.width);
-
-    return GestureDetector(
-      onTap: () => onPress?.call(user),
-      onLongPress: () => onLongPress?.call(user),
-      child: avatarBuilder != null
-          ? avatarBuilder!(user)
-          : Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                ClipOval(
-                  child: Container(
-                    height: constraints.maxWidth * 0.08,
-                    width: constraints.maxWidth * 0.08,
-                    constraints: BoxConstraints(
-                      maxWidth: avatarMaxSize!,
-                      maxHeight: avatarMaxSize!,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTap: () => onPress?.call(user),
+        onLongPress: () => onLongPress?.call(user),
+        child: avatarBuilder != null
+            ? avatarBuilder!(user)
+            : Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  ClipOval(
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      color: Colors.grey,
+                      child: Center(
+                          child: Text(user.name == null || user.name!.isEmpty
+                              ? ''
+                              : user.name![0])),
                     ),
-                    color: Colors.grey,
-                    child: Center(
-                        child: Text(user.name == null || user.name!.isEmpty
-                            ? ''
-                            : user.name![0])),
                   ),
-                ),
-                user.avatar != null && user.avatar!.length != 0
-                    ? Center(
-                        child: ClipOval(
-                          child: FadeInImage.memoryNetwork(
-                            image: user.avatar!,
-                            placeholder: kTransparentImage,
-                            fit: BoxFit.cover,
-                            height: constraints.maxWidth * 0.08,
-                            width: constraints.maxWidth * 0.08,
+                  user.avatar != null && user.avatar!.length != 0
+                      ? Center(
+                          child: ClipOval(
+                            child: FadeInImage.memoryNetwork(
+                              image: user.avatar!,
+                              placeholder: kTransparentImage,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                      )
-                    : Container()
-              ],
-            ),
+                        )
+                      : Container()
+                ],
+              ),
+      ),
     );
   }
 }

@@ -253,10 +253,10 @@ class DashChatState extends State<DashChat> {
                     scrollController: scrollController,
                     user: widget.user,
                     messages: widget.messages,
-                    showuserAvatar: widget.messageOptions.showCurrentUserAvatar,
+                    showuserAvatar:
+                        widget.messageListOptions.showCurrentUserAvatar,
                     dateFormat: widget.messageListOptions.dateSperatorFormat,
                     timeFormat: widget.messageOptions.timeFormat,
-                    inverted: inverted,
                     showAvatarForEverMessage:
                         widget.messageListOptions.showAvatarForEveryMessage,
                     onLongPressAvatar: widget.messageOptions.onLongPressAvatar,

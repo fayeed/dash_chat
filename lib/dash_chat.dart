@@ -28,6 +28,8 @@ part 'src/widgets/quick_reply.dart';
 part 'src/widgets/scroll_to_bottom.dart';
 part 'src/widgets/load_earlier.dart';
 
+part 'src/utils/build_message_list.dart';
+
 part 'src/models/input_options.dart';
 part 'src/models/chat_media.dart';
 part 'src/models/dash_chat_style.dart';

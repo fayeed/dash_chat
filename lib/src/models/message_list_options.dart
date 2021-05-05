@@ -4,6 +4,7 @@ class MessageListOptions {
   DateFormat? dateSperatorFormat;
   final Widget Function(String)? dateSeperatorBuilder;
   final bool showAvatarForEveryMessage;
+  final bool showCurrentUserAvatar;
   ScrollController? scrollController;
   final bool shouldStartMessageFromTop;
   final bool shouldShowLoadEarlier;
@@ -19,6 +20,7 @@ class MessageListOptions {
     this.shouldShowLoadEarlier = true,
     this.showLoadEarlierBuilder,
     this.onLoadEarlier,
+    this.showCurrentUserAvatar = false,
   }) {
     dateSperatorFormat = this.dateSperatorFormat ?? DateFormat('dd MMM yyyy');
     scrollController = this.scrollController ?? ScrollController();

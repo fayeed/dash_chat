@@ -44,6 +44,8 @@ class ChatMessage {
   /// actions in message container.
   List<Widget>? buttons;
 
+  bool? isSystem;
+
   ChatMessage({
     String? id,
     required this.text,
@@ -54,6 +56,7 @@ class ChatMessage {
     String Function()? messageIdGenerator,
     DateTime? createdAt,
     this.buttons,
+    this.isSystem = false,
   }) {
     this.createdAt = createdAt != null ? createdAt : DateTime.now();
     this.id = id ?? messageIdGenerator?.call() ?? Uuid().v4().toString();
@@ -68,6 +71,7 @@ class ChatMessage {
     quickReplies = json['quickReplies'] != null
         ? QuickReplies.fromJson(json['quickReplies'])
         : null;
+    isSystem = json['isSystem'];
   }
 
   Map<String, dynamic> toJson() {
@@ -80,6 +84,7 @@ class ChatMessage {
       data['createdAt'] = this.createdAt.millisecondsSinceEpoch;
       data['user'] = user.toJson();
       data['quickReplies'] = quickReplies?.toJson();
+      data['isSystem'] = this.isSystem;
     } catch (e, stack) {
       print('ERROR caught when trying to convert ChatMessage to JSON:');
       print(e);
