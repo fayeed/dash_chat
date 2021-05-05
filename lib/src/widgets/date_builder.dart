@@ -13,6 +13,19 @@ class DateBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime? currentDate = DateTime.now();
+    String _formattedDate;
+
+    if (currentDate.difference(date).inDays == 0) {
+      _formattedDate = 'today';
+    } else if (currentDate.difference(date).inDays == 1) {
+      _formattedDate = 'yesterday';
+    } else {
+      _formattedDate = dateFormat != null
+          ? dateFormat!.format(date)
+          : DateFormat('yyyy-MMM-dd').format(date);
+    }
+
     return customDateBuilder?.call(dateFormat?.format(date) ??
             DateFormat('yyyy-MM-dd').format(date)) ??
         Container(
@@ -28,9 +41,7 @@ class DateBuilder extends StatelessWidget {
           ),
           margin: EdgeInsets.symmetric(vertical: 10.0),
           child: Text(
-            dateFormat != null
-                ? dateFormat!.format(date)
-                : DateFormat('yyyy-MMM-dd').format(date),
+            _formattedDate,
             style: TextStyle(
               color: Colors.white,
               fontSize: 12.0,
