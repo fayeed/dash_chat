@@ -2,6 +2,8 @@ part of dash_chat;
 
 /// ChatUser used to show distinguish between different people
 /// in a chat conversation or a chat group
+///
+/// You can extend this class to add custom properties.
 class ChatUser {
   /// Unique id of the user if no unique is provided a [UUID v4]
   /// is automatically assigned to the chat user.
@@ -25,17 +27,12 @@ class ChatUser {
   /// An [optional] parameter to set The Message bubble Color
   Color? containerColor;
 
-  /// Allows to set custom-properties that could help with implementing custom
-  /// functionality to dashchat.
-  Map<String, dynamic>? customProperties;
-
   ChatUser({
     String? uid,
     String? name,
     this.avatar,
     this.containerColor,
     this.color,
-    this.customProperties,
     this.firstName,
     this.lastName,
   }) {
@@ -54,7 +51,6 @@ class ChatUser {
     containerColor =
         json['containerColor'] != null ? Color(json['containerColor']) : null;
     color = json['color'] != null ? Color(json['color']) : null;
-    customProperties = json['customProperties'] as Map<String, dynamic>?;
   }
 
   Map<String, dynamic> toJson() {
@@ -69,7 +65,6 @@ class ChatUser {
       data['containerColor'] =
           containerColor != null ? containerColor!.value : null;
       data['color'] = color != null ? color!.value : null;
-      data['customProperties'] = this.customProperties;
     } catch (e) {
       print(e);
     }

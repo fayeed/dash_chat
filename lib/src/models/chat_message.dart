@@ -9,6 +9,8 @@ enum MessageStatus {
 
 /// A message data structure used by dash chat to handle messages
 /// and also to handle quick replies
+///
+/// You can extend this class to add custom properties.
 class ChatMessage {
   /// Id of the message if no id is supplied a new id is assigned
   /// using a [UUID v4] this behaviour could be overriden by provind
@@ -38,10 +40,6 @@ class ChatMessage {
   /// to the user
   QuickReplies? quickReplies;
 
-  /// Allows to set custom-properties that could help with implementing custom
-  /// functionality to dashchat.
-  Map<String, dynamic>? customProperties;
-
   /// Allows to set buttons that could help with implementing custom
   /// actions in message container.
   List<Widget>? buttons;
@@ -55,7 +53,6 @@ class ChatMessage {
     status = MessageStatus.none,
     String Function()? messageIdGenerator,
     DateTime? createdAt,
-    this.customProperties,
     this.buttons,
   }) {
     this.createdAt = createdAt != null ? createdAt : DateTime.now();
@@ -71,7 +68,6 @@ class ChatMessage {
     quickReplies = json['quickReplies'] != null
         ? QuickReplies.fromJson(json['quickReplies'])
         : null;
-    customProperties = json['customProperties'] as Map<String, dynamic>?;
   }
 
   Map<String, dynamic> toJson() {
@@ -84,7 +80,6 @@ class ChatMessage {
       data['createdAt'] = this.createdAt.millisecondsSinceEpoch;
       data['user'] = user.toJson();
       data['quickReplies'] = quickReplies?.toJson();
-      data['customProperties'] = this.customProperties;
     } catch (e, stack) {
       print('ERROR caught when trying to convert ChatMessage to JSON:');
       print(e);
