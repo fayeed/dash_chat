@@ -138,6 +138,10 @@ class DashChat extends StatefulWidget {
   /// show a "tying..." at the end.
   final Widget Function() chatFooterBuilder;
 
+  /// A Widget that will be shown below the [MessageListView] like you can
+  /// show a "tying..." at the end.
+  final Widget backgroundImageBuilder;
+
   /// Main input length of the input text box defaulst to no limit.
   final int maxInputLength;
 
@@ -343,6 +347,7 @@ class DashChat extends StatefulWidget {
     this.maxInputLength,
     this.parsePatterns = const <MatchText>[],
     this.chatFooterBuilder,
+    this.backgroundImageBuilder,
     this.messageBuilder,
     this.inputFooterBuilder,
     this.sendButtonBuilder,
@@ -482,6 +487,7 @@ class DashChatState extends State<DashChat> {
           width: widget.width != null ? widget.width : maxWidth,
           child: Stack(
             children: <Widget>[
+              widget.backgroundImageBuilder != null ? widget.backgroundImageBuilder : Container(),
               Column(
                 children: <Widget>[
                   MessageListView(

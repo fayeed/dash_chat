@@ -127,6 +127,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 textInputAction: TextInputAction.send,
                 user: user,
                 inputFormatters: [],
+                backgroundImageBuilder: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: Image.network(
+                      'https://image.winudf.com/v2/image/Y29tLmNvZGVGYWN0b3J5LndhV2FsbHBhcGVyc19zY3JlZW5fMV8xNTMwNTY4MzE5XzA2Nw/screen-1.jpg?fakeurl=1&type=.jpg',
+                      fit: BoxFit.cover,
+                    ),
+                  ), 
+                ),
                 inputDecoration:
                     InputDecoration.collapsed(hintText: "Add message here..."),
                 dateFormat: DateFormat('yyyy-MMM-dd'),
