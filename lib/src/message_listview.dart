@@ -93,11 +93,11 @@ class _MessageListViewState extends State<MessageListView> {
         widget.changeVisible!(true);
       }
     }
-    return true;
+    return false;
   }
 
   bool shouldShowAvatar(int index, List<ChatListItem> chatItems) {
-    if (widget.showAvatarForEverMessage!) {
+    if (widget.showAvatarForEverMessage) {
       return true;
     }
 
@@ -137,8 +137,6 @@ class _MessageListViewState extends State<MessageListView> {
                     final bool first = i == 0;
                     final bool last = i == messages.length - 1;
                     final chatItem = messages[i];
-                    final message = chatItem.message;
-                    final bool isUser = message?.user.uid == widget.user.uid;
 
                     if (chatItem.type == ChatListItemType.date) {
                       return Center(
@@ -149,6 +147,9 @@ class _MessageListViewState extends State<MessageListView> {
                         ),
                       );
                     }
+
+                    final message = chatItem.message!;
+                    final bool isUser = message.user.uid == widget.user.uid;
 
                     return Padding(
                       padding: EdgeInsets.only(
@@ -161,20 +162,21 @@ class _MessageListViewState extends State<MessageListView> {
                             : MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
-                          Opacity(
-                            opacity: (widget.showAvatarForEverMessage ||
-                                        showAvatar) &&
-                                    message?.user.uid != widget.user.uid
-                                ? 1
-                                : 0,
-                            child: AvatarContainer(
-                              user: message!.user,
-                              onPress: widget.onPressAvatar,
-                              onLongPress: widget.onLongPressAvatar,
-                              avatarBuilder: widget.avatarBuilder,
-                              avatarMaxSize: widget.avatarMaxSize,
+                          if (message.user.uid != widget.user.uid)
+                            Opacity(
+                              opacity: (widget.showAvatarForEverMessage ||
+                                          showAvatar) &&
+                                      message.user.uid != widget.user.uid
+                                  ? 1
+                                  : 0,
+                              child: AvatarContainer(
+                                user: message.user,
+                                onPress: widget.onPressAvatar,
+                                onLongPress: widget.onLongPressAvatar,
+                                avatarBuilder: widget.avatarBuilder,
+                                avatarMaxSize: widget.avatarMaxSize,
+                              ),
                             ),
-                          ),
                           Expanded(
                             child: GestureDetector(
                               onLongPress: () {
