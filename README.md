@@ -1,6 +1,6 @@
 <p align="center">
-  <h1 align="center" style="font-size: 48px;">⚠️ Development of Dashchat v2 will soon start ⚠️</h1>
-  <p align="center">First version of this v2 is expected in January, the v1 can still be used but do not expect additional development in it. You can still open issues for the v1 to indicate things we need to implement/fix in the v2</p>
+  <h1 align="center" style="font-size: 48px;">⚠️ Dashchat v2 is available in v2 branch ⚠️</h1>
+  <p align="center">You can open issues for the v2 to indicate things we need to implement/fix. Also the API can change until I am satisfied the way it is.</p>
 </p> 
 <hr>
 <p align="center">
