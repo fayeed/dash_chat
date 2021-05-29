@@ -2,68 +2,32 @@ part of dash_chat;
 
 class ChatInputToolbar extends StatelessWidget {
   final TextEditingController? controller;
-  final TextStyle? inputTextStyle;
-  final InputDecoration? inputDecoration;
-  final TextCapitalization? textCapitalization;
-  final BoxDecoration? inputContainerStyle;
-  final List<Widget> leading;
-  final List<Widget> trailling;
-  final int inputMaxLines;
-  final int? maxInputLength;
-  final bool alwaysShowSend;
   final ChatUser user;
   final Function(ChatMessage)? onSend;
   final String? text;
   final Function(String)? onTextChange;
-  final bool inputDisabled;
   final String Function()? messageIdGenerator;
   final Widget Function(Function)? sendButtonBuilder;
-  final Widget Function()? inputFooterBuilder;
-  final bool showInputCursor;
-  final double inputCursorWidth;
-  final Color? inputCursorColor;
   final ScrollController? scrollController;
   final bool showTraillingBeforeSend;
   final FocusNode? focusNode;
-  final EdgeInsets inputToolbarPadding;
-  final EdgeInsets inputToolbarMargin;
-  final TextDirection? textDirection;
-  final bool sendOnEnter;
+  final InputOptions inputOptions;
   final bool reverse;
-  final TextInputAction? textInputAction;
 
   ChatInputToolbar({
     Key? key,
-    this.textDirection = TextDirection.ltr,
+    this.reverse = false,
     this.focusNode,
     this.scrollController,
     this.text,
-    this.textInputAction,
-    this.sendOnEnter = false,
     this.onTextChange,
-    this.inputDisabled = false,
     this.controller,
-    this.leading = const [],
-    this.trailling = const [],
-    this.inputDecoration,
-    this.textCapitalization,
-    this.inputTextStyle,
-    this.inputContainerStyle,
-    this.inputMaxLines = 1,
-    this.showInputCursor = true,
-    this.maxInputLength,
-    this.inputCursorWidth = 2.0,
-    this.inputCursorColor,
     this.onSend,
-    this.reverse = false,
     required this.user,
-    this.alwaysShowSend = false,
     this.messageIdGenerator,
-    this.inputFooterBuilder,
     this.sendButtonBuilder,
     this.showTraillingBeforeSend = true,
-    this.inputToolbarPadding = const EdgeInsets.all(0.0),
-    this.inputToolbarMargin = const EdgeInsets.all(0.0),
+    required this.inputOptions,
   }) : super(key: key);
 
   @override
@@ -76,10 +40,10 @@ class ChatInputToolbar extends StatelessWidget {
     );
 
     return Container(
-      padding: inputToolbarPadding,
-      margin: inputToolbarMargin,
-      decoration: inputContainerStyle != null
-          ? inputContainerStyle
+      padding: inputOptions.inputToolbarPadding,
+      margin: inputOptions.inputToolbarMargin,
+      decoration: inputOptions.inputContainerStyle != null
+          ? inputOptions.inputContainerStyle
           : BoxDecoration(color: Colors.white),
       child: Column(
         children: <Widget>[
@@ -87,23 +51,23 @@ class ChatInputToolbar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              ...leading,
+              ...inputOptions.leading,
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Directionality(
-                    textDirection: textDirection!,
+                    textDirection: inputOptions.inputTextDirection!,
                     child: TextField(
                       focusNode: focusNode,
                       onChanged: (value) {
                         onTextChange!(value);
                       },
                       onSubmitted: (value) {
-                        if (sendOnEnter) {
+                        if (inputOptions.sendOnEnter) {
                           _sendMessage(context, message);
                         }
                       },
-                      textInputAction: textInputAction,
+                      textInputAction: inputOptions.textInputAction,
                       buildCounter: (
                         BuildContext context, {
                         int? currentLength,
@@ -111,27 +75,27 @@ class ChatInputToolbar extends StatelessWidget {
                         bool? isFocused,
                       }) =>
                           null,
-                      decoration: inputDecoration != null
-                          ? inputDecoration
+                      decoration: inputOptions.inputDecoration != null
+                          ? inputOptions.inputDecoration
                           : InputDecoration.collapsed(
                               hintText: "",
                               fillColor: Colors.white,
                             ),
-                      textCapitalization: textCapitalization!,
+                      textCapitalization: inputOptions.textCapitalization,
                       controller: controller,
-                      style: inputTextStyle,
-                      maxLength: maxInputLength,
+                      style: inputOptions.inputTextStyle,
+                      maxLength: inputOptions.maxInputLength,
                       minLines: 1,
-                      maxLines: inputMaxLines,
-                      showCursor: showInputCursor,
-                      cursorColor: inputCursorColor,
-                      cursorWidth: inputCursorWidth,
-                      enabled: !inputDisabled,
+                      maxLines: inputOptions.inputMaxLines,
+                      showCursor: !inputOptions.cursorStyle.hide,
+                      cursorColor: inputOptions.cursorStyle.color,
+                      cursorWidth: inputOptions.cursorStyle.width,
+                      enabled: !inputOptions.inputDisabled,
                     ),
                   ),
                 ),
               ),
-              if (showTraillingBeforeSend) ...trailling,
+              if (showTraillingBeforeSend) ...inputOptions.trailling,
               if (sendButtonBuilder != null)
                 sendButtonBuilder!(() async {
                   if (text!.length != 0) {
@@ -145,14 +109,15 @@ class ChatInputToolbar extends StatelessWidget {
               else
                 IconButton(
                   icon: Icon(Icons.send),
-                  onPressed: alwaysShowSend || text!.length != 0
+                  onPressed: inputOptions.alwayShowSend || text!.length != 0
                       ? () => _sendMessage(context, message)
                       : null,
                 ),
-              if (!showTraillingBeforeSend) ...trailling,
+              if (!showTraillingBeforeSend) ...inputOptions.trailling,
             ],
           ),
-          if (inputFooterBuilder != null) inputFooterBuilder!()
+          if (inputOptions.inputFooterBuilder != null)
+            inputOptions.inputFooterBuilder!()
         ],
       ),
     );

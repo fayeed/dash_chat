@@ -17,7 +17,7 @@ class InputOptions {
   final TextInputAction? textInputAction;
   final int? maxInputLength;
   final List<Widget> leading;
-  final List<Widget> trailing;
+  final List<Widget> trailling;
   final TextStyle? inputTextStyle;
   final BoxDecoration? inputContainerStyle;
   final int inputMaxLines;
@@ -43,7 +43,7 @@ class InputOptions {
     this.textInputAction,
     this.maxInputLength,
     this.leading = const [],
-    this.trailing = const [],
+    this.trailling = const [],
     this.inputTextStyle,
     this.inputContainerStyle,
     this.inputMaxLines = 5,
