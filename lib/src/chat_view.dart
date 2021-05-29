@@ -184,49 +184,15 @@ class DashChatState extends State<DashChat> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
+        final showQuickReplies = widget.messages.length != 0 &&
+            widget.messages.last.user.uid != widget.user.uid &&
+            widget.messages.last.quickReplies != null;
         final maxWidth = constraints.maxWidth == double.infinity
             ? MediaQuery.of(context).size.width
             : constraints.maxWidth;
         final maxHeight = constraints.maxWidth == double.infinity
             ? MediaQuery.of(context).size.height
             : constraints.maxHeight;
-        var chatInputToolbar = ChatInputToolbar(
-          key: inputKey,
-          sendOnEnter: widget.inputOptions.sendOnEnter,
-          textInputAction: widget.inputOptions.textInputAction,
-          inputToolbarPadding: widget.inputOptions.inputToolbarPadding,
-          textDirection: widget.inputOptions.inputTextDirection,
-          inputToolbarMargin: widget.inputOptions.inputToolbarMargin,
-          showTraillingBeforeSend: widget.inputOptions.showTraillingBeforeSend,
-          inputMaxLines: widget.inputOptions.inputMaxLines,
-          controller: textController,
-          inputDecoration: widget.inputOptions.inputDecoration,
-          textCapitalization: widget.inputOptions.textCapitalization,
-          onSend: widget.onSend,
-          user: widget.user,
-          messageIdGenerator: widget.messageIdGenerator,
-          maxInputLength: widget.inputOptions.maxInputLength,
-          // TODO : change this
-          // sendButtonBuilder:
-          //     widget.inputOptions.sendButtonBuilder,
-          text: widget.text != null ? widget.text : _text,
-          onTextChange: widget.inputOptions.onTextChange != null
-              ? widget.inputOptions.onTextChange
-              : onTextChange,
-          inputDisabled: widget.inputOptions.inputDisabled,
-          leading: widget.inputOptions.leading,
-          trailling: widget.inputOptions.trailing,
-          inputContainerStyle: widget.inputOptions.inputContainerStyle,
-          inputTextStyle: widget.inputOptions.inputTextStyle,
-          inputFooterBuilder: widget.inputOptions.inputFooterBuilder,
-          inputCursorColor: widget.inputOptions.cursorStyle.color,
-          inputCursorWidth: widget.inputOptions.cursorStyle.width,
-          showInputCursor: !widget.inputOptions.cursorStyle.hide,
-          alwaysShowSend: widget.inputOptions.alwayShowSend,
-          scrollController: scrollController,
-          focusNode: inputFocusNode,
-          reverse: inverted,
-        );
         return Container(
           height: widget.height != null ? widget.height : maxHeight,
           width: widget.width != null ? widget.width : maxWidth,
@@ -250,67 +216,21 @@ class DashChatState extends State<DashChat> {
                     visible: visible,
                     showLoadMore: showLoadMore,
                   ),
-                  if (widget.messages.length != 0 &&
-                      widget.messages.last.user.uid != widget.user.uid &&
-                      widget.messages.last.quickReplies != null)
-                    Container(
-                      padding: widget.quickReplyOptions.quickReplyPadding,
-                      constraints: BoxConstraints(
-                          maxHeight: widget.quickReplyOptions.quickReplyScroll
-                              ? 50.0
-                              : 100.0),
-                      width: widget.quickReplyOptions.quickReplyScroll
-                          ? null
-                          : maxWidth,
-                      child: widget.quickReplyOptions.quickReplyScroll
-                          ? ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: widget
-                                  .messages.last.quickReplies!.values!
-                                  .map(_mapReply)
-                                  .toList(),
-                            )
-                          : Wrap(
-                              children: <Widget>[
-                                ...widget.messages.last.quickReplies!.values!
-                                    .sublist(
-                                        0,
-                                        widget.messages.last.quickReplies!
-                                                    .values!.length <=
-                                                3
-                                            ? widget.messages.last.quickReplies!
-                                                .values!.length
-                                            : 3)
-                                    .map(_mapReply)
-                                    .toList(),
-                              ],
-                            ),
+                  if (showQuickReplies)
+                    QuickRepliesWidget(
+                      quickReplyOptions: widget.quickReplyOptions,
+                      messages: widget.messages,
+                      maxWidth: maxWidth,
                     ),
                   if (widget.inputOptions.inputFooterBuilder != null)
                     widget.inputOptions.inputFooterBuilder!(),
                   if (!widget.readOnly)
                     SafeArea(
-                      child: chatInputToolbar,
+                      child: buildChatInputToolbar(),
                     )
                 ],
               ),
-              if (visible && !_initialLoad)
-                Positioned(
-                  right: widget.scrollToBottomStyle.right,
-                  left: widget.scrollToBottomStyle.left,
-                  bottom: widget.scrollToBottomStyle.bottom,
-                  top: widget.scrollToBottomStyle.top,
-                  child: widget.scrollToBottomOptions.scrollToBottomBuilder !=
-                          null
-                      ? widget.scrollToBottomOptions.scrollToBottomBuilder!()
-                      : ScrollToBottom(
-                          onScrollToBottomPress: widget
-                              .scrollToBottomOptions.onScrollToBottomPress,
-                          scrollToBottomStyle: widget.scrollToBottomStyle,
-                          scrollController: scrollController,
-                          inverted: inverted, // TODO: change this
-                        ),
-                ),
+              if (visible && !_initialLoad) buildScrollToBottom(),
             ],
           ),
         );
@@ -318,11 +238,42 @@ class DashChatState extends State<DashChat> {
     );
   }
 
-  QuickReply _mapReply(Reply reply) => QuickReply(
-        reply: reply,
-        onReply: widget.quickReplyOptions.onQuickReply,
-        quickReplyBuilder: widget.quickReplyOptions.quickReplyBuilder,
-        quickReplyStyle: widget.quickReplyOptions.quickReplyStyle,
-        quickReplyTextStyle: widget.quickReplyOptions.quickReplyTextStyle,
-      );
+  ChatInputToolbar buildChatInputToolbar() {
+    return ChatInputToolbar(
+      key: inputKey,
+      controller: textController,
+      onSend: widget.onSend,
+      user: widget.user,
+      messageIdGenerator: widget.messageIdGenerator,
+      // TODO : change this
+      // sendButtonBuilder:
+      //     widget.inputOptions.sendButtonBuilder,
+      text: widget.text != null ? widget.text : _text,
+      onTextChange: widget.inputOptions.onTextChange != null
+          ? widget.inputOptions.onTextChange
+          : onTextChange,
+      scrollController: scrollController,
+      focusNode: inputFocusNode,
+      reverse: inverted,
+      inputOptions: widget.inputOptions,
+    );
+  }
+
+  Positioned buildScrollToBottom() {
+    return Positioned(
+      right: widget.scrollToBottomStyle.right,
+      left: widget.scrollToBottomStyle.left,
+      bottom: widget.scrollToBottomStyle.bottom,
+      top: widget.scrollToBottomStyle.top,
+      child: widget.scrollToBottomOptions.scrollToBottomBuilder != null
+          ? widget.scrollToBottomOptions.scrollToBottomBuilder!()
+          : ScrollToBottom(
+              onScrollToBottomPress:
+                  widget.scrollToBottomOptions.onScrollToBottomPress,
+              scrollToBottomStyle: widget.scrollToBottomStyle,
+              scrollController: scrollController,
+              inverted: inverted, // TODO: change this
+            ),
+    );
+  }
 }
