@@ -3,75 +3,28 @@ part of dash_chat;
 class MessageListView extends StatefulWidget {
   final List<ChatMessage> messages;
   final ChatUser user;
-  final bool? showuserAvatar;
-  final DateFormat? dateFormat;
-  final DateFormat? timeFormat;
-  final bool showAvatarForEverMessage;
-  final Function(ChatUser)? onPressAvatar;
-  final Function(ChatUser)? onLongPressAvatar;
-  final bool? renderAvatarOnTop;
-  final Function(ChatMessage)? onLongPressMessage;
-  final Widget Function(ChatUser)? avatarBuilder;
-  final Widget Function(ChatMessage)? messageBuilder;
-  final Widget Function(ChatMessage)? messageTextBuilder;
-  final Widget Function(ChatMessage)? messageImageBuilder;
-  final Widget Function(String, ChatMessage)? messageTimeBuilder;
-  final Widget Function(String)? dateBuilder;
-  final Widget Function()? renderMessageFooter;
   final BoxDecoration? messageContainerDecoration;
-  final List<MatchText> parsePatterns;
   final ScrollController? scrollController;
-  final EdgeInsets messageContainerPadding;
   final Function? changeVisible;
   final bool? visible;
   final bool? showLoadMore;
-  final bool? shouldShowLoadEarlier;
-  final Widget Function()? showLoadEarlierWidget;
-  final Function? onLoadEarlier;
   final Function(bool) defaultLoadCallback;
   final BoxConstraints? constraints;
-  final List<Widget> Function(ChatMessage)? messageButtonsBuilder;
-  final EdgeInsets messagePadding;
-  final bool textBeforeImage;
-  final double? avatarMaxSize;
-  final BoxDecoration Function(ChatMessage)? messageDecorationBuilder;
+  final MessageOptions messageOptions;
+  final MessageListOptions messageListOptions;
 
   MessageListView({
-    this.showLoadEarlierWidget,
-    this.avatarMaxSize,
-    this.shouldShowLoadEarlier,
-    this.constraints,
-    this.onLoadEarlier,
+    required this.messageOptions,
+    required this.messageListOptions,
     required this.defaultLoadCallback,
-    this.messageContainerPadding =
-        const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
     this.scrollController,
-    this.parsePatterns = const [],
     this.messageContainerDecoration,
     required this.messages,
     required this.user,
-    this.showuserAvatar,
-    this.dateFormat,
-    this.timeFormat,
-    this.showAvatarForEverMessage = false,
-    this.onLongPressAvatar,
-    this.onLongPressMessage,
-    this.onPressAvatar,
-    this.renderAvatarOnTop,
-    this.messageBuilder,
-    this.renderMessageFooter,
-    this.avatarBuilder,
-    this.dateBuilder,
-    this.messageImageBuilder,
-    this.messageTextBuilder,
-    this.messageTimeBuilder,
     this.changeVisible,
     this.visible,
     this.showLoadMore,
-    this.messageButtonsBuilder,
-    this.messagePadding = const EdgeInsets.all(8.0),
-    this.textBeforeImage = true,
-    this.messageDecorationBuilder,
+    this.constraints,
   });
 
   @override
@@ -97,7 +50,7 @@ class _MessageListViewState extends State<MessageListView> {
   }
 
   bool shouldShowAvatar(int index, List<ChatListItem> chatItems) {
-    if (widget.showAvatarForEverMessage) {
+    if (widget.messageListOptions.showAvatarForEveryMessage) {
       return true;
     }
 
@@ -122,7 +75,7 @@ class _MessageListViewState extends State<MessageListView> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Padding(
-          padding: widget.messageContainerPadding,
+          padding: widget.messageOptions.messageContainerPadding,
           child: NotificationListener<ScrollNotification>(
             onNotification: scrollNotificationFunc,
             child: Stack(
@@ -142,8 +95,10 @@ class _MessageListViewState extends State<MessageListView> {
                       return Center(
                         child: DateBuilder(
                           date: chatItem.dateTime,
-                          customDateBuilder: widget.dateBuilder,
-                          dateFormat: widget.dateFormat,
+                          customDateBuilder:
+                              widget.messageListOptions.dateSeperatorBuilder,
+                          dateFormat:
+                              widget.messageListOptions.dateSperatorFormat,
                         ),
                       );
                     }
@@ -164,24 +119,30 @@ class _MessageListViewState extends State<MessageListView> {
                         children: <Widget>[
                           if (message.user.uid != widget.user.uid)
                             Opacity(
-                              opacity: (widget.showAvatarForEverMessage ||
+                              opacity: (widget.messageListOptions
+                                              .showAvatarForEveryMessage ||
                                           showAvatar) &&
                                       message.user.uid != widget.user.uid
                                   ? 1
                                   : 0,
                               child: AvatarContainer(
                                 user: message.user,
-                                onPress: widget.onPressAvatar,
-                                onLongPress: widget.onLongPressAvatar,
-                                avatarBuilder: widget.avatarBuilder,
-                                avatarMaxSize: widget.avatarMaxSize,
+                                onPress: widget.messageOptions.onPressAvatar,
+                                onLongPress:
+                                    widget.messageOptions.onLongPressAvatar,
+                                avatarBuilder:
+                                    widget.messageOptions.avatarBuilder,
+                                avatarMaxSize:
+                                    widget.messageOptions.avatarMaxSize,
                               ),
                             ),
                           Expanded(
                             child: GestureDetector(
                               onLongPress: () {
-                                if (widget.onLongPressMessage != null) {
-                                  widget.onLongPressMessage!(message);
+                                if (widget.messageOptions.onLongPressMessage !=
+                                    null) {
+                                  widget.messageOptions
+                                      .onLongPressMessage!(message);
                                 } else {
                                   showBottomSheet(
                                       context: context,
@@ -208,52 +169,64 @@ class _MessageListViewState extends State<MessageListView> {
                                           ));
                                 }
                               },
-                              child: widget.messageBuilder != null
-                                  ? widget.messageBuilder!(message)
+                              child: widget.messageOptions.messageBuilder !=
+                                      null
+                                  ? widget
+                                      .messageOptions.messageBuilder!(message)
                                   : Align(
                                       alignment: message.user.uid ==
                                               widget.user.uid
                                           ? AlignmentDirectional.centerEnd
                                           : AlignmentDirectional.centerStart,
                                       child: MessageContainer(
-                                        messagePadding: widget.messagePadding,
+                                        messagePadding: widget
+                                            .messageOptions.messagePadding,
                                         constraints: constraints,
                                         isUser:
                                             message.user.uid == widget.user.uid,
                                         message: message,
-                                        timeFormat: widget.timeFormat,
-                                        messageImageBuilder:
-                                            widget.messageImageBuilder,
-                                        messageTextBuilder:
-                                            widget.messageTextBuilder,
-                                        messageTimeBuilder:
-                                            widget.messageTimeBuilder,
+                                        timeFormat:
+                                            widget.messageOptions.timeFormat,
+                                        messageImageBuilder: widget
+                                            .messageOptions.messageImageBuilder,
+                                        messageTextBuilder: widget
+                                            .messageOptions.messageTextBuilder,
+                                        messageTimeBuilder: widget
+                                            .messageOptions.messageTimeBuilder,
                                         messageContainerDecoration:
                                             widget.messageContainerDecoration,
-                                        parsePatterns: widget.parsePatterns,
+                                        parsePatterns:
+                                            widget.messageOptions.parsePatterns,
                                         buttons: message.buttons,
-                                        messageButtonsBuilder:
-                                            widget.messageButtonsBuilder,
-                                        textBeforeImage: widget.textBeforeImage,
-                                        messageDecorationBuilder:
-                                            widget.messageDecorationBuilder,
+                                        messageButtonsBuilder: widget
+                                            .messageOptions
+                                            .messageButtonsBuilder,
+                                        textBeforeImage: widget
+                                            .messageOptions.textBeforeImage,
+                                        messageDecorationBuilder: widget
+                                            .messageOptions
+                                            .messageDecorationBuilder,
                                       ),
                                     ),
                             ),
                           ),
-                          if (widget.showuserAvatar!)
+                          if (widget.messageListOptions.showCurrentUserAvatar)
                             Opacity(
-                              opacity: (widget.showAvatarForEverMessage ||
+                              opacity: (widget.messageListOptions
+                                              .showAvatarForEveryMessage ||
                                           showAvatar) &&
                                       message.user.uid == widget.user.uid
                                   ? 1
                                   : 0,
                               child: AvatarContainer(
                                 user: message.user,
-                                onPress: widget.onPressAvatar,
-                                onLongPress: widget.onLongPressAvatar,
-                                avatarBuilder: widget.avatarBuilder,
-                                avatarMaxSize: widget.avatarMaxSize,
+                                onPress: widget.messageOptions.onPressAvatar,
+                                onLongPress:
+                                    widget.messageOptions.onLongPressAvatar,
+                                avatarBuilder:
+                                    widget.messageOptions.avatarBuilder,
+                                avatarMaxSize:
+                                    widget.messageOptions.avatarMaxSize,
                               ),
                             )
                           else
@@ -271,12 +244,14 @@ class _MessageListViewState extends State<MessageListView> {
                 AnimatedPositioned(
                   top: widget.showLoadMore! ? 8.0 : -50.0,
                   duration: Duration(milliseconds: 200),
-                  child: widget.showLoadEarlierWidget != null
-                      ? widget.showLoadEarlierWidget!()
-                      : LoadEarlierWidget(
-                          onLoadEarlier: widget.onLoadEarlier,
-                          defaultLoadCallback: widget.defaultLoadCallback,
-                        ),
+                  child:
+                      widget.messageListOptions.showLoadEarlierBuilder != null
+                          ? widget.messageListOptions.showLoadEarlierBuilder!()
+                          : LoadEarlierWidget(
+                              onLoadEarlier:
+                                  widget.messageListOptions.onLoadEarlier,
+                              defaultLoadCallback: widget.defaultLoadCallback,
+                            ),
                 ),
               ],
             ),

@@ -239,49 +239,16 @@ class DashChatState extends State<DashChat> {
                         : MainAxisAlignment.end,
                 children: <Widget>[
                   MessageListView(
-                    avatarMaxSize: widget.messageOptions.avatarMaxSize,
-                    messagePadding: widget.messageOptions.messagePadding,
+                    messageOptions: widget.messageOptions,
+                    messageListOptions: widget.messageListOptions,
                     constraints: constraints,
-                    shouldShowLoadEarlier:
-                        widget.messageListOptions.shouldShowLoadEarlier,
-                    showLoadEarlierWidget:
-                        widget.messageListOptions.showLoadEarlierBuilder,
-                    onLoadEarlier: widget.messageListOptions.onLoadEarlier,
                     defaultLoadCallback: changeDefaultLoadMore,
-                    messageContainerPadding:
-                        widget.messageOptions.messageContainerPadding,
                     scrollController: scrollController,
                     user: widget.user,
                     messages: widget.messages,
-                    showuserAvatar:
-                        widget.messageListOptions.showCurrentUserAvatar,
-                    dateFormat: widget.messageListOptions.dateSperatorFormat,
-                    timeFormat: widget.messageOptions.timeFormat,
-                    showAvatarForEverMessage:
-                        widget.messageListOptions.showAvatarForEveryMessage,
-                    onLongPressAvatar: widget.messageOptions.onLongPressAvatar,
-                    onPressAvatar: widget.messageOptions.onPressAvatar,
-                    onLongPressMessage:
-                        widget.messageOptions.onLongPressMessage,
-                    avatarBuilder: widget.messageOptions.avatarBuilder,
-                    messageBuilder: widget.messageOptions.messageBuilder,
-                    messageTextBuilder:
-                        widget.messageOptions.messageTextBuilder,
-                    messageImageBuilder:
-                        widget.messageOptions.messageImageBuilder,
-                    messageTimeBuilder:
-                        widget.messageOptions.messageTimeBuilder,
-                    dateBuilder: widget.messageListOptions.dateSeperatorBuilder,
-                    messageContainerDecoration:
-                        widget.messageOptions.messageContainerDecoration,
-                    parsePatterns: widget.messageOptions.parsePatterns,
                     changeVisible: changeVisible,
                     visible: visible,
                     showLoadMore: showLoadMore,
-                    messageButtonsBuilder:
-                        widget.messageOptions.messageButtonsBuilder,
-                    messageDecorationBuilder:
-                        widget.messageOptions.messageDecorationBuilder,
                   ),
                   if (widget.messages.length != 0 &&
                       widget.messages.last.user.uid != widget.user.uid &&
