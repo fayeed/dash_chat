@@ -31,15 +31,15 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<DashChatState> _chatViewKey = GlobalKey<DashChatState>();
 
-  final ChatUser user = ChatUser(
+  final ChatUser otherUser = ChatUser(
     name: "Fayeed",
     uid: "123456789",
     avatar: "https://www.wrappixel.com/ampleadmin/assets/images/users/4.jpg",
   );
 
-  final ChatUser otherUser = ChatUser(
-    name: "Mrfatty",
-    uid: "25649654",
+  final ChatUser user = ChatUser(
+    name: "MrTaffy",
+    uid: "256496598",
   );
 
   List<ChatMessage> messages = List<ChatMessage>();
@@ -121,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   items.map((i) => ChatMessage.fromJson(i.data)).toList();
               return DashChat(
                 key: _chatViewKey,
-                inverted: false,
+                inverted: true,
                 onSend: onSend,
                 sendOnEnter: true,
                 textInputAction: TextInputAction.send,
@@ -146,6 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 showUserAvatar: false,
                 shouldStartMessagesFromTop: true,
                 showAvatarForEveryMessage: false,
+                showAvatarForLastMessage: false,
                 scrollToBottom: false,
                 onPressAvatar: (ChatUser user) {
                   print("OnPressAvatar: ${user.name}");
