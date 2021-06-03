@@ -99,6 +99,10 @@ class DashChat extends StatefulWidget {
   /// Should the avatar be shown for every message defaulst to false.
   final bool showAvatarForEveryMessage;
 
+  /// Should the avatar be shown for Last message defaulst to true.
+  /// if false avatar will be shown for First Message only.
+  final bool showAvatarForLastMessage;
+
   /// [onPressAvatar] function takes a function with this structure
   /// [Function(ChatUser)] will trigger when the avatar
   /// is tapped on
@@ -342,6 +346,7 @@ class DashChat extends StatefulWidget {
     this.onPressAvatar,
     this.avatarBuilder,
     this.showAvatarForEveryMessage = false,
+    this.showAvatarForLastMessage = true,
     this.showUserAvatar = false,
     this.inverted = false,
     this.maxInputLength,
@@ -510,6 +515,7 @@ class DashChatState extends State<DashChat> {
                     timeFormat: widget.timeFormat,
                     inverted: widget.inverted,
                     showAvatarForEverMessage: widget.showAvatarForEveryMessage,
+                    showAvatarForLastMessage: widget.showAvatarForLastMessage,
                     onLongPressAvatar: widget.onLongPressAvatar,
                     onPressAvatar: widget.onPressAvatar,
                     onLongPressMessage: widget.onLongPressMessage,

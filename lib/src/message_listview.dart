@@ -7,6 +7,7 @@ class MessageListView extends StatefulWidget {
   final DateFormat dateFormat;
   final DateFormat timeFormat;
   final bool showAvatarForEverMessage;
+  final bool showAvatarForLastMessage;
   final Function(ChatUser) onPressAvatar;
   final Function(ChatUser) onLongPressAvatar;
   final bool renderAvatarOnTop;
@@ -56,6 +57,7 @@ class MessageListView extends StatefulWidget {
       this.dateFormat,
       this.timeFormat,
       this.showAvatarForEverMessage,
+      this.showAvatarForLastMessage,
       this.inverted,
       this.onLongPressAvatar,
       this.onLongPressMessage,
@@ -109,12 +111,21 @@ class _MessageListViewState extends State<MessageListView> {
     if (widget.showAvatarForEverMessage) {
       return true;
     }
-    if (!widget.inverted && index + 1 < widget.messages.length) {
-      return widget.messages[index + 1].user.uid !=
-          widget.messages[index].user.uid;
-    } else if (widget.inverted && index - 1 >= 0) {
-      return widget.messages[index - 1].user.uid !=
-          widget.messages[index].user.uid;
+    if (widget.showAvatarForLastMessage) {
+      if (!widget.inverted && index + 1 < widget.messages.length) {
+        return widget.messages[index + 1].user.uid !=
+            widget.messages[index].user.uid;
+      } else if (widget.inverted && index - 1 >= 0) {
+        return widget.messages[index - 1].user.uid !=
+            widget.messages[index].user.uid;
+      }
+    } else {
+      if (!widget.inverted && index - 1 >= 0) {
+        return widget.messages[index - 1].user.uid != widget.messages[index].user.uid;
+      } else if (widget.inverted && index + 1 < widget.messages.length) {
+        return widget.messages[index + 1].user.uid !=
+            widget.messages[index].user.uid;
+      }
     }
     return true;
   }
