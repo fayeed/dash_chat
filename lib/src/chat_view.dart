@@ -24,7 +24,7 @@ class DashChat extends StatefulWidget {
 
   /// If provided, this text editing controller will be used for
   /// the text input.
-  final TextEditingController? textController;
+  final TextEditingController textController;
 
   /// If provided, this focus node will be used for the text input.
   final FocusNode? focusNode;
@@ -72,10 +72,6 @@ class DashChat extends StatefulWidget {
   /// Should the send button be always active it defaults to false
   /// Usually it will only become active if some text is entered.
   final bool alwaysShowSend;
-
-  /// Should the message be sent by hitting enter on web or text input action
-  /// Can be useful for tablet or web usage
-  final bool sendOnEnter;
 
   /// Input action of the keyboard
   final TextInputAction? textInputAction;
@@ -288,7 +284,6 @@ class DashChat extends StatefulWidget {
     this.shouldShowLoadEarlier = false,
     this.showLoadEarlierWidget,
     this.onLoadEarlier,
-    this.sendOnEnter = false,
     this.textInputAction,
     this.scrollToBottom = true,
     this.scrollToBottomWidget,
@@ -321,7 +316,7 @@ class DashChat extends StatefulWidget {
     this.onTextChange,
     this.text,
     this.inputDisabled = false,
-    this.textController,
+    required this.textController,
     this.focusNode,
     this.inputDecoration,
     this.textCapitalization = TextCapitalization.none,
@@ -369,7 +364,6 @@ class DashChat extends StatefulWidget {
 
 class DashChatState extends State<DashChat> {
   FocusNode? inputFocusNode;
-  TextEditingController? textController;
   late ScrollController scrollController;
   String _text = "";
   bool visible = false;
@@ -407,7 +401,6 @@ class DashChatState extends State<DashChat> {
   @override
   void initState() {
     scrollController = widget.scrollController ?? ScrollController();
-    textController = widget.textController ?? TextEditingController();
     inputFocusNode = widget.focusNode ?? FocusNode();
     WidgetsBinding.instance!.addPostFrameCallback(widgetBuilt);
     super.initState();
@@ -568,7 +561,6 @@ class DashChatState extends State<DashChat> {
                         child: Container(
                           child: ChatInputToolbar(
                             key: inputKey,
-                            sendOnEnter: widget.sendOnEnter,
                             textInputAction: widget.textInputAction,
                             inputToolbarPadding: widget.inputToolbarPadding,
                             textDirection: widget.inputTextDirection,
@@ -576,7 +568,7 @@ class DashChatState extends State<DashChat> {
                             showTraillingBeforeSend:
                                 widget.showTraillingBeforeSend,
                             inputMaxLines: widget.inputMaxLines,
-                            controller: textController,
+                            controller: widget.textController,
                             inputDecoration: widget.inputDecoration,
                             textCapitalization: widget.textCapitalization,
                             onSend: widget.onSend,
@@ -584,7 +576,6 @@ class DashChatState extends State<DashChat> {
                             messageIdGenerator: widget.messageIdGenerator,
                             maxInputLength: widget.maxInputLength,
                             sendButtonBuilder: widget.sendButtonBuilder,
-                            text: widget.text != null ? widget.text : _text,
                             onTextChange: widget.onTextChange != null
                                 ? widget.onTextChange
                                 : onTextChange,
