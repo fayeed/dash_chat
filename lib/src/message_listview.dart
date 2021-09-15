@@ -36,6 +36,8 @@ class MessageListView extends StatefulWidget {
   final bool textBeforeImage;
   final double? avatarMaxSize;
   final BoxDecoration Function(ChatMessage, bool?)? messageDecorationBuilder;
+  final  Widget Function()? bottomPanelBuilder;
+
 
   MessageListView({
     this.showLoadEarlierWidget,
@@ -74,6 +76,7 @@ class MessageListView extends StatefulWidget {
     this.messagePadding = const EdgeInsets.all(8.0),
     this.textBeforeImage = true,
     this.messageDecorationBuilder,
+    this.bottomPanelBuilder,
   });
 
   @override
@@ -124,6 +127,7 @@ class _MessageListViewState extends State<MessageListView> {
     final itemCount = widget.messages.length;
 
     return Flexible(
+      fit: FlexFit.tight,
       child: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Padding(
@@ -353,6 +357,8 @@ class _MessageListViewState extends State<MessageListView> {
                           defaultLoadCallback: widget.defaultLoadCallback,
                         ),
                 ),
+                if (widget.bottomPanelBuilder != null)
+                  widget.bottomPanelBuilder!(),
               ],
             ),
           ),
