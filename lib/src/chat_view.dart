@@ -263,6 +263,8 @@ class DashChat extends StatefulWidget {
   /// Default to `true`
   final bool textBeforeImage;
 
+  final bool canSend;
+
   /// sets the default [AvatarContainer] maxSize.
   ///
   /// Defaults to `30.0`
@@ -352,12 +354,9 @@ class DashChat extends StatefulWidget {
     this.messagePadding = const EdgeInsets.all(8.0),
     this.textBeforeImage = true,
     this.messageDecorationBuilder,
+    this.canSend = false,
   }) : super(key: key) {
     this.scrollToBottomStyle = scrollToBottomStyle ?? new ScrollToBottomStyle();
-  }
-
-  String? getVal() {
-    return text;
   }
 
   @override
@@ -559,6 +558,7 @@ class DashChatState extends State<DashChat> {
                       child: ChatInputToolbar(
                         key: inputKey,
                         sendOnEnter: widget.sendOnEnter,
+                        canSend: widget.canSend,
                         textInputAction: widget.textInputAction,
                         inputToolbarPadding: widget.inputToolbarPadding,
                         textDirection: widget.inputTextDirection,
