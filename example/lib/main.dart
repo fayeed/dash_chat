@@ -123,6 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
               var messages =
                   items.map((i) => ChatMessage.fromJson(i.data()!)).toList();
               return DashChat(
+                onRefresh: () => refresh(context),
                 key: _chatViewKey,
                 inverted: false,
                 onSend: onSend,
@@ -224,5 +225,9 @@ class _MyHomePageState extends State<MyHomePage> {
             }
           }),
     );
+  }
+
+  void refresh(BuildContext context) {
+    print('d');
   }
 }
