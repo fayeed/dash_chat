@@ -1,6 +1,5 @@
 <p align="center">
-  <h1 align="center" style="font-size: 48px;">⚠️ Dashchat v2 is available in v2 branch ⚠️</h1>
-  <p align="center">You can open issues for the v2 to indicate things we need to implement/fix. Also the API can change until I am satisfied the way it is.</p>
+  <h1 align="center" style="font-size: 48px;">⚠️ V1 is not maintained anymore, check the V2 on: https://github.com/molteo-engineering-team/Dash-Chat-2 ⚠️</h1>
 </p> 
 <hr>
 <p align="center">
