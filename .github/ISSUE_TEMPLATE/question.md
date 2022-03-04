@@ -7,4 +7,6 @@ assignees: ''
 
 ---
 
+⚠️ V1 is not maintained anymore, check the V2 on: https://github.com/molteo-engineering-team/Dash-Chat-2 ⚠️
+
 
